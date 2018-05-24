@@ -132,7 +132,26 @@
                 "y": -55
               }
             ],
-            "animate": "",
+            "animation": "linear | ease | ease-in | ease-in-out",
+            "animation,keyframe": {
+              "0%": {
+                "top": "0px"
+              },
+              "25%": {
+                "top": "200px"
+              },
+              "50%": {
+                "top": "100px"
+              },
+              "75%": {
+                "top": "200px"
+              },
+              "100%": {
+                "top": "0px"
+              }
+            },
+            "animation.count": "4",
+            "animation,duration": "10",
             "rotation": 6.28319,
             "shape.background": null,
             "shape.border.cap": "round",
