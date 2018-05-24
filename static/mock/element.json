@@ -1,0 +1,192 @@
+{
+  "width": 357,
+  "height": 357,
+  "background": "rgb(0,23,71)",
+  "fitSize": true,
+  "clip": true,
+  "element": [
+    {
+      "type": "circle",
+      "background": "rgba(3,12,33,0.60)",
+      "borderWidth": 8,
+      "borderColor": "rgba(117,175,255,0.40)",
+      "shadowColor": "#1ABC9C",
+      "displayName": "圆形",
+      "rect": [
+        58.51159,
+        55.10985,
+        239.97682,
+        246.78029
+      ]
+    },
+    {
+      "type": "image",
+      "name": "assets/lamppost.png",
+      "displayName": "图片节点",
+      "rect": [
+        0,
+        0,
+        1366,
+        768
+      ]
+    },
+    {
+      "type": "shape",
+      "borderWidth": 12,
+      "borderColor": "rgb(0,30,89)",
+      "borderJoin": "miter",
+      "shadowColor": "#1ABC9C",
+      "displayName": "不规则图形",
+      "closePath": true,
+      "points": [
+        294.20945,
+        73.36683,
+        1030.11159,
+        73.36683,
+        1030.11159,
+        749.89281,
+        267.44938,
+        749.89281,
+        267.44938,
+        101.17956,
+        294.20945,
+        73.36683
+      ]
+    },
+    {
+      "type": "arc",
+      "borderWidth": 14,
+      "borderColor": "rgb(117,175,255)",
+      "arcFrom": 0.7854,
+      "arcTo": 2.35619,
+      "arcClose": false,
+      "displayName": "弧/曲线",
+      "shadowColor": "#1ABC9C",
+      "rect": [
+        57.70266,
+        54.278,
+        241.59467,
+        248.444
+      ]
+    },
+    {
+      "type": "rect",
+      "background": "rgba(224,118,25,0.9)",
+      "borderColor": "rgb(41,155,217)",
+      "borderJoin": "bevel",
+      "shadowColor": "#1ABC9C",
+      "displayName": "矩形",
+      "rect": [
+        290.82111,
+        757.74104,
+        725.51585,
+        2.98313
+      ]
+    },
+    {
+      "type": "roundRect",
+      "borderWidth": 1,
+      "borderColor": "rgb(0,0,0)",
+      "cornerRadius": 1,
+      "displayName": "圆角矩形",
+      "rect": [
+        1.49242,
+        6.50472,
+        12.95312,
+        7.93528
+      ]
+    },
+    {
+      "type": "text",
+      "text": "AD",
+      "color": "rgb(237,252,255)",
+      "displayName": "文字",
+      "rect": [
+        5.89615,
+        4.4483,
+        18.20771,
+        12.89911
+      ]
+    },
+    {
+      "type": "oval",
+      "background": "rgba(255,255,255,0.6)",
+      "borderColor": "rgb(150,150,150)",
+      "displayName": "椭圆",
+      "rect": [
+        81.21348,
+        479.63109,
+        8,
+        8
+      ]
+    },
+    {
+      "type": "triangle",
+      "background": "rgb(117,175,255)",
+      "borderColor": "rgb(117,175,255)",
+      "borderJoin": "bevel",
+      "shadowColor": "#1ABC9C",
+      "displayName": "三角形",
+      "rect": [
+        168.72958,
+        42.80586,
+        19.54084,
+        18.31878
+      ]
+    },
+    {
+      "type": "components/table.json",
+      "displayName": "组件数据",
+      "rotation": 6.28319,
+      "rect": [
+        0.00084,
+        -0.26419,
+        499.61877,
+        359.73516
+      ],
+      "columns": {
+        "func": "attr@table.columns",
+        "value": "[{ \t\"align\": \"center\", \t\"key\": \"no\", \t\"width\": 40, \t\"color\": \"rgb(117,175,255)\" }, { \t\"align\": \"center\", \t\"key\": \"intro\", \t\"width\": 0.1, \t\"color\": \"rgb(224,118,25)\" }, { \t\"align\": \"center\", \t\"key\": \"time\", \t\"width\": 80, \t\"color\": \"rgb(117,175,255)\" }, { \t\"align\": \"center\", \t\"key\": \"local\", \t\"type\": \"icon\", \t\"width\": 30 }]"
+      },
+      "dataSource": {
+        "func": "attr@table.dataSource",
+        "value": "[]"
+      },
+      "tdBackground": null,
+      "borderWidth": 0,
+      "columnLineWidth": 0,
+      "rowLineWidth": 0,
+      "tdHeight": {
+        "func": "attr@table.body.height",
+        "value": 19
+      },
+      "showHead": false,
+      "translateY": {
+        "func": "attr@table.translate.y",
+        "value": 0
+      }
+    }
+  ],
+  "dataBindings": [
+    {
+      "attr": "table.columns",
+      "valueType": "String",
+      "name": "TableColumnDef"
+    },
+    {
+      "attr": "table.dataSource",
+      "valueType": "String",
+      "name": "TableDataSource"
+    },
+    {
+      "attr": "table.body.height",
+      "valueType": "PositiveNumber",
+      "name": "TableBodyHeight"
+    },
+    {
+      "attr": "table.translate.y",
+      "valueType": "Number",
+      "name": "TableTranslateY"
+    }
+  ]
+}
