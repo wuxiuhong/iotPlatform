@@ -12,8 +12,26 @@
       "templateHtml": "html代码",
       "templateCss": "css代码",
       "controllerScript": "js控制代码",
-      "defaultData": "默认数据",
-      "dataSources": "数据来源"
+      "defaultData": [{}],
+      "dataSources":[{
+        "type": "device",
+        "dataKeys": [
+          {
+            "type": "attr",
+            "name": "device1",
+            "color": "#ffd600",
+            "key": "WaterPump",
+            "value": "return {\n    areaName:\"S11\",\n    deviceType:\"WaterPump\",\n    belongTo:\"WaterCurtainPool\",\n    group:0,\n    category:1,\n    item:1,\n    telemetryValue:1\n}\n//水泵--水帘池"
+          },
+          {
+            "type": "latest",
+            "name": "device1",
+            "color": "#ffd600",
+            "key": "WaterPump",
+            "value": "return {\n    areaName:\"S11\",\n    deviceType:\"WaterPump\",\n    belongTo:\"WaterCurtainPool\",\n    group:0,\n    category:1,\n    item:1,\n    telemetryValue:1\n}\n//水泵--水帘池"
+          }
+        ]
+      }]
     }
   },
   {
@@ -24,8 +42,26 @@
     "createTime": "",
     "template": {
       "controllerScript": "js控制代码",
-      "defaultData": "默认数据",
-      "dataSources": "数据来源",
+      "defaultData": [{}],
+      "dataSources":[{
+        "type": "device",
+        "dataKeys": [
+          {
+            "type": "attr",
+            "name": "device1",
+            "color": "#ffd600",
+            "key": "WaterPump",
+            "value": "return {\n    areaName:\"S11\",\n    deviceType:\"WaterPump\",\n    belongTo:\"WaterCurtainPool\",\n    group:0,\n    category:1,\n    item:1,\n    telemetryValue:1\n}\n//水泵--水帘池"
+          },
+          {
+            "type": "latest",
+            "name": "device1",
+            "color": "#ffd600",
+            "key": "WaterPump",
+            "value": "return {\n    areaName:\"S11\",\n    deviceType:\"WaterPump\",\n    belongTo:\"WaterCurtainPool\",\n    group:0,\n    category:1,\n    item:1,\n    telemetryValue:1\n}\n//水泵--水帘池"
+          }
+        ]
+      }],
       "canvasData": [
         {
           "id": 1,
@@ -133,6 +169,8 @@
               }
             ],
             "animation": "linear | ease | ease-in | ease-in-out",
+            "animation,duration": "10",
+            "animation.count": "4",
             "animation,keyframe": {
               "0%": {
                 "top": "0px"
@@ -150,8 +188,6 @@
                 "top": "0px"
               }
             },
-            "animation.count": "4",
-            "animation,duration": "10",
             "rotation": 6.28319,
             "shape.background": null,
             "shape.border.cap": "round",

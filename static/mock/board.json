@@ -16,6 +16,13 @@
   },
   "deviceAliases": [
     {
+      "name": "设备1",
+      "deviceList": [
+        "5f4f7ca0-fda7-11e7-94de-d786c97a036f"
+      ]
+    },
+    {
+      "name": "设备2",
       "deviceList": [
         "5f4f7ca0-fda7-11e7-94de-d786c97a036f"
       ]
@@ -29,13 +36,9 @@
         "x": 10,
         "y": 11
       },
-      "scale": {
-        "x": 1.5,
-        "y": 1.5
-      },
       "title": "组件名称",
       "z-index": 0,
-      "styles":{
+      "styles": {
         "showTitle": false,
         "titleStyle": {
           "fontSize": "16px",
@@ -50,6 +53,7 @@
           "type": "function",
           "dataKeys": [
             {
+              "type": "latest",
               "name": "f(x)",
               "color": "#ffd600",
               "key": "WaterPump",
@@ -59,8 +63,17 @@
         },
         {
           "type": "device",
+          "aliasId": 1,
           "dataKeys": [
             {
+              "type": "attr",
+              "name": "device1",
+              "color": "#ffd600",
+              "key": "WaterPump",
+              "value": "return {\n    areaName:\"S11\",\n    deviceType:\"WaterPump\",\n    belongTo:\"WaterCurtainPool\",\n    group:0,\n    category:1,\n    item:1,\n    telemetryValue:1\n}\n//水泵--水帘池"
+            },
+            {
+              "type": "latest",
               "name": "device1",
               "color": "#ffd600",
               "key": "WaterPump",

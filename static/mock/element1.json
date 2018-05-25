@@ -1,0 +1,177 @@
+{
+  "width": 357,
+  "height": 357,
+  "background": "rgb(0,23,71)",
+  "fitSize": true,
+  "clip": true,
+  "element":  [
+    {
+      "id": 1,
+      "type": "M.block",
+      "setting": {
+        "isEdit": true,
+        "displayName": "背景",
+        "location": {
+          "x": 204,
+          "y": -55
+        },
+        "tag": "map",
+        "width": 1366,
+        "height": 768,
+        "select.width": 0
+      }
+    },
+    {
+      "id": 2,
+      "type": "M.Node",
+      "setting": {
+        "isEdit": true,
+        "name": "节点名称",
+        "displayName": "背景",
+        "width": 1366,
+        "height": 768,
+        "parentId": 1,
+        "location": {
+          "x": 204,
+          "y": -55
+        },
+        "select.width": 0,
+        "shape": "rect",
+        "shape.background": "rgb(3, 11, 33)",
+        "shape.border.color": "#979797",
+        "shape.gradient.color": null
+      }
+    },
+    {
+      "id": 3,
+      "type": "M.Node",
+      "setting": {
+        "isEdit": true,
+        "displayName": "地图背景",
+        "image": "symbols/demo/1",
+        "parentId": 1,
+        "location": {
+          "x": 204,
+          "y": -55
+        },
+        "select.width": 0,
+        "2d.selectable": false,
+        "opacity": 0.2
+      }
+    },
+    {
+      "id": 4,
+      "type": "M.Text",
+      "setting": {
+        "isEdit": true,
+        "parentId": 1,
+        "text": "文字内容",
+        "dataBindings": {
+          "styles": {
+            "text": {
+              "id": "discTotal"
+            }
+          }
+        },
+        "rotation": 3.5623,
+        "anchor": {
+          "x": 0.55995,
+          "y": 0.5
+        },
+        "location": {
+          "x": 204,
+          "y": -55
+        },
+        "scale": {
+          "x": 1.5,
+          "y": 1.5
+        },
+        "select.width": 0,
+        "text.color": "rgb(224,118,25)"
+      }
+    },
+    {
+      "id": 5,
+      "type": "M.Shape",
+      "setting": {
+        "isEdit": true,
+        "parentId": 1,
+        "location": {
+          "x": 204,
+          "y": -55
+        },
+        "points": [
+          {
+            "x": 204,
+            "y": -55
+          },
+          {
+            "x": 204,
+            "y": -55
+          }
+        ],
+        "animation": "linear | ease | ease-in | ease-in-out",
+        "animation,duration": "10",
+        "animation.count": "4",
+        "animation,keyframe": {
+          "0%": {
+            "top": "0px"
+          },
+          "25%": {
+            "top": "200px"
+          },
+          "50%": {
+            "top": "100px"
+          },
+          "75%": {
+            "top": "200px"
+          },
+          "100%": {
+            "top": "0px"
+          }
+        },
+        "rotation": 6.28319,
+        "shape.background": null,
+        "shape.border.cap": "round",
+        "shape.border.color": "rgb(224,118,25)",
+        "shape.border.width": 1,
+        "shape.gradient": "radial.center",
+        "shape.gradient.color": "rgb(12,19,51)"
+      }
+    },
+    {
+      "id": 6,
+      "type": "M.Node",
+      "defaultData": {
+        "dataSource": "[{'no': '001','intro': 'Boston能展区灯00001-LED通讯故障解除','time':'2017.10.20',{ 'no': '001','intro': 'Boston能展区灯00001-LED通讯故障解除','time':'2017.10.20' },{ 'no': '001','intro': 'Boston能展区灯00001-LED通讯故障解除','time':'2017.10.20' } }]",
+        "table.columns": "[{'align': 'center','key': 'no','width': 40,'color': 'rgb(117,175,255)' },{'align': 'center','key': 'no','width': 40, 'color': 'rgb(117,175,255)' },{ 'align': 'center','key': 'no','width': 40,'color': 'rgb(117,175,255)' }]",
+        "table.translate.y": 0
+      },
+      "setting": {
+        "isEdit": true,
+        "displayName": "节点",
+        "tag": "messageTable",
+        "dataBindings": {
+          "defaultData": {
+            "id": "tableColumns"
+          }
+        },
+        "image": "symbols/demo/table/1",
+        "parentId": 1,
+        "location": {
+          "x": 204,
+          "y": -55
+        }
+      }
+    },
+    {
+      "type": "M.Edge",
+      "id": 7,
+      "setting": {
+        "isEdit": true,
+        "sourceId": 5,
+        "targetId": 6
+      }
+    }
+  ]
+}
