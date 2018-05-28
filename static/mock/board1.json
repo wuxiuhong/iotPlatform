@@ -1,0 +1,90 @@
+{
+  "id": 1,                                                       // 报表ID
+  "title": "报表",                                               // 报表名称
+  "createTime": "2018-5-28",                                     // 报表创建时间
+  "description": "test from Kim",                                // 报表描述
+  "styles": {                                                    // 报表相关样式
+    "showTitle": false,                                          // 报表是否显示标题
+    "backgroundColor": "rgba(0,0,0,0)",                           // 报表背景
+    "titleColor": "rgba(0,0,0,0.870588)",                         // 报表标题颜色
+    "columns": 24,                                                // 报表间距
+    "margins": [
+      10,
+      10
+    ],
+    "backgroundSizeMode": "100%"                                   // 报表背景所占比例
+  },
+  "edgeClientAliases": [                                            // 资源来源
+    {
+      "alias": "别名1",                                             // 资源别名
+      "edgeClientList": [                                           // 资源数据
+        "5f4f7ca0-fda7-11e7-94de-d786c97a036f",
+        "5f4f7ca0-fda7-11e7-94de-d786c97a036f"
+      ]
+    },
+    {
+      "alias": "别名2",                                               // 资源别名
+      "edgeClientList": [                                             // 资源数据
+        "5f4f7ca0-fda7-11e7-94de-d786c97a036f"
+      ]
+    }
+  ],
+  "components": [                                                       // 组件数组
+    {
+      "type": "canvas | html",                                          // 组件类型，html|canvas
+      "version": "1.0.0",                                               // 组件版本
+      "templateId": "2",                                                // 组件ID
+      "relation": {                                                     // 组件位置，x为横北部
+        "x": 10,
+        "y": 11
+      },
+      "title": "组件名称",                                              // 组件名称，x为横北部
+      "z-index": 0,                                                     // 组件层级
+      "styles": {                                                       // 组件样式
+        "showTitle": false,
+        "titleStyle": {
+          "fontSize": "16px",
+          "fontWeight": 400
+        },
+        "backgroundColor": "#fff",
+        "color": "rgba(0, 0, 0, 0.87)",
+        "padding": "0px",
+        "boxShadow": "1px 2px #dedede"
+      },
+      "dataSources": [
+        {
+          "type": "function",
+          "dataKeys": [
+            {
+              "type": "latest",
+              "name": "f(x)",
+              "color": "#ffd600",
+              "key": "WaterPump",
+              "valueFunc": "return {\n    areaName:\"S11\",\n    deviceType:\"WaterPump\",\n    belongTo:\"WaterCurtainPool\",\n    group:0,\n    category:1,\n    item:1,\n    telemetryValue:1\n}\n//水泵--水帘池"
+            }
+          ]
+        },
+        {
+          "type": "edgeClient",
+          "aliasId": 1,
+          "dataKeys": [
+            {
+              "type": "attr",
+              "name": "edgeClient1",
+              "color": "#ffd600",
+              "key": "WaterPump",
+              "valueFunc": "return {\n    areaName:\"S11\",\n    deviceType:\"WaterPump\",\n    belongTo:\"WaterCurtainPool\",\n    group:0,\n    category:1,\n    item:1,\n    telemetryValue:1\n}\n//水泵--水帘池"
+            },
+            {
+              "type": "latest",
+              "name": "edgeClient2",
+              "color": "#ffd600",
+              "key": "WaterPump",
+              "valueFunc": "return {\n    areaName:\"S11\",\n    deviceType:\"WaterPump\",\n    belongTo:\"WaterCurtainPool\",\n    group:0,\n    category:1,\n    item:1,\n    telemetryValue:1\n}\n//水泵--水帘池"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

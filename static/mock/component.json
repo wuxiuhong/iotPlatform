@@ -1,10 +1,12 @@
 [
   {
     "id": "3f825d20-fe01-11e7-83b5-9b9f49d154f1",
+    "version": "1.0.0",
     "name": "html组件名称",
     "type": "html",
+    "templateType": "组件模板类型",
     "image": "缩略图",
-    "createTime": "",
+    "createTime": "2018-5-28",
     "template": {
       "dependent": [
         "依赖来源, eChart|D3|等"
@@ -12,56 +14,53 @@
       "templateHtml": "html代码",
       "templateCss": "css代码",
       "controllerScript": "js控制代码",
-      "defaultData": [{}],
-      "dataSources":[{
-        "type": "device",
-        "dataKeys": [
-          {
-            "type": "attr",
-            "name": "device1",
-            "color": "#ffd600",
-            "key": "WaterPump",
-            "value": "return {\n    areaName:\"S11\",\n    deviceType:\"WaterPump\",\n    belongTo:\"WaterCurtainPool\",\n    group:0,\n    category:1,\n    item:1,\n    telemetryValue:1\n}\n//水泵--水帘池"
-          },
-          {
-            "type": "latest",
-            "name": "device1",
-            "color": "#ffd600",
-            "key": "WaterPump",
-            "value": "return {\n    areaName:\"S11\",\n    deviceType:\"WaterPump\",\n    belongTo:\"WaterCurtainPool\",\n    group:0,\n    category:1,\n    item:1,\n    telemetryValue:1\n}\n//水泵--水帘池"
-          }
-        ]
-      }]
+      "defaultData": [
+        {}
+      ],
+      "dataSources": [
+        {
+          "type": "edgeClient",
+          "dataKeys": [
+            {
+              "key": "WaterPump",
+              "value": "return {\n    areaName:\"S11\",\n    deviceType:\"WaterPump\",\n    belongTo:\"WaterCurtainPool\",\n    group:0,\n    category:1,\n    item:1,\n    telemetryValue:1\n}\n//水泵--水帘池"
+            },
+            {
+              "key": "WaterPump",
+              "value": "return {\n    areaName:\"S11\",\n    deviceType:\"WaterPump\",\n    belongTo:\"WaterCurtainPool\",\n    group:0,\n    category:1,\n    item:1,\n    telemetryValue:1\n}\n//水泵--水帘池"
+            }
+          ]
+        }
+      ]
     }
   },
   {
     "id": "3f825d20-fe01-11e7-83b5-9b9f49d154f1",
+    "version": "1.0.0",
     "name": "canvas组件名称",
     "type": "canvas",
     "image": "缩略图",
-    "createTime": "",
+    "createTime": "2018-5-28",
     "template": {
       "controllerScript": "js控制代码",
-      "defaultData": [{}],
-      "dataSources":[{
-        "type": "device",
-        "dataKeys": [
-          {
-            "type": "attr",
-            "name": "device1",
-            "color": "#ffd600",
-            "key": "WaterPump",
-            "value": "return {\n    areaName:\"S11\",\n    deviceType:\"WaterPump\",\n    belongTo:\"WaterCurtainPool\",\n    group:0,\n    category:1,\n    item:1,\n    telemetryValue:1\n}\n//水泵--水帘池"
-          },
-          {
-            "type": "latest",
-            "name": "device1",
-            "color": "#ffd600",
-            "key": "WaterPump",
-            "value": "return {\n    areaName:\"S11\",\n    deviceType:\"WaterPump\",\n    belongTo:\"WaterCurtainPool\",\n    group:0,\n    category:1,\n    item:1,\n    telemetryValue:1\n}\n//水泵--水帘池"
-          }
-        ]
-      }],
+      "defaultData": [
+        {}
+      ],
+      "dataSources": [
+        {
+          "type": "edgeClient",
+          "dataKeys": [
+            {
+              "key": "WaterPump",
+              "value": "return {\n    areaName:\"S11\",\n    deviceType:\"WaterPump\",\n    belongTo:\"WaterCurtainPool\",\n    group:0,\n    category:1,\n    item:1,\n    telemetryValue:1\n}\n//水泵--水帘池"
+            },
+            {
+              "key": "WaterPump",
+              "value": "return {\n    areaName:\"S11\",\n    deviceType:\"WaterPump\",\n    belongTo:\"WaterCurtainPool\",\n    group:0,\n    category:1,\n    item:1,\n    telemetryValue:1\n}\n//水泵--水帘池"
+            }
+          ]
+        }
+      ],
       "canvasData": [
         {
           "id": 1,
@@ -169,9 +168,9 @@
               }
             ],
             "animation": "linear | ease | ease-in | ease-in-out",
-            "animation,duration": "10",
+            "animation.duration": "10",
             "animation.count": "4",
-            "animation,keyframe": {
+            "animation.keyframe": {
               "0%": {
                 "top": "0px"
               },

@@ -1,27 +1,31 @@
 {
   "id": 1,
   "title": "报表",
-  "createTime": "",
+  "createTime": "2018-5-28",
   "description": "test from Kim",
   "styles": {
     "showTitle": false,
     "backgroundColor": "rgba(0,0,0,0)",
     "titleColor": "rgba(0,0,0,0.870588)",
-    "columns": 24,
-    "margins": [10, 10],
+    "margins": [
+      10,
+      10
+    ],
     "backgroundSizeMode": "100%"
   },
-  "deviceAliases": [
+  "edgeClientAliases": [
     {
+      "aliasId":"别名Id",
       "alias": "别名1",
-      "deviceList": [
+      "edgeClientList": [
         "5f4f7ca0-fda7-11e7-94de-d786c97a036f",
         "5f4f7ca0-fda7-11e7-94de-d786c97a036f"
       ]
     },
     {
+      "aliasId":"别名Id",
       "alias": "别名2",
-      "deviceList": [
+      "edgeClientList": [
         "5f4f7ca0-fda7-11e7-94de-d786c97a036f"
       ]
     }
@@ -29,7 +33,9 @@
   "components": [
     {
       "type": "canvas | html",
+      "version": "1.0.0",
       "templateId": "2",
+      "templateType": "latest | time",
       "relation": {
         "x": 10,
         "y": 11
@@ -44,7 +50,8 @@
         },
         "backgroundColor": "#fff",
         "color": "rgba(0, 0, 0, 0.87)",
-        "padding": "0px"
+        "padding": "0px",
+        "boxShadow": "1px 2px #dedede"
       },
       "dataSources": [
         {
@@ -60,19 +67,19 @@
           ]
         },
         {
-          "type": "device",
+          "type": "edgeClient",
           "aliasId": 1,
           "dataKeys": [
             {
               "type": "attr",
-              "name": "device1",
+              "name": "edgeClient1",
               "color": "#ffd600",
               "key": "WaterPump",
               "valueFunc": "return {\n    areaName:\"S11\",\n    deviceType:\"WaterPump\",\n    belongTo:\"WaterCurtainPool\",\n    group:0,\n    category:1,\n    item:1,\n    telemetryValue:1\n}\n//水泵--水帘池"
             },
             {
               "type": "latest",
-              "name": "device1",
+              "name": "edgeClient2",
               "color": "#ffd600",
               "key": "WaterPump",
               "valueFunc": "return {\n    areaName:\"S11\",\n    deviceType:\"WaterPump\",\n    belongTo:\"WaterCurtainPool\",\n    group:0,\n    category:1,\n    item:1,\n    telemetryValue:1\n}\n//水泵--水帘池"
