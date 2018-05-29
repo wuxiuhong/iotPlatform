@@ -1,0 +1,52 @@
+{
+  "width": 100,
+  "height": 100,
+  "func": "__ht__function(g, rect, comp, data, view) {\n// get current time\nvar hours = comp.getValue('hours');\nvar minutes = comp.getValue('minutes');\nvar seconds = comp.getValue('seconds');\nhours = hours > 12 ? hours - 12 : hours;\nvar hour = hours + minutes / 60;\nvar minute = minutes + seconds / 60;\nvar clockRadius = Math.min(rect.width/2, rect.height/2);\n\n// save current context\ng.save();\n\ng.translate(rect.x + rect.width/2, rect.y+ rect.height/2);\ng.beginPath();\n\n// draw numbers\nif (comp.getValue('numberVisible')) {\n    g.font = comp.getValue('numberFont');\n    g.fillStyle = comp.getValue('numberColor');\n    g.textAlign = 'center';\n    g.textBaseline = 'middle';\n    for (var n = 1; n <= 12; n++) {\n        var theta = (n - 3) * (Math.PI * 2) / 12;\n        var x = clockRadius * 0.75 * Math.cos(theta);\n        var y = clockRadius * 0.75 * Math.sin(theta);\n        g.fillText(n, x, y);\n    }\n}\n\n// draw hour\ng.save();\nvar theta = (hour - 3) * 2 * Math.PI / 12;\ng.rotate(theta);\ng.beginPath();\ng.moveTo(-15, -5);\ng.lineTo(-15, 5);\ng.lineTo(clockRadius * 0.5, 1);\ng.lineTo(clockRadius * 0.5, -1);\ng.fillStyle = comp.getValue('hourColor');\ng.fill();\ng.restore();\n\n// draw minute\ng.save();\nvar theta = (minute - 15) * 2 * Math.PI / 60;\ng.rotate(theta);\ng.beginPath();\ng.moveTo(-15, -4);\ng.lineTo(-15, 4);\ng.lineTo(clockRadius * 0.8, 1);\ng.lineTo(clockRadius * 0.8, -1);\ng.fillStyle = comp.getValue('minuteColor');\ng.fill();\ng.restore();\n\n// draw second\ng.save();\nvar theta = (seconds - 15) * 2 * Math.PI / 60;\ng.rotate(theta);\ng.beginPath();\ng.moveTo(-15, -3);\ng.lineTo(-15, 3);\ng.lineTo(clockRadius * 0.9, 1);\ng.lineTo(clockRadius * 0.9, -1);\ng.fillStyle = comp.getValue('secondColor');\ng.fill();\ng.restore();\n\ng.restore();\n}",
+  "properties": {
+    "hours": {
+      "valueType": "Int",
+      "defaultValue": 2,
+      "name": "ClockHours"
+    },
+    "minutes": {
+      "valueType": "Int",
+      "defaultValue": 37,
+      "name": "ClockMinutes"
+    },
+    "seconds": {
+      "valueType": "Int",
+      "defaultValue": 16,
+      "name": "ClockSeconds"
+    },
+    "hourColor": {
+      "valueType": "Color",
+      "defaultValue": "#82BEED",
+      "name": "ClockHourColor"
+    },
+    "minuteColor": {
+      "valueType": "Color",
+      "defaultValue": "#82BEED",
+      "name": "ClockMinuteColor"
+    },
+    "secondColor": {
+      "valueType": "Color",
+      "defaultValue": "#73F8A7",
+      "name": "ClockSecondColor"
+    },
+    "numberColor": {
+      "valueType": "Color",
+      "defaultValue": "#84EBAD",
+      "name": "ClockNumberColor"
+    },
+    "numberFont": {
+      "valueType": "String",
+      "defaultValue": "10px Arial",
+      "name": "ClockNumberFont"
+    },
+    "numberVisible": {
+      "valueType": "Boolean",
+      "defaultValue": true,
+      "name": "ClockNumberVisible"
+    }
+  }
+}
