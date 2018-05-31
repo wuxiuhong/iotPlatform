@@ -10,7 +10,10 @@
 <script lang="ts">
     import Vue from 'vue'
     import Component from 'vue-class-component'
-    @Component({})
+
+    @Component({
+        name: 'app'
+    })
     export default class App extends Vue {
     }
 </script>
