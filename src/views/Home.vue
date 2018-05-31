@@ -89,68 +89,73 @@
     </el-row>
 </template>
 
-<script>
-    export default {
-        data() {
-            return {
-                sysName: 'VUEADMIN',
-                collapsed: false,
-                sysUserName: '',
-                sysUserAvatar: '',
-                form: {
-                    name: '',
-                    region: '',
-                    date1: '',
-                    date2: '',
-                    delivery: false,
-                    type: [],
-                    resource: '',
-                    desc: ''
-                }
-            }
-        },
-        methods: {
-            onSubmit() {
-                console.log('submit!');
-            },
-            handleopen() {
-                //console.log('handleopen');
-            },
-            handleclose() {
-                //console.log('handleclose');
-            },
-            handleselect: function (a, b) {
-            },
-            //退出登录
-            logout: function () {
-                var _this = this;
-                this.$confirm('确认退出吗?', '提示', {
-                    //type: 'warning'
-                }).then(() => {
-                    sessionStorage.removeItem('user');
-                    _this.$router.push('/login');
-                }).catch(() => {
+<script lang="ts">
+    import Vue from 'vue'
+    import Component from 'vue-class-component'
 
-                });
+    @Component
+    export default class Home extends Vue {
+        sysName: string = "VUEADMIN";
+        collapsed: boolean = false;
+        sysUserName: string = "";
+        sysUserAvatar: string = "";
+        form: any = {
+            name: '',
+            region: '',
+            date1: '',
+            date2: '',
+            delivery: false,
+            type: [],
+            resource: '',
+            desc: ''
+        };
 
-
-            },
-            //折叠导航栏
-            collapse: function () {
-                this.collapsed = !this.collapsed;
-            },
-            showMenu(i, status) {
-                this.$refs.menuCollapsed.getElementsByClassName('submenu-hook-' + i)[0].style.display = status ? 'block' : 'none';
-            }
-        },
+        // 声明周期钩子
         mounted() {
-            var user = sessionStorage.getItem('user');
+            let user: any = sessionStorage.getItem('user');
             if (user) {
                 user = JSON.parse(user);
                 this.sysUserName = user.name || '';
                 this.sysUserAvatar = user.avatar || '';
             }
 
+        }
+
+        onSubmit() {
+            console.log('submit!');
+        }
+
+        handleopen() {
+            //console.log('handleopen');
+        }
+
+        handleclose() {
+            //console.log('handleclose');
+        }
+
+        handleselect(a, b) {
+        };
+
+        //退出登录
+        logout() {
+            var _this = this;
+            this.$confirm('确认退出吗?', '提示', {
+                //type: 'warning'
+            }).then(() => {
+                sessionStorage.removeItem('user');
+                _this.$router.push('/login');
+            }).catch(() => {
+
+            });
+        };
+
+        //折叠导航栏
+        collapse() {
+            this.collapsed = !this.collapsed;
+        }
+
+        showMenu(i, status) {
+            ((this.$refs.menuCollapsed as HTMLElement).getElementsByClassName('submenu-hook-' + i)[0] as any).style.display = status ? 'block' : 'none';
         }
     }
 
