@@ -23,12 +23,21 @@ let routes = [
         name: '',
         hidden: true
     },
-    //{ path: '/main', component: Main },
+    {
+        path: '/',
+        component: Home,
+        name: '报表',
+        iconCls: 'fa fa-dashboard',
+        leaf: true,//只有一个节点
+        children: [
+            { path: '/dashboards', component: Main, name: '报表' }
+        ]
+    },
     {
         path: '/',
         component: Home,
         name: '导航一',
-        iconCls: 'el-icon-message',//图标样式class
+        iconCls: 'fa fa-envelope-o',//图标样式class
         children: [
             { path: '/main', component: Main, name: '主页', hidden: true },
             { path: '/table', component: Table, name: 'Table' },
