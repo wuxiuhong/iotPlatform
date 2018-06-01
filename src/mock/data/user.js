@@ -5,7 +5,7 @@ const LoginUsers = [
     username: 'admin',
     password: '123456',
     avatar: 'http://www.qqpk.cn/Article/UploadFiles/201203/20120301134818217.jpg',
-    name: '徐某某'
+    name: 'Wendy'
   }
 ];
 

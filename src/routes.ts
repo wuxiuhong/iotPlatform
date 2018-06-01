@@ -9,6 +9,7 @@ import Page4 from './views/nav2/Page4.vue';
 import Page5 from './views/nav2/Page5.vue';
 import Page6 from './views/nav3/Page6.vue';
 import echarts from './views/charts/echarts.vue';
+import Dashborad from './views/dashboards/Dashboard.vue';
 
 const routes = [
     {
@@ -30,7 +31,7 @@ const routes = [
         iconCls: 'fa fa-dashboard',
         leaf: true, // 只有一个节点
         children: [
-            {path: '/dashboards', component: Main, name: '报表'}
+            {path: '/dashboards', component: Dashborad, name: '报表'}
         ]
     },
     {

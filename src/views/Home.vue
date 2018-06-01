@@ -2,7 +2,7 @@
     <el-row class="container">
         <el-col :span="24" class="header">
             <el-col :span="10" class="logo" :class="collapsed?'logo-collapse-width':'logo-width'">
-                {{collapsed?'':sysName}}
+                {{collapsed ? '' : sysName}}
             </el-col>
             <el-col :span="10">
                 <div class="tools" @click.prevent="collapse">
@@ -95,7 +95,7 @@
 
     @Component
     export default class Home extends Vue {
-        sysName: string = 'VUEADMIN';
+        sysName: string = 'MAXIOT';
         collapsed: boolean = false;
         sysUserName: string = '';
         sysUserAvatar: string = '';
@@ -118,7 +118,6 @@
                 this.sysUserName = user.name || '';
                 this.sysUserAvatar = user.avatar || '';
             }
-
         }
 
         onSubmit() {

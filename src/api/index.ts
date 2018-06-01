@@ -1,3 +1,7 @@
-import * as api from './api';
+import * as UserApi from './user';
+import * as DashboardApi from './dashboard';
 
-export default api;
+export {
+    UserApi,
+    DashboardApi
+};

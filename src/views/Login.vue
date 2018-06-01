@@ -20,7 +20,7 @@
 <script lang="ts">
     import Vue from 'vue';
     import Component from 'vue-class-component';
-    import { requestLogin } from '../api/api';
+    import { requestLogin } from '../api/user';
     import { Form } from 'element-ui';
     // import NProgress from 'nprogress'
     @Component({
