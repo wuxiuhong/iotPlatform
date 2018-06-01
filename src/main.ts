@@ -18,16 +18,9 @@ Vue.use(Vuex as any);
 const router = new VueRouter({routes} as object);
 
 router.beforeEach((to: any, from: any, next: any) => {
-    // NProgress.start();
-    if (to.path === '/login') {
-        sessionStorage.removeItem('user');
-    }
+    if (to.path === '/login') sessionStorage.removeItem('user');
     const user = JSON.parse(sessionStorage.getItem('user'));
-    if (!user && to.path !== '/login') {
-        next({path: '/login'});
-    } else {
-        next();
-    }
+    (!user && to.path !== '/login') ? next({path: '/login'}) : next();
 });
 
 new Vue({
