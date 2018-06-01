@@ -15,7 +15,7 @@ const dashboard = {
     },
     "edgeClientAliases": [
         {
-            "aliasId":"别名Id",
+            "aliasId": "别名Id",
             "alias": "别名1",
             "edgeClientList": [
                 "5f4f7ca0-fda7-11e7-94de-d786c97a036f",
@@ -23,7 +23,7 @@ const dashboard = {
             ]
         },
         {
-            "aliasId":"别名Id",
+            "aliasId": "别名Id",
             "alias": "别名2",
             "edgeClientList": [
                 "5f4f7ca0-fda7-11e7-94de-d786c97a036f"
@@ -35,6 +35,37 @@ const dashboard = {
             "type": "canvas | html",
             "version": "1.0.0",
             "templateId": "2",
+            "template": {
+                "id": "3f825d20-fe01-11e7-83b5-9b9f49d154f1",
+                "version": "1.0.0",
+                "name": "html组件名称",
+                "type": "html",
+                "templateType": "组件模板类型",
+                "image": "缩略图",
+                "createTime": "2018-5-28",
+                "template": {
+                    "dependent": [],
+                    "templateHtml": "<div class='templateOne'>template1</div>",
+                    "templateCss": ".templateOne{width:300px; height:300px; border:1px solid #dedede;}",
+                    "controllerScript": "",
+                    "defaultData": '',
+                    "dataSources": [
+                        {
+                            "type": "edgeClient",
+                            "dataKeys": [
+                                {
+                                    "key": "WaterPump",
+                                    "value": "return {\n    areaName:\"S11\",\n    deviceType:\"WaterPump\",\n    belongTo:\"WaterCurtainPool\",\n    group:0,\n    category:1,\n    item:1,\n    telemetryValue:1\n}\n//水泵--水帘池"
+                                },
+                                {
+                                    "key": "WaterPump",
+                                    "value": "return {\n    areaName:\"S11\",\n    deviceType:\"WaterPump\",\n    belongTo:\"WaterCurtainPool\",\n    group:0,\n    category:1,\n    item:1,\n    telemetryValue:1\n}\n//水泵--水帘池"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
             "templateType": "latest | time",
             "relation": {
                 "x": 10,
