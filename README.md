@@ -29,6 +29,6 @@ npm run build
     * vuex
     * App.vue
     * main.ts - main file
-    * routes.js
+    * routes.ts
 * static - static assets
 

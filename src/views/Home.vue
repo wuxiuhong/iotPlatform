@@ -90,15 +90,15 @@
 </template>
 
 <script lang="ts">
-    import Vue from 'vue'
-    import Component from 'vue-class-component'
+    import Vue from 'vue';
+    import Component from 'vue-class-component';
 
     @Component
     export default class Home extends Vue {
-        sysName: string = "VUEADMIN";
+        sysName: string = 'VUEADMIN';
         collapsed: boolean = false;
-        sysUserName: string = "";
-        sysUserAvatar: string = "";
+        sysUserName: string = '';
+        sysUserAvatar: string = '';
         form: any = {
             name: '',
             region: '',
@@ -126,39 +126,37 @@
         }
 
         handleopen() {
-            //console.log('handleopen');
+            // console.log('handleopen');
         }
 
         handleclose() {
-            //console.log('handleclose');
+            // console.log('handleclose');
         }
 
         handleselect(a, b) {
-        };
+        }
 
-        //退出登录
+        // 退出登录
         logout() {
-            var _this = this;
             this.$confirm('确认退出吗?', '提示', {
-                //type: 'warning'
+                // type: 'warning'
             }).then(() => {
                 sessionStorage.removeItem('user');
-                _this.$router.push('/login');
+                this.$router.push('/login');
             }).catch(() => {
-
             });
-        };
+        }
 
-        //折叠导航栏
+        // 折叠导航栏
         collapse() {
             this.collapsed = !this.collapsed;
         }
 
         showMenu(i, status) {
-            ((this.$refs.menuCollapsed as HTMLElement).getElementsByClassName('submenu-hook-' + i)[0] as any).style.display = status ? 'block' : 'none';
+            ((this.$refs.menuCollapsed as HTMLElement).getElementsByClassName('submenu-hook-' + i)[0] as any).style.display =
+                status ? 'block' : 'none';
         }
     }
-
 </script>
 
 <style scoped lang="scss">

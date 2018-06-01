@@ -1,6 +1,10 @@
 {
+  "globals": {
+    "require": true
+  },
   "rules": {
     "arrow-return-shorthand": true,
+    "no-consecutive-blank-lines": false,
     "callable-types": true,
     "class-name": false,
     "comment-format": [
@@ -51,6 +55,7 @@
     "no-eval": true,
     "no-inferrable-types": [
       true,
+      "ignore-properties",
       "ignore-params"
     ],
     "no-misused-new": true,

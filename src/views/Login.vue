@@ -18,15 +18,14 @@
 </template>
 
 <script lang="ts">
-    import Vue from 'vue'
-    import Component from 'vue-class-component'
-    import {requestLogin} from '../api/api';
-    import {Form} from "element-ui";
-    //import NProgress from 'nprogress'
+    import Vue from 'vue';
+    import Component from 'vue-class-component';
+    import { requestLogin } from '../api/api';
+    import { Form } from 'element-ui';
+    // import NProgress from 'nprogress'
     @Component({
         name: 'login'
-    })
-    export default class Login extends Vue {
+    })export default class Login extends Vue {
         // 初始化数据
         logining: boolean = false;
         checked: boolean = true;
@@ -37,11 +36,11 @@
         rules2: any = {
             account: [
                 {required: true, message: '请输入账号', trigger: 'blur'}
-                //{ validator: validaePass }
+                // { validator: validaePass }
             ],
             checkPass: [
                 {required: true, message: '请输入密码', trigger: 'blur'}
-                //{ validator: validaePass2 }
+                // { validator: validaePass2 }
             ]
         };
         $refs: {
@@ -56,19 +55,18 @@
         handleSubmit2(ev: any = null) {
             this.$refs.ruleForm.validate((valid: any) => {
                 if (valid) {
-                    //_this.$router.replace('/table');
+                    // _this.$router.replace('/table');
                     this.logining = true;
-                    //NProgress.start();
-                    var loginParams = {username: this.ruleForm2.account, password: this.ruleForm2.checkPass};
-                    requestLogin(loginParams).then(data => {
+                    // NProgress.start();
+                    requestLogin({
+                        username: this.ruleForm2.account,
+                        password: this.ruleForm2.checkPass
+                    }).then(data => {
                         this.logining = false;
-                        //NProgress.done();
-                        let {msg, code, user} = data;
+                        // NProgress.done();
+                        const {msg, code, user} = data;
                         if (code !== 200) {
-                            this.$message({
-                                message: msg,
-                                type: 'error'
-                            });
+                            this.$message({message: msg, type: 'error'});
                         } else {
                             sessionStorage.setItem('user', JSON.stringify(user));
                             this.$router.push({path: '/table'});
