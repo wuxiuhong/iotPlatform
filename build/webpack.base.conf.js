@@ -6,7 +6,7 @@ var vueLoaderConfig = require('./vue-loader.conf');
 function resolve(dir) {
     return path.join(__dirname, '..', dir);
 }
-process.noDeprecation = true;
+// process.noDeprecation = true;
 
 module.exports = {
     entry: {
