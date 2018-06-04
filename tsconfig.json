@@ -1,7 +1,6 @@
 {
   "include": [
-    "src/**/*",
-    "node_modules/vue-tsx-support/enable-check.d.ts"
+    "src/**/*"
   ],
   "exclude": [
     "node_modules"
