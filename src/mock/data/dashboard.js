@@ -45,7 +45,7 @@ const dashboard = {
                 "createTime": "2018-5-28",
                 "template": {
                     "dependent": [],
-                    "templateHtml": "<div class='templateOne'>template1</div>",
+                    "templateHtml": "<div class='templateOne'>{{info}}</div>",
                     "templateCss": ".templateOne{width:300px; height:300px; border:1px solid #dedede;}",
                     "controllerScript": "",
                     "defaultData": '',

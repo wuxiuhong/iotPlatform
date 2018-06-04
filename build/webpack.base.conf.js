@@ -19,7 +19,7 @@ module.exports = {
             : config.dev.assetsPublicPath
     },
     resolve: {
-        extensions: ['.js', '.vue', '.json', '.ts'],
+        extensions: ['.js', '.vue', '.json', '.ts', '.tsx'],
         alias: {
             'vue$': 'vue/dist/vue.esm.js',
             '@': resolve('src'),
@@ -39,6 +39,12 @@ module.exports = {
                 include: [resolve('src'), resolve('test')]
             },
             {
+                test: /\.tsx?$/,
+                exclude: /node_modules/,
+                enforce: 'pre',
+                loader: 'tslint-loader'
+            },
+            {
                 test: /\.ts$/,
                 exclude: /node_modules/,
                 enforce: 'pre',
@@ -50,6 +56,7 @@ module.exports = {
                 exclude: /node_modules/,
                 options: {
                     appendTsSuffixTo: [/\.vue$/],
+                    appendTsxSuffixTo: [/\.tsx\.vue$/]
                 }
             },
             {

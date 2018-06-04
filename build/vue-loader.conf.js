@@ -10,6 +10,7 @@ module.exports = {
                 : config.dev.cssSourceMap,
             extract: isProduction
         }),
-        ts: ['ts-loader', 'tslint-loader']
+        ts: ['ts-loader', 'tslint-loader'],
+        tsx: "babel-loader!ts-loader"
     }
 };
