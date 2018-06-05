@@ -69,7 +69,7 @@
                             this.$message({message: msg, type: 'error'});
                         } else {
                             sessionStorage.setItem('user', JSON.stringify(user));
-                            this.$router.push({path: '/table'});
+                            this.$router.push({path: '/dashboards'});
                         }
                     });
                 } else {

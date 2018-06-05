@@ -1,11 +1,17 @@
 <template>
-    <section class="dashboard-wrapper">
-        <div class="component-wrapper" v-for="item in dashboard.components"
-             :style="item.styleObject" track-by="$index">
-            {{item.title}}
-            <component :is="item.comp"></component>
+    <div>
+        <section class="dashboard-wrapper">
+            <div class="component-wrapper" v-for="item in dashboard.components"
+                 :style="item.styleObject" track-by="$index" @contextmenu.stop.prevent="showEdit(item)">
+                {{item.title}}
+                <component :is="item.comp"></component>
+            </div>
+        </section>
+        <div class="edit-wrapper" v-if="showModal">
+            <span></span>
+            <h3>编辑组件</h3>
         </div>
-    </section>
+    </div>
 </template>
 
 <script lang="ts">
@@ -17,6 +23,7 @@
     @Component({})
     export default class Dashboard extends Vue {
         info: string = 'test';
+        showModal: boolean = false;
         dashboard: any = {
             components: [{
                 comp: null,
@@ -116,20 +123,45 @@
                 });
             });
         }
+
+        /**
+         * 显示当前模板编辑信息
+         * @param template
+         */
+        showEdit(template: any) {
+            this.showModal = true;
+        }
     }
 </script>
 
 <style scoped>
     .dashboard-wrapper {
         position: relative;
+        height: calc(100vh - 150px);
     }
 
     .component-wrapper {
-        width: 300px;
-        height: 400px;
+        border: 1px dotted #ffffff;
+        width: auto;
+        height: auto;
         position: absolute;
         left: 0;
         top: 0;
         z-index: 0;
+    }
+
+    .component-wrapper:hover {
+        border: 1px dotted #dedede;
+    }
+
+    .edit-wrapper {
+        background: #ffffff;
+        position: absolute;
+        right: -22px;
+        top: 0;
+        z-index: 1000;
+        width: 300px;
+        height: 100%;
+        border-left: 1px solid #e6e6e6;
     }
 </style>

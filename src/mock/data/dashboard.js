@@ -235,7 +235,7 @@ const dashboard = {
                 "createTime": "2018-5-28",
                 "template": {
                     "dependent": [],
-                    "templateHtml": "<div id=chartPie style='width:100%; height:400px;'></div>",
+                    "templateHtml": "<div id=chartPie style='width:300px; height:300px;'></div>",
                     "templateCss": "",
                     "controllerScript": {
                         mounted: "return console.log('test')"
