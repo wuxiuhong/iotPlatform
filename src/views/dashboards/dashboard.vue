@@ -114,10 +114,10 @@
                             }
                         },
                         methods: {
-                            update() {
+                            onUpdate() {
                                 this.getCount++;
                             },
-                            resize() {
+                            onResize() {
                                 this.getCount = 0;
                             },
                             increment() {
@@ -155,7 +155,7 @@
             this.showModal = true;
             this.editInfo = template;
             this.dashboard.components[index].props[0].type = 'test';
-            this.$refs[this.dashboard.components[index].ref][0].update();
+            this.$refs[this.dashboard.components[index].ref][0].onUpdate();
         }
 
         /**
@@ -163,7 +163,7 @@
          */
         resize() {
             this.dashboard.components.forEach((item: any) => {
-                this.$refs[item.ref][0].resize();
+                this.$refs[item.ref][0].onResize();
             });
         }
     }
