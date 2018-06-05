@@ -13,7 +13,6 @@
 .c9/
 *.launch
 .settings/
-.idea/
 *.sublime-workspace
 
 # IDE - VSCode
