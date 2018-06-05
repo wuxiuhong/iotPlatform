@@ -4,7 +4,7 @@
             <div class="component-wrapper" v-for="(item,index) in dashboard.components"
                  :style="item.styleObject" @contextmenu.stop.prevent="showEdit(item,index)">
                 {{item.title}}
-                <component :is="item.comp" :content="item.props"></component>
+                <component :is="item.comp" :content="item.props" :ref="item.ref"></component>
             </div>
         </section>
         <div class="edit-wrapper" v-if="showModal">
@@ -25,19 +25,21 @@
         info: string = 'test';
         showModal: boolean = false;
         dashboard: any = {
-            components: [{
-                comp: null,
-                styleObject: {}
-            }]
+            components: []
         };
         editInfo: any = {};
 
         mounted() {
+            // 定时更新重置组件
+            setInterval(() => {
+                if (this.dashboard.components.length)
+                    this.resize();
+            }, 5000);
             // 初始化报表数据
             getDashboard({}).then((ret: any) => {
                 this.dashboard = ret.data;
                 const head = document.head;
-                this.dashboard.components = this.dashboard.components.map((item: any) => {
+                this.dashboard.components = this.dashboard.components.map((item: any, index: number) => {
                     // 添加css
                     if (item.template.template.templateCss) {
                         const style = document.createElement("style");
@@ -59,6 +61,7 @@
                     //     render: (item, index) => {
                     //     }
                     item.props = item.template.template.dataSources;
+                    item.ref = 'child' + index;
                     item.comp = {
                         template: item.template.template.templateHtml,
                         props: ['content'],
@@ -68,7 +71,6 @@
                             };
                         },
                         mounted() {
-                            console.log(this.content, 'test');
                             if (item.template.templateType === 'echart') {
                                 this.chartPie = echarts.init(<HTMLDivElement>document.getElementById('chartPie'));
                                 this.chartPie.setOption({
@@ -112,6 +114,12 @@
                             }
                         },
                         methods: {
+                            update() {
+                                this.getCount++;
+                            },
+                            resize() {
+                                this.getCount = 0;
+                            },
                             increment() {
                                 this.getCount++;
                             },
@@ -130,9 +138,33 @@
          * @param template
          */
         showEdit(template: any, index: number) {
+            console.log(({
+                update: function () {
+                    this.getCount++;
+                },
+                resize: function () {
+                    this.getCount = 0;
+                },
+                increment: function () {
+                    this.getCount++;
+                },
+                decrement: function () {
+                    this.getCount--;
+                }
+            }).toString());
             this.showModal = true;
             this.editInfo = template;
             this.dashboard.components[index].props[0].type = 'test';
+            this.$refs[this.dashboard.components[index].ref][0].update();
+        }
+
+        /**
+         * 重置报表, 循环更新每个组件
+         */
+        resize() {
+            this.dashboard.components.forEach((item: any) => {
+                this.$refs[item.ref][0].resize();
+            });
         }
     }
 </script>
