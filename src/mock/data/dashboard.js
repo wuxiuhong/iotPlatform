@@ -45,7 +45,7 @@ const dashboard = {
                 "createTime": "2018-5-28",
                 "template": {
                     "dependent": [],
-                    "templateHtml": "<div class='templateOne'><h1>vue 事件测试</h1> Clicked: {{ getCount }} times <button @click='increment'>+</button> <button @click='decrement'>-</button></div>",
+                    "templateHtml": "<div class='templateOne'><h1>vue 事件测试</h1> Clicked: {{ getCount }} times <button @click='increment'>+</button> <button @click='decrement'>-</button>{{content[0].type}}</div>",
                     "templateCss": ".templateOne{width:300px; height:200px; border:1px solid #dedede; padding:10px;}",
                     "controllerScript": "{ increment(){this.getCount++;}, decrement(){getCount--;}}",
                     "defaultData": {

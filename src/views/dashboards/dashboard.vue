@@ -1,15 +1,15 @@
 <template>
     <div>
         <section class="dashboard-wrapper">
-            <div class="component-wrapper" v-for="item in dashboard.components"
-                 :style="item.styleObject" track-by="$index" @contextmenu.stop.prevent="showEdit(item)">
+            <div class="component-wrapper" v-for="(item,index) in dashboard.components"
+                 :style="item.styleObject" @contextmenu.stop.prevent="showEdit(item,index)">
                 {{item.title}}
-                <component :is="item.comp"></component>
+                <component :is="item.comp" :content="item.props"></component>
             </div>
         </section>
         <div class="edit-wrapper" v-if="showModal">
-            <span></span>
-            <h3>编辑组件</h3>
+            <i class="icon el-icon-close" @click="showModal = false"></i>
+            <h3>编辑{{editInfo.title}}</h3>
         </div>
     </div>
 </template>
@@ -30,6 +30,7 @@
                 styleObject: {}
             }]
         };
+        editInfo: any = {};
 
         mounted() {
             // 初始化报表数据
@@ -57,17 +58,17 @@
                     //     code: item.template.template.templateHtml,
                     //     render: (item, index) => {
                     //     }
+                    item.props = item.template.template.dataSources;
                     item.comp = {
                         template: item.template.template.templateHtml,
-                        props: {
-                            messageTest: String
-                        },
+                        props: ['content'],
                         data() {
                             return {
                                 ...item.template.template.defaultData
                             };
                         },
                         mounted() {
+                            console.log(this.content, 'test');
                             if (item.template.templateType === 'echart') {
                                 this.chartPie = echarts.init(<HTMLDivElement>document.getElementById('chartPie'));
                                 this.chartPie.setOption({
@@ -128,8 +129,10 @@
          * 显示当前模板编辑信息
          * @param template
          */
-        showEdit(template: any) {
+        showEdit(template: any, index: number) {
             this.showModal = true;
+            this.editInfo = template;
+            this.dashboard.components[index].props[0].type = 'test';
         }
     }
 </script>
@@ -157,11 +160,22 @@
     .edit-wrapper {
         background: #ffffff;
         position: absolute;
-        right: -22px;
+        right: 0;
         top: 0;
         z-index: 1000;
         width: 300px;
         height: 100%;
         border-left: 1px solid #e6e6e6;
+    }
+
+    .edit-wrapper h3 {
+        padding: 10px;
+    }
+
+    .edit-wrapper .icon {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        cursor: pointer;
     }
 </style>
