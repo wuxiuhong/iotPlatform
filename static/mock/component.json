@@ -13,7 +13,9 @@
       ],
       "templateHtml": "html代码",
       "templateCss": "css代码",
-      "controllerScript": "js控制代码",
+      "controllerScript": {
+
+      },
       "defaultData": [
         {}
       ],

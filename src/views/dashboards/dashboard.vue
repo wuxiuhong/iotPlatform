@@ -35,12 +35,13 @@
                 if (this.dashboard.components.length)
                     this.resize();
             }, 5000);
+
             // 初始化报表数据
             getDashboard({}).then((ret: any) => {
                 this.dashboard = ret.data;
                 const head = document.head;
                 this.dashboard.components = this.dashboard.components.map((item: any, index: number) => {
-                    // 添加css
+                    // 添加css，css格式处理
                     if (item.template.template.templateCss) {
                         const style = document.createElement("style");
                         style.id = "vue-layout-style";
@@ -50,6 +51,7 @@
                         style.appendChild(textNode);
                         head.appendChild(style);
                     }
+                    // 当前组件外部的样式处理
                     item.styleObject = {
                         left: item.relation.x + "px",
                         top: item.relation.y + "px",
@@ -60,8 +62,32 @@
                     //     code: item.template.template.templateHtml,
                     //     render: (item, index) => {
                     //     }
+                    // 开放的接口处理
                     item.props = item.template.template.dataSources;
+                    // 组件的节点
                     item.ref = 'child' + index;
+                    const method = {
+                        onUpdate() {
+                            this.getCount++;
+                        },
+                        onResize() {
+                            this.getCount = 0;
+                        },
+                        increment() {
+                            this.getCount++;
+                        },
+                        decrement() {
+                            this.getCount--;
+                        }
+                    };
+                    // console.log(JSON.stringify(Object.assign({}, method)));
+                    const methodInfo = JSON.parse(JSON.stringify({
+                        'onUpdate': 'this.getCount++;',
+                        'onResize': 'this.getCount = 0;',
+                        'increment': 'this.getCount++;',
+                        'decrement': 'this.getCount--;'
+                    }));
+                    // console.log(method.onUpdate);
                     item.comp = {
                         template: item.template.template.templateHtml,
                         props: ['content'],
@@ -71,62 +97,11 @@
                             };
                         },
                         mounted() {
-                            if (item.template.templateType === 'echart') {
-                                this.chartPie = echarts.init(<HTMLDivElement>document.getElementById('chartPie'));
-                                this.chartPie.setOption({
-                                    title: {
-                                        text: 'Pie Chart',
-                                        subtext: '纯属虚构',
-                                        x: 'center'
-                                    },
-                                    tooltip: {
-                                        trigger: 'item',
-                                        formatter: "{a} <br/>{b} : {c} ({d}%)"
-                                    },
-                                    legend: {
-                                        orient: 'vertical',
-                                        left: 'left',
-                                        data: ['直接访问', '邮件营销', '联盟广告', '视频广告', '搜索引擎']
-                                    },
-                                    series: [
-                                        {
-                                            name: '访问来源',
-                                            type: 'pie',
-                                            radius: '55%',
-                                            center: ['50%', '60%'],
-                                            data: [
-                                                {value: 335, name: '直接访问'},
-                                                {value: 310, name: '邮件营销'},
-                                                {value: 234, name: '联盟广告'},
-                                                {value: 135, name: '视频广告'},
-                                                {value: 1548, name: '搜索引擎'}
-                                            ],
-                                            itemStyle: {
-                                                emphasis: {
-                                                    shadowBlur: 10,
-                                                    shadowOffsetX: 0,
-                                                    shadowColor: 'rgba(0, 0, 0, 0.5)'
-                                                }
-                                            }
-                                        }
-                                    ]
-                                });
-                            }
+                            // this.getCount = 100;
+                            // 处理初始化格式处理
+                            new Function('maxIot', 'echarts', item.template.template.controllerScript.mounted)(this, echarts);
                         },
-                        methods: {
-                            onUpdate() {
-                                this.getCount++;
-                            },
-                            onResize() {
-                                this.getCount = 0;
-                            },
-                            increment() {
-                                this.getCount++;
-                            },
-                            decrement() {
-                                this.getCount--;
-                            }
-                        }
+                        methods: method
                     };
                     return item;
                 });
@@ -138,20 +113,6 @@
          * @param template
          */
         showEdit(template: any, index: number) {
-            console.log(({
-                update: function () {
-                    this.getCount++;
-                },
-                resize: function () {
-                    this.getCount = 0;
-                },
-                increment: function () {
-                    this.getCount++;
-                },
-                decrement: function () {
-                    this.getCount--;
-                }
-            }).toString());
             this.showModal = true;
             this.editInfo = template;
             this.dashboard.components[index].props[0].type = 'test';
