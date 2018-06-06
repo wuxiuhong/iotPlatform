@@ -48,6 +48,8 @@
                         style.id = "vue-layout-style";
                         style.type = "text/css";
                         const textNode = document.createTextNode(item.template.template.templateCss);
+                        console.log(textNode);
+
                         style.innerHTML = "";
                         style.appendChild(textNode);
                         head.appendChild(style);
