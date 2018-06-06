@@ -4,7 +4,8 @@
             <div class="component-wrapper" v-for="(item,index) in dashboard.components"
                  :style="item.styleObject" @contextmenu.stop.prevent="showEdit(item,index)">
                 {{item.title}}
-                <component :is="item.comp" :content="item.props" :ref="item.ref"></component>
+                <component :is="item.comp" :content="item.props" :ref="item.ref"
+                           @child-event="parentMethod" keep-alive></component>
             </div>
         </section>
         <div class="edit-wrapper" v-if="showModal">
@@ -58,28 +59,10 @@
                         "z-index": item.zIndex,
                         backgroundColor: item.backgroundColor
                     };
-                    // item.templateHtml = addRenderFn({
-                    //     code: item.template.template.templateHtml,
-                    //     render: (item, index) => {
-                    //     }
                     // 开放的接口处理
                     item.props = item.template.template.dataSources;
                     // 组件的节点
                     item.ref = 'child' + index;
-                    const method = {
-                        onUpdate() {
-                            this.getCount++;
-                        },
-                        onResize() {
-                            this.getCount = 0;
-                        },
-                        increment() {
-                            this.getCount++;
-                        },
-                        decrement() {
-                            this.getCount--;
-                        }
-                    };
                     item.comp = {
                         template: item.template.template.templateHtml,
                         props: ['content'],
@@ -89,11 +72,22 @@
                             };
                         },
                         mounted() {
+                            // 定义重置组件监听通知函数
+                            this.$on('onResize', (msg) => {
+                                this.onResize();
+                            });
+                            // 定义重置组件监听通知函数
+                            this.$on('onUpdate', (msg) => {
+                                this.onUpdate();
+                            });
                             // 处理初始化格式处理
                             new Function('maxIot', 'echarts', item.template.template.controllerScript.mounted)(this, echarts);
 
                         },
-                        methods: new Function(item.template.template.controllerScript.methods)()
+                        methods: new Function(item.template.template.controllerScript.methods)(),
+                        beforeDestroy() {
+                            new Function(item.template.template.controllerScript.destroy)();
+                        },
                     };
 
                     return item;
@@ -109,7 +103,8 @@
             this.showModal = true;
             this.editInfo = template;
             this.dashboard.components[index].props[0].type = 'test';
-            this.$refs[this.dashboard.components[index].ref][0].onUpdate();
+            // 更新数据
+            this.$refs[this.dashboard.components[index].ref][0].$emit('onUpdate', '');
         }
 
         /**
@@ -117,8 +112,16 @@
          */
         resize() {
             this.dashboard.components.forEach((item: any) => {
-                this.$refs[item.ref][0].onResize();
+                this.$refs[item.ref][0].$emit('onResize', '');
             });
+        }
+
+        /**
+         * 子组件通信到父组件
+         * @param msg
+         */
+        parentMethod(msg) {
+            console.log(msg, 1);
         }
     }
 </script>
