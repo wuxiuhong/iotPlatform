@@ -80,14 +80,6 @@
                             this.getCount--;
                         }
                     };
-                    // console.log(JSON.stringify(Object.assign({}, method)));
-                    const methodInfo = JSON.parse(JSON.stringify({
-                        'onUpdate': 'this.getCount++;',
-                        'onResize': 'this.getCount = 0;',
-                        'increment': 'this.getCount++;',
-                        'decrement': 'this.getCount--;'
-                    }));
-                    // console.log(method.onUpdate);
                     item.comp = {
                         template: item.template.template.templateHtml,
                         props: ['content'],
@@ -97,12 +89,13 @@
                             };
                         },
                         mounted() {
-                            // this.getCount = 100;
                             // 处理初始化格式处理
                             new Function('maxIot', 'echarts', item.template.template.controllerScript.mounted)(this, echarts);
+
                         },
-                        methods: method
+                        methods: new Function(item.template.template.controllerScript.methods)()
                     };
+
                     return item;
                 });
             });

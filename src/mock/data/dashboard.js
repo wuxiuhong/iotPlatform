@@ -49,7 +49,7 @@ const dashboard = {
                     "templateCss": ".templateOne{width:300px; height:200px; border:1px solid #dedede; padding:10px;}",
                     "controllerScript": {
                         mounted: "maxIot.getCount = 100 ",
-                        method: '{onUpdate() {this.getCount++;}}',
+                        methods: 'return { onUpdate() { this.getCount++; }, onResize() { this.getCount = 0; }, increment() { this.getCount++; }, decrement() { this.getCount--; } }',
                     },
                     "defaultData": {
                         "getCount": 1
@@ -144,7 +144,9 @@ const dashboard = {
                     "dependent": [],
                     "templateHtml": "<el-form ref='form' :model='form' label-width='80px' style='margin:20px;width:60%;min-width:300px;'><el-form-item label='活动名称'><el-input v-model='form.name'></el-input></el-form-item></el-form>",
                     "templateCss": "",
-                    "controllerScript": "",
+                    "controllerScript": {
+                        methods: 'return { onUpdate() { }, onResize() {}}'
+                    },
                     "defaultData": {
                         form: {
                             name: '姓名'
@@ -242,6 +244,7 @@ const dashboard = {
                     "templateCss": "",
                     "controllerScript": {
                         mounted: "maxIot.chartPie = echarts.init(document.getElementById('chartPie')); maxIot.chartPie.setOption({ title: { text: 'Pie Chart', subtext: '纯属虚构', x: 'center' }, tooltip: { trigger: 'item', formatter: '{a} <br/>{b} : {c} ({d}%)' }, legend: { orient: 'vertical', left: 'left', data: ['直接访问', '邮件营销', '联盟广告', '视频广告', '搜索引擎'] }, series: [ { name: '访问来源', type: 'pie', radius: '55%', center: ['50%', '60%'], data: [ {value: 335, name: '直接访问'}, {value: 310, name: '邮件营销'}, {value: 234, name: '联盟广告'}, {value: 135, name: '视频广告'}, {value: 1548, name: '搜索引擎'} ], itemStyle: { emphasis: { shadowBlur: 10, shadowOffsetX: 0, shadowColor: 'rgba(0, 0, 0, 0.5)' } } } ] });",
+                        methods: 'return { onUpdate() { }, onResize() {}}',
                     },
                     "defaultData": {
                         message: "hello world"
