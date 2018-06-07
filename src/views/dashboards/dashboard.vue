@@ -1,5 +1,6 @@
 <template>
-    <div>
+    <div @click="contextMenu.show = false">
+        <!--视图 start-->
         <section class="dashboard-wrapper">
             <div class="component-wrapper" v-for="(item,index) in dashboard.components" :scope="item.ref"
                  :style="item.styleObject" @contextmenu.stop.prevent="rightClick(item,index,$event)">
@@ -7,20 +8,27 @@
                            @child-event="parentMethod" keep-alive></component>
             </div>
         </section>
-        <div class="edit-wrapper" v-if="showModal">
-            <i class="icon el-icon-close" @click="showModal = false"></i>
-            <h3>编辑{{editInfo.title}}</h3>
-        </div>
+        <!--视图 end-->
+        <!--编辑配置信息 start-->
+        <transition name="el-zoom-in-bottom">
+            <div class="edit-wrapper" v-show="showModal">
+                <i class="icon el-icon-close" @click="showModal = false"></i>
+                <h3>编辑{{editInfo.title}}</h3>
+            </div>
+        </transition>
+        <!--编辑配置信息 end-->
+        <!--视图中操作菜单 start-->
         <div class="context-wrapper" :style="contextMenu.style">
             <el-popover popper-class="context-menu" width="80" v-model="contextMenu.show">
                 <ul>
-                    <li>上一层</li>
-                    <li>下一层</li>
+                    <li @click="changeLevel(1)">上一层</li>
+                    <li @click="changeLevel(-1)">下一层</li>
                     <li @click="showEdit">编辑</li>
-                    <li>删除</li>
+                    <li @click="deleteComponent">删除</li>
                 </ul>
             </el-popover>
         </div>
+        <!--视图中操作菜单 end-->
     </div>
 </template>
 
@@ -94,6 +102,27 @@
         }
 
         /**
+         * 删除组件
+         */
+        deleteComponent() {
+            this.contextMenu.show = false;
+            this.dashboard.components.splice(this.editInfo.index, 1);
+        }
+
+        /**
+         * 改变层级
+         * @param num 1为上一层, -1为下一层
+         */
+        changeLevel(num: number) {
+            const {zIndex, styleObject} = this.dashboard.components[this.editInfo.index];
+            if ((zIndex + num) < 0) return;
+            this.dashboard.components[this.editInfo.index].zIndex = zIndex + num;
+            this.dashboard.components[this.editInfo.index].styleObject = Object.assign({}, styleObject, {
+                ['z-index']: zIndex + num
+            });
+        }
+
+        /**
          * 重置报表, 循环更新每个组件
          */
         resize() {
@@ -109,6 +138,7 @@
         parentMethod(msg) {
             console.log(msg, 1);
         }
+
     }
 </script>
 
