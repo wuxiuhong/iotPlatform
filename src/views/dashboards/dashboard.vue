@@ -16,14 +16,13 @@
 </template>
 
 <script lang="ts">
-    import echarts from 'echarts';
     import Vue from 'vue';
+    import { renderFn } from '../../common/render.ts';
     import { Component } from 'vue-property-decorator';
     import { getDashboard } from '../../api/dashboard';
 
     @Component({})
     export default class Dashboard extends Vue {
-        info: string = 'test';
         showModal: boolean = false;
         dashboard: any = {
             components: []
@@ -40,59 +39,9 @@
             // 初始化报表数据
             getDashboard({}).then((ret: any) => {
                 this.dashboard = ret.data;
-                const head = document.head;
+                // 处理格式
                 this.dashboard.components = this.dashboard.components.map((item: any, index: number) => {
-                    // 添加css，css格式处理
-                    if (item.template.template.templateCss) {
-                        const style = document.createElement("style");
-                        style.id = "vue-layout-style";
-                        style.type = "text/css";
-                        const textNode = document.createTextNode(item.template.template.templateCss);
-                        console.log(textNode);
-
-                        style.innerHTML = "";
-                        style.appendChild(textNode);
-                        head.appendChild(style);
-                    }
-                    // 当前组件外部的样式处理
-                    item.styleObject = {
-                        left: item.relation.x + "px",
-                        top: item.relation.y + "px",
-                        "z-index": item.zIndex,
-                        backgroundColor: item.backgroundColor
-                    };
-                    // 开放的接口处理
-                    item.props = item.template.template.dataSources;
-                    // 组件的节点
-                    item.ref = 'child' + index;
-                    item.comp = {
-                        template: item.template.template.templateHtml,
-                        props: ['content'],
-                        data() {
-                            return {
-                                ...item.template.template.defaultData
-                            };
-                        },
-                        mounted() {
-                            // 定义重置组件监听通知函数
-                            this.$on('onResize', (msg) => {
-                                this.onResize();
-                            });
-                            // 定义重置组件监听通知函数
-                            this.$on('onUpdate', (msg) => {
-                                this.onUpdate();
-                            });
-                            // 处理初始化格式处理
-                            new Function('maxIot', 'echarts', item.template.template.controllerScript.mounted)(this, echarts);
-
-                        },
-                        methods: new Function(item.template.template.controllerScript.methods)(),
-                        beforeDestroy() {
-                            new Function(item.template.template.controllerScript.destroy)();
-                        },
-                    };
-
-                    return item;
+                    return renderFn(item, index);
                 });
             });
         }

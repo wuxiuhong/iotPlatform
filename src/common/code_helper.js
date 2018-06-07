@@ -142,17 +142,17 @@ export function getVueCode(soul) {
 }
 
 export function addRenderFn(code) {
-    // const soul = {
-    //     code: code
-    // };
-    // const config = makeControl(soul.code);
-    // console.log(config);
-    // soul.render = config.render;
-    // soul.renderProd = config.renderProd;
-    // soul.children = config.children;
-    // soul.children.forEach(child => {
-    //     addRenderFn(child);
-    // });
+    const soul = {
+        code: code
+    };
+    const config = makeControl(soul.code);
+    console.log(config);
+    soul.render = config.render;
+    soul.renderProd = config.renderProd;
+    soul.children = config.children;
+    soul.children.forEach(child => {
+        addRenderFn(child);
+    });
     return code;
 }
 

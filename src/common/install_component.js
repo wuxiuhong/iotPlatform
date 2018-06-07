@@ -13,7 +13,7 @@ import {
     FormRadio,
     FormCheckbox,
     wrapTable
-} from '../components'
+} from '../components/index'
 
 const soul = {
     Control,

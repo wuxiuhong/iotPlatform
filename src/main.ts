@@ -7,14 +7,12 @@ import store from './vuex/store';
 import Vuex from 'vuex';
 import routes from './routes';
 import Mock from './mock';
-import SoulUi from './util/install_component.js';
 
 Mock.bootstrap();
 import 'font-awesome/css/font-awesome.min.css';
 
 Vue.use(ElementUI);
 Vue.use(VueRouter);
-Vue.use(SoulUi);
 Vue.use(Vuex as any);
 
 const router = new VueRouter({routes} as object);
