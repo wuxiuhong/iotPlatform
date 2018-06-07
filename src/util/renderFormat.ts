@@ -7,7 +7,7 @@ function renderFormat(data: any, index: number) {
     // 组件的节点
     data.ref = 'child' + index;
     // 添加css，css格式处理
-    addStyleFile(data.template.template.templateCss);
+    addStyleFile(data.template.template.templateCss, data.ref);
     // 当前组件外部的样式处理
     data.styleObject = addStyle(data);
     // 开放的接口处理
@@ -21,9 +21,11 @@ function renderFormat(data: any, index: number) {
  * 添加样式文件
  * @param {string} params
  */
-function addStyleFile(params: string = null) {
+function addStyleFile(params: string = null, ref: string) {
     if (!params) return;
-    const head = document.head;
+    const head = document.head || document.getElementsByTagName('head')[0];
+    params = params.replace(/} \./g, `} .component-wrapper[scope=${ref}] .`);
+    params = `.component-wrapper[scope=${ref}] ` + params;
     const style = document.createElement("style");
     style.id = "vue-component-style";
     style.type = "text/css";

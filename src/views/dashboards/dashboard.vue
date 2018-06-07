@@ -1,9 +1,8 @@
 <template>
     <div>
         <section class="dashboard-wrapper">
-            <div class="component-wrapper" v-for="(item,index) in dashboard.components"
-                 :style="item.styleObject" @contextmenu.stop.prevent="showEdit(item,index)">
-                {{item.title}}
+            <div class="component-wrapper" v-for="(item,index) in dashboard.components" :scope="item.ref"
+                 :style="item.styleObject" @contextmenu.stop.prevent="rightClick(item,index,$event)">
                 <component :is="item.comp" :content="item.props" :ref="item.ref"
                            @child-event="parentMethod" keep-alive></component>
             </div>
@@ -11,6 +10,16 @@
         <div class="edit-wrapper" v-if="showModal">
             <i class="icon el-icon-close" @click="showModal = false"></i>
             <h3>编辑{{editInfo.title}}</h3>
+        </div>
+        <div class="context-wrapper" :style="contextMenu.style">
+            <el-popover popper-class="context-menu" width="80" v-model="contextMenu.show">
+                <ul>
+                    <li>上一层</li>
+                    <li>下一层</li>
+                    <li @click="showEdit">编辑</li>
+                    <li>删除</li>
+                </ul>
+            </el-popover>
         </div>
     </div>
 </template>
@@ -27,7 +36,14 @@
         dashboard: any = {
             components: []
         };
-        editInfo: any = {};
+        editInfo: any = {
+            data: {},
+            index: null
+        };
+        contextMenu: any = {
+            show: false,
+            style: {}
+        };
 
         mounted() {
             // 定时更新重置组件
@@ -47,15 +63,34 @@
         }
 
         /**
-         * 显示当前模板编辑信息
-         * @param template
+         * 右击事件
+         * @param template 当前模板信息
+         * @param index 当前模板序列
+         * @param e 当前事件节点
          */
-        showEdit(template: any, index: number) {
+        rightClick(template: any, index: number, e: any) {
+            this.contextMenu.style = {
+                position: 'fixed',
+                left: e.x + 10 + 'px',
+                top: e.y - 10 + 'px',
+                'z-index': template.zIndex + 1
+            };
+            this.contextMenu.show = true;
+            this.editInfo = {
+                data: template,
+                index: index
+            };
+        }
+
+        /**
+         * 显示当前模板编辑信息
+         */
+        showEdit() {
+            this.contextMenu.show = false;
             this.showModal = true;
-            this.editInfo = template;
-            this.dashboard.components[index].props[0].type = 'test';
+            this.dashboard.components[this.editInfo.index].props[0].type = 'test';
             // 更新数据
-            this.$refs[this.dashboard.components[index].ref][0].$emit('onUpdate', '');
+            this.$refs[this.dashboard.components[this.editInfo.index].ref][0].$emit('onUpdate', '');
         }
 
         /**
@@ -84,7 +119,6 @@
     }
 
     .component-wrapper {
-        border: 1px dotted #ffffff;
         width: auto;
         height: auto;
         position: absolute;
@@ -94,7 +128,7 @@
     }
 
     .component-wrapper:hover {
-        border: 1px dotted #dedede;
+        /*border: 1px dotted #dedede;*/
     }
 
     .edit-wrapper {
@@ -117,5 +151,12 @@
         top: 15px;
         right: 15px;
         cursor: pointer;
+    }
+
+    .context-wrapper li {
+        cursor: pointer;
+        height: 30px;
+        line-height: 30px;
+        padding: 0 15px;
     }
 </style>
