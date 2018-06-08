@@ -71,10 +71,10 @@
 
         mounted() {
             // 定时更新重置组件
-            setInterval(() => {
-                if (this.dashboard.components.length)
-                    this.resize();
-            }, 5000);
+            // setInterval(() => {
+            //     if (this.dashboard.components.length)
+            //         this.resize();
+            // }, 5000);
             this.$store.state.isShowLoading = true;
             // 初始化报表数据
             getDashboard({}).then((ret: any) => {
