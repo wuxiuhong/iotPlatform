@@ -72,4 +72,26 @@ input[type="button"]:disabled {
     max-height: calc(100vh - 230px);
     overflow-y: auto;
   }
+  .el-tag {
+    .el-tag__edit{
+      border-radius: 50%;
+      text-align: center;
+      position: relative;
+      cursor: pointer;
+      font-size: 14px;
+      height: 16px;
+      width: 16px;
+      line-height: 16px;
+      top: -1px;
+      right: -6px;
+      color: #409EFF;
+      &:hover{
+        background-color: #409EFF;
+        color: #fff;
+      }
+    }
+    .el-tag__close{
+      font-size: 14px;
+    }
+  }
 }

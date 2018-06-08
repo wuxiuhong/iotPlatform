@@ -70,14 +70,14 @@
             </aside>
             <section class="content-container"  v-loading="this.$store.state.isShowLoading">
                 <div class="grid-content bg-purple-light">
-                    <el-col :span="24" class="breadcrumb-container">
-                        <strong class="title">{{$route.name}}</strong>
-                        <el-breadcrumb separator="/" class="breadcrumb-inner">
-                            <el-breadcrumb-item v-for="item in $route.matched" :key="item.path">
-                                {{ item.name }}
-                            </el-breadcrumb-item>
-                        </el-breadcrumb>
-                    </el-col>
+                    <!--<el-col :span="24" class="breadcrumb-container">-->
+                        <!--<strong class="title">{{$route.name}}</strong>-->
+                        <!--<el-breadcrumb separator="/" class="breadcrumb-inner">-->
+                            <!--<el-breadcrumb-item v-for="item in $route.matched" :key="item.path">-->
+                                <!--{{ item.name }}-->
+                            <!--</el-breadcrumb-item>-->
+                        <!--</el-breadcrumb>-->
+                    <!--</el-col>-->
                     <el-col :span="24" class="content-wrapper">
                         <transition name="fade" mode="out-in">
                             <router-view></router-view>
@@ -96,7 +96,7 @@
     @Component
     export default class Home extends Vue {
         sysName: string = 'MAXIOT';
-        collapsed: boolean = false;
+        collapsed: boolean = true;
         sysUserName: string = '';
         sysUserAvatar: string = '';
         form: any = {
@@ -268,7 +268,7 @@
                 // bottom: 0px;
                 // left: 230px;
                 overflow-y: scroll;
-                padding: 20px;
+                /*padding: 20px;*/
                 .breadcrumb-container {
                     //margin-bottom: 15px;
                     .title {

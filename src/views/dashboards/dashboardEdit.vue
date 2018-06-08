@@ -1,77 +1,103 @@
 <template>
-    <transition name="el-zoom-in-bottom">
-        <div class="edit-wrapper side-nav" v-show="showModal">
-            <header class="toolbar-header">
-                <span class="icon"><i class="el-icon-close" @click="closeDetails"></i></span>
-                <div class="header-title">
-                    <span class="tb-details-title">{{detailsInfo.title}}</span>
-                    <span class="tb-details-subtitle">Timeseries - Flot</span>
-                </div>
-            </header>
-            <div class="toolbar-body">
-                <div class="toolbar-operation">
-                    <el-button type="primary" size="mini" icon="el-icon-check">保存</el-button>
-                    <el-button type="info" size="mini" icon="el-icon-close">取消</el-button>
-                </div>
-                <el-tabs class="toolbar-tabs" v-model="activeName">
-                    <el-tab-pane label="数据" name="first">
-                        <div class="tab-item-data">
-                            <el-row :gutter="12" class="table-head">
-                                <el-col :span="8" class="table-th">类型</el-col>
-                                <el-col :span="16" class="table-th">数据</el-col>
-                            </el-row>
-                            <el-card shadow="always" class="card-body" v-for="(item, index) in detailsInfo.dataSources"
-                                     :key="index">
-                                <el-row :gutter="12" class="card-body-key">
-                                    <el-col :span="1">{{index+1}}</el-col>
-                                    <el-col :span="6">
-                                        <el-select class="w100" v-model="item.type" placeholder="请选择数据类型">
-                                            <el-option key="function" label="Function" value="function"></el-option>
-                                            <el-option key="edgeClient" label="EdgeClient"
-                                                       value="edgeClient"></el-option>
-                                        </el-select>
-                                    </el-col>
-                                    <el-col :span="14" v-if="item.type === 'function'">
-                                        <el-input placeholder="请输入内容"></el-input>
-                                    </el-col>
-                                    <el-col :span="4" v-if="item.type === 'edgeClient'">
-                                        <el-select class="w100" v-model="item.aliasId" filterable placeholder="请选择别名">
-                                            <el-option v-for="alias in aliases" :key="alias.aliasId"
-                                                       :label="alias.alias"
-                                                       :value="alias.aliasId">
-                                            </el-option>
-                                        </el-select>
-                                    </el-col>
-                                    <el-col :span="10" v-if="item.type === 'edgeClient'">
-                                        <el-collapse accordion>
-                                            <el-collapse-item>
-                                                <template slot="title">TimeSeries</template>
-                                                <ul>
-                                                    <li v-for="keys in item.dataKeys">{{keys.name}}</li>
-                                                </ul>
-                                            </el-collapse-item>
-                                            <el-collapse-item>
-                                                <template slot="title">Attributes</template>
-                                                <ul>
-                                                    <li v-for="keys in item.dataKeys">{{keys.name}}</li>
-                                                </ul>
-                                            </el-collapse-item>
-                                        </el-collapse>
-                                    </el-col>
-                                    <el-col :span="3">
+    <div class="dashboard-edit-component">
+        <transition name="el-zoom-in-bottom">
+            <div class="edit-wrapper side-nav" v-show="showModal">
+                <header class="toolbar-header">
+                    <span class="icon"><i class="el-icon-close" @click="closeDetails"></i></span>
+                    <div class="header-title">
+                        <span class="tb-details-title">{{detailsInfo.title}}</span>
+                        <span class="tb-details-subtitle">Timeseries - Flot</span>
+                    </div>
+                </header>
+                <div class="toolbar-body">
+                    <div class="toolbar-operation">
+                        <el-button type="primary" size="mini" icon="el-icon-check">保存</el-button>
+                        <el-button type="info" size="mini" icon="el-icon-close">取消</el-button>
+                    </div>
+                    <el-tabs class="toolbar-tabs" v-model="activeName">
+                        <el-tab-pane label="数据" name="first">
+                            <div class="tab-item-data">
+                                <el-row :gutter="12" class="table-head">
+                                    <el-col :span="8" class="table-th">类型</el-col>
+                                    <el-col :span="16" class="table-th">数据</el-col>
+                                </el-row>
+                                <el-card shadow="always" class="card-body"
+                                         v-for="(item, index) in detailsInfo.dataSources"
+                                         :key="index">
+                                    <el-row :gutter="12" class="card-body-key">
+                                        <el-col :span="1">{{index+1}}</el-col>
+                                        <el-col :span="6">
+                                            <el-select class="w100" v-model="item.type" placeholder="请选择数据类型">
+                                                <el-option key="function" label="Function" value="function"></el-option>
+                                                <el-option key="edgeClient" label="EdgeClient"
+                                                           value="edgeClient"></el-option>
+                                            </el-select>
+                                        </el-col>
+                                        <el-col :span="14" v-if="item.type === 'function'">
+                                            <el-input placeholder="请输入内容"></el-input>
+                                        </el-col>
+                                        <el-col :span="4" v-if="item.type === 'edgeClient'">
+                                            <el-select class="w100" v-model="item.aliasId" filterable
+                                                       placeholder="请选择别名">
+                                                <el-option v-for="alias in aliases" :key="alias.aliasId"
+                                                           :label="alias.alias"
+                                                           :value="alias.aliasId">
+                                                </el-option>
+                                            </el-select>
+                                        </el-col>
+                                        <el-col :span="10" v-if="item.type === 'edgeClient'">
+                                            <el-collapse accordion class="key-list">
+                                                <el-collapse-item>
+                                                    <template slot="title">TimeSeries</template>
+                                                    <ul>
+                                                        <li v-for="keys in item.dataKeys">
+                                                        <span class="el-tag">
+                                                            {{keys.name}}
+                                                            <i class="el-tag__edit el-icon-edit"
+                                                               @click="editKey(keys)"></i>
+                                                            <i class="el-tag__close el-icon-close"></i>
+                                                        </span>
+                                                        </li>
+                                                    </ul>
+                                                </el-collapse-item>
+                                                <el-collapse-item>
+                                                    <template slot="title">Attributes</template>
+                                                    <ul>
+                                                        <li v-for="keys in item.dataKeys">
+                                                        <span class="el-tag el-tag--medium">
+                                                            {{keys.name}}
+                                                            <i class="el-tag__close el-icon-close"></i>
+                                                        </span>
+                                                        </li>
+                                                    </ul>
+                                                </el-collapse-item>
+                                            </el-collapse>
+                                        </el-col>
+                                        <el-col :span="3">
                                         <span class="card-del" @click="delData(index)"> <i
                                                 class="el-icon-close"></i></span>
-                                    </el-col>
-                                </el-row>
-                            </el-card>
-                            <el-button type="primary" icon="el-icon-plus" circle @click="addData"></el-button>
-                        </div>
-                    </el-tab-pane>
-                    <el-tab-pane label="组件设置" name="second">配置管理</el-tab-pane>
-                </el-tabs>
+                                        </el-col>
+                                    </el-row>
+                                </el-card>
+                                <el-button type="primary" icon="el-icon-plus" circle @click="addData"></el-button>
+                            </div>
+                        </el-tab-pane>
+                        <el-tab-pane label="组件设置" name="second">配置管理</el-tab-pane>
+                    </el-tabs>
+                </div>
             </div>
-        </div>
-    </transition>
+        </transition>
+        <!--数据来源别名配置 start-->
+        <el-dialog title="数据Key配置" width="40%" :visible.sync="dialogKeyVisible">
+            <div>数据内容表单</div>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="dialogKeyVisible = false">取 消</el-button>
+                <el-button type="primary" @click="saveKey">保存</el-button>
+            </div>
+        </el-dialog>
+        <!--数据来源别名配置 end-->
+    </div>
+
 </template>
 
 <script lang="ts">
@@ -81,6 +107,8 @@
     @Component({})
     export default class DashboardEdit extends Vue {
         activeName: string = 'first';
+        dialogKeyVisible: boolean = false;
+        detailsKey: any = {};
         @Prop() showModal: boolean;
         @Prop() detailsInfo: any;
         @Prop() aliases: any;
@@ -109,6 +137,21 @@
          */
         delData(index: number) {
             this.detailsInfo.dataSources.splice(index, 1);
+        }
+
+        /**
+         * 编辑key值，并且弹出框弹出
+         */
+        editKey(data: any) {
+            this.detailsKey = data;
+            this.dialogKeyVisible = true;
+        }
+
+        /**
+         * 保存数据key值
+         */
+        saveKey() {
+
         }
     }
 </script>
@@ -185,7 +228,12 @@
         .toolbar-tabs {
             line-height: 55px;
             .tab-item-data {
-              margin: 0 20px;
+                margin: 0 20px;
+            }
+            .key-list {
+                li {
+                    margin-bottom: 5px;
+                }
             }
             .table-head {
                 height: 35px;
