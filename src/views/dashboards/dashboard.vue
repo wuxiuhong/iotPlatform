@@ -1,15 +1,8 @@
 <template>
     <div @click="contextMenu.show = false">
-        <section class="dashboard-bar">
-            <div class="bar-nav" v-show="isBar">
-                <el-button type="info" icon="el-icon-setting" circle></el-button>
-                <el-button type="info" icon="el-icon-news" circle></el-button>
-                <el-button type="info" icon="el-icon-close" circle @click="isBar=false"></el-button>
-            </div>
-            <div class="bar-more" v-show="!isBar">
-                <el-button type="info" icon="el-icon-more" circle @click="isBar=true"></el-button>
-            </div>
-        </section>
+        <!--报表Bar start-->
+        <dashboard-bar :is-edit="isEdit"></dashboard-bar>
+        <!--报表Bar end-->
         <!--视图 start-->
         <section class="dashboard-wrapper">
             <div class="component-wrapper" v-for="(item,index) in dashboard.components" :scope="item.ref"
@@ -19,21 +12,6 @@
             </div>
         </section>
         <!--视图 end-->
-        <section class="dashboard-btn-group">
-            <el-button v-if="!isEdit" type="primary" icon="el-icon-edit" circle @click="isEdit=true"></el-button>
-            <div v-show="isEdit">
-                <el-button type="success" icon="el-icon-check" circle @click="isEdit=false"></el-button>
-                <el-button type="danger" icon="el-icon-close" circle @click="isEdit=false"></el-button>
-            </div>
-        </section>
-        <!--编辑配置信息 start-->
-        <transition name="el-zoom-in-bottom">
-            <div class="edit-wrapper" v-show="showModal">
-                <i class="icon el-icon-close" @click="showModal = false"></i>
-                <h3>编辑{{editInfo.title}}</h3>
-            </div>
-        </transition>
-        <!--编辑配置信息 end-->
         <!--视图中操作菜单 start-->
         <section class="context-wrapper" :style="contextMenu.style">
             <el-popover popper-class="context-menu" width="80" v-model="contextMenu.show">
@@ -46,6 +24,19 @@
             </el-popover>
         </section>
         <!--视图中操作菜单 end-->
+
+        <!--编辑配置信息 start-->
+        <dashboard-edit :details-info="editInfo" :show-modal="showModal"></dashboard-edit>
+        <!--编辑配置信息 end-->
+        <!--编辑操作按钮 start-->
+        <section class="dashboard-btn-group">
+            <el-button v-if="!isEdit" type="primary" icon="el-icon-edit" circle @click="isEdit=true"></el-button>
+            <div v-show="isEdit">
+                <el-button type="success" icon="el-icon-check" circle @click="isEdit=false"></el-button>
+                <el-button type="danger" icon="el-icon-close" circle @click="isEdit=false"></el-button>
+            </div>
+        </section>
+        <!--编辑操作按钮 end-->
     </div>
 </template>
 
@@ -54,12 +45,18 @@
     import { renderFn } from '../../common/render.ts';
     import { Component } from 'vue-property-decorator';
     import { getDashboard } from '../../api/dashboard';
+    import dashboardBar from './dashboardBar.vue';
+    import dashboardEdit from './dashboardEdit.vue';
 
-    @Component({})
+    @Component({
+        components: {
+            dashboardBar,
+            dashboardEdit
+        }
+    })
     export default class Dashboard extends Vue {
         showModal: boolean = false;
         isEdit: boolean = false;
-        isBar: boolean = false;
         dashboard: any = {
             components: []
         };
@@ -163,22 +160,6 @@
 </script>
 
 <style lang="scss" scoped>
-    .dashboard-bar {
-        position: relative;
-        top: 0;
-        z-index: 1000;
-        .bar-nav {
-            height: 55px;
-            line-height: 55px;
-            text-align: right;
-        }
-        .bar-more {
-            position: absolute;
-            right: 0;
-            top: 0;
-        }
-    }
-
     .dashboard-wrapper {
         position: relative;
         height: calc(100vh - 150px);
@@ -191,26 +172,6 @@
         left: 0;
         top: 0;
         z-index: 0;
-    }
-
-    .edit-wrapper {
-        background: #ffffff;
-        position: absolute;
-        right: 0;
-        top: 0;
-        z-index: 1000;
-        width: 300px;
-        height: 100%;
-        border-left: 1px solid #e6e6e6;
-        h3 {
-            padding: 10px;
-        }
-        .icon {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            cursor: pointer;
-        }
     }
 
     .context-wrapper li {
