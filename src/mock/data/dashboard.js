@@ -15,7 +15,7 @@ const dashboard = {
     },
     "edgeClientAliases": [
         {
-            "aliasId": "别名Id",
+            "aliasId": 1,
             "alias": "别名1",
             "edgeClientList": [
                 "5f4f7ca0-fda7-11e7-94de-d786c97a036f",
@@ -23,7 +23,7 @@ const dashboard = {
             ]
         },
         {
-            "aliasId": "别名Id",
+            "aliasId": 2,
             "alias": "别名2",
             "edgeClientList": [
                 "5f2f"

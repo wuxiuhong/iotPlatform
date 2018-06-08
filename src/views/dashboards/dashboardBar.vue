@@ -1,5 +1,6 @@
 <template>
     <div class="dashboard-bar-component">
+        <!--设置导航 start-->
         <div class="dashboard-bar">
             <transition name="el-fade-in">
                 <div class="bar-nav" v-show="isBar">
@@ -15,13 +16,15 @@
                 </div>
             </transition>
         </div>
+        <!--设置导航 end-->
+        <!--数据来源别名配置 start-->
         <el-dialog title="数据来源配置" width="60%" :visible.sync="dialogSourceVisible">
             <div class="dashboard-modal-content">
                 <el-row :gutter="12" class="table-head">
                     <el-col :span="8" class="table-th">别名</el-col>
                     <el-col :span="12" class="table-th">数据</el-col>
                 </el-row>
-                <el-card shadow="always" class="card-body" v-for="(item, index) in config.edgeClientAliases">
+                <el-card shadow="always" class="card-body" v-for="(item, index) in config.edgeClientAliases" :key="index">
                     <el-row :gutter="12" class="dashboard-modal-card">
                         <el-col :span="1">{{index+1}}</el-col>
                         <el-col :span="8">
@@ -46,6 +49,7 @@
                 <el-button type="primary" @click="saveAlias">确 定</el-button>
             </div>
         </el-dialog>
+        <!--数据来源别名配置 end-->
     </div>
 </template>
 
@@ -78,7 +82,7 @@
 
         mounted() {
             // 如果不存在别名数据
-            if (!this.config.edgeClientAliases.length) {
+            if (this.config.edgeClientAliases && !this.config.edgeClientAliases.length) {
                 this.config.edgeClientAliases.push({
                     alias: '',
                     edgeClientList: []

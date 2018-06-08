@@ -63,3 +63,13 @@ input[type="button"]:disabled {
     }
   }
 }
+
+.toolbar-tabs {
+  .el-tabs__header {
+    padding: 0 20px;
+  }
+  .el-tabs__content {
+    max-height: calc(100vh - 230px);
+    overflow-y: auto;
+  }
+}

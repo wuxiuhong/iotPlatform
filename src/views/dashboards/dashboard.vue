@@ -26,7 +26,7 @@
         <!--视图中操作菜单 end-->
 
         <!--编辑配置信息 start-->
-        <dashboard-edit :details-info="editInfo" :show-modal="showModal"></dashboard-edit>
+        <dashboard-edit :details-info="editInfo.data" :aliases="dashboard.edgeClientAliases" :show-modal="showModal"></dashboard-edit>
         <!--编辑配置信息 end-->
         <!--编辑操作按钮 start-->
         <section class="dashboard-btn-group">
