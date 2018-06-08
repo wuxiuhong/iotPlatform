@@ -82,7 +82,30 @@
                                 <el-button type="primary" icon="el-icon-plus" circle @click="addData"></el-button>
                             </div>
                         </el-tab-pane>
-                        <el-tab-pane label="组件设置" name="second">配置管理</el-tab-pane>
+                        <el-tab-pane label="组件设置" name="second">
+                            <div class="tab-item-data">
+                                <el-form ref="form" label-width="80px">
+                                    <el-form-item label="组件名称">
+                                        <el-input v-model="detailsInfo.name"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="组件位置">
+                                        <el-input v-model="detailsInfo.relation.x"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="组件内间距">
+                                        <el-input v-model="detailsInfo.styles.padding"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="组件字体颜色">
+                                        <el-input v-model="detailsInfo.styles.color"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="组件背景">
+                                        <el-input v-model="detailsInfo.styles.backgroundColor"></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="组件阴影">
+                                        <el-input v-model="detailsInfo.styles.boxShadow"></el-input>
+                                    </el-form-item>
+                                </el-form>
+                            </div>
+                        </el-tab-pane>
                     </el-tabs>
                 </div>
             </div>
