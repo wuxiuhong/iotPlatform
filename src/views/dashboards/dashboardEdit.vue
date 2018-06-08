@@ -89,7 +89,17 @@
         </transition>
         <!--数据来源别名配置 start-->
         <el-dialog title="数据Key配置" width="40%" :visible.sync="dialogKeyVisible">
-            <div>数据内容表单</div>
+            <el-form ref="form" :model="detailsKey" label-width="80px">
+                <el-form-item label="key">
+                    <el-input v-model="detailsKey.key"></el-input>
+                </el-form-item>
+                <el-form-item label="标签名">
+                    <el-input v-model="detailsKey.name"></el-input>
+                </el-form-item>
+                <el-form-item label="值">
+                    <el-input type="textarea" v-model="detailsKey.valueFunc"></el-input>
+                </el-form-item>
+            </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="dialogKeyVisible = false">取 消</el-button>
                 <el-button type="primary" @click="saveKey">保存</el-button>
