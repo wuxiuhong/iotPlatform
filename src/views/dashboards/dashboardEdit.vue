@@ -1,15 +1,5 @@
 <template>
     <div @click="contextMenu.show = false">
-        <section class="dashboard-bar">
-            <div class="bar-nav" v-show="isBar">
-                <el-button type="info" icon="el-icon-setting" circle></el-button>
-                <el-button type="info" icon="el-icon-news" circle></el-button>
-                <el-button type="info" icon="el-icon-close" circle @click="isBar=false"></el-button>
-            </div>
-            <div class="bar-more" v-show="!isBar">
-                <el-button type="info" icon="el-icon-more" circle @click="isBar=true"></el-button>
-            </div>
-        </section>
         <!--视图 start-->
         <section class="dashboard-wrapper">
             <div class="component-wrapper" v-for="(item,index) in dashboard.components" :scope="item.ref"
@@ -20,11 +10,10 @@
         </section>
         <!--视图 end-->
         <section class="dashboard-btn-group">
-            <el-button v-if="!isEdit" type="primary" icon="el-icon-edit" circle @click="isEdit=true"></el-button>
-            <div v-show="isEdit">
-                <el-button type="success" icon="el-icon-check" circle @click="isEdit=false"></el-button>
-                <el-button type="danger" icon="el-icon-close" circle @click="isEdit=false"></el-button>
-            </div>
+            <el-button size="medium" type="primary" icon="el-icon-edit" circle></el-button>
+            <el-button type="success" icon="el-icon-check" circle></el-button>
+            <el-button type="info" icon="el-icon-message" circle></el-button>
+            <el-button type="warning" icon="el-icon-star-off" circle></el-button>
         </section>
         <!--编辑配置信息 start-->
         <transition name="el-zoom-in-bottom">
@@ -58,8 +47,6 @@
     @Component({})
     export default class Dashboard extends Vue {
         showModal: boolean = false;
-        isEdit: boolean = false;
-        isBar: boolean = false;
         dashboard: any = {
             components: []
         };
@@ -96,7 +83,6 @@
          * @param e 当前事件节点
          */
         rightClick(template: any, index: number, e: any) {
-            if (!this.isEdit) return;
             this.contextMenu.style = {
                 position: 'fixed',
                 left: e.x + 10 + 'px',
@@ -163,22 +149,6 @@
 </script>
 
 <style lang="scss" scoped>
-    .dashboard-bar {
-        position: relative;
-        top: 0;
-        z-index: 1000;
-        .bar-nav {
-            height: 55px;
-            line-height: 55px;
-            text-align: right;
-        }
-        .bar-more {
-            position: absolute;
-            right: 0;
-            top: 0;
-        }
-    }
-
     .dashboard-wrapper {
         position: relative;
         height: calc(100vh - 150px);
@@ -222,7 +192,11 @@
 
     .dashboard-btn-group {
         position: absolute;
-        right: 40px;
-        bottom: 50px;
+        right: 24px;
+        bottom: 100px;
+        width: 60px;
+        .btn i{
+            font-size: 16px;
+        }
     }
 </style>

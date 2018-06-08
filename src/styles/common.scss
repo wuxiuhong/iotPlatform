@@ -28,3 +28,13 @@ ol, ul {
   border-radius: 2px;
   padding: 0;
 }
+
+.dashboard-btn-group {
+  .el-button {
+    padding: 18px;
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,.26);
+    i {
+      font-size: 20px;
+    }
+  }
+}
