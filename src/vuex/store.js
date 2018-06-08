@@ -7,7 +7,8 @@ Vue.use(Vuex)
 
 // 应用初始状态
 const state = {
-    count: 10
+    count: 10,
+    isShowLoading: false
 }
 
 // 定义所需的 mutations
