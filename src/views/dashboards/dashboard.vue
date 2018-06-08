@@ -1,7 +1,7 @@
 <template>
     <div @click="contextMenu.show = false">
         <!--报表Bar start-->
-        <dashboard-bar :is-edit="isEdit"></dashboard-bar>
+        <dashboard-bar :is-edit="isEdit" :config="dashboard"></dashboard-bar>
         <!--报表Bar end-->
         <!--视图 start-->
         <section class="dashboard-wrapper">

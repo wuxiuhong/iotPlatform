@@ -15,35 +15,35 @@
                 </div>
             </transition>
         </div>
-        <el-dialog title="数据来源配置" width="70%" :visible.sync="dialogSourceVisible">
+        <el-dialog title="数据来源配置" width="60%" :visible.sync="dialogSourceVisible">
             <div class="dashboard-modal-content">
                 <el-row :gutter="12" class="table-head">
                     <el-col :span="8" class="table-th">别名</el-col>
                     <el-col :span="12" class="table-th">数据</el-col>
                 </el-row>
-                <el-card shadow="always">
+                <el-card shadow="always" class="card-body" v-for="(item, index) in config.edgeClientAliases">
                     <el-row :gutter="12" class="dashboard-modal-card">
-                        <el-col :span="1">1</el-col>
+                        <el-col :span="1">{{index+1}}</el-col>
                         <el-col :span="8">
-                            <el-input v-model="input" placeholder="请输入内容"></el-input>
+                            <el-input v-model="item.alias" placeholder="请输入别名"></el-input>
                         </el-col>
                         <el-col :span="12">
-                            <el-select class="w100" v-model="value5" multiple filterable placeholder="请选择">
+                            <el-select class="w100" v-model="item.edgeClientList" multiple filterable placeholder="请选择">
                                 <el-option v-for="item in options" :key="item.value" :label="item.label"
                                            :value="item.value">
                                 </el-option>
                             </el-select>
                         </el-col>
                         <el-col :span="3">
-                            <span class="card-del"> <i class="el-icon-close"></i></span>
+                            <span class="card-del" @click="delAlias(index)"> <i class="el-icon-close"></i></span>
                         </el-col>
                     </el-row>
                 </el-card>
             </div>
             <div slot="footer" class="dialog-footer">
-                <el-button type="primary" icon="el-icon-plus" class="btn-add" circle></el-button>
+                <el-button type="primary" icon="el-icon-plus" class="btn-add" circle @click="addAlias"></el-button>
                 <el-button @click="dialogSourceVisible = false">取 消</el-button>
-                <el-button type="primary" @click="dialogSourceVisible = false">确 定</el-button>
+                <el-button type="primary" @click="saveAlias">确 定</el-button>
             </div>
         </el-dialog>
     </div>
@@ -53,33 +53,70 @@
     import Vue from 'vue';
     import { Component, Prop } from 'vue-property-decorator';
 
-    @Component({})
+    @Component
     export default class DashboardBar extends Vue {
         isBar: boolean = false;
         dialogSourceVisible: boolean = false;
         options: any = [{
-            value: '选项1',
-            label: '黄金糕'
+            value: '5f4f7ca0-fda7-11e7-94de-d786c97a036f',
+            label: '设备2'
         }, {
-            value: '选项2',
-            label: '双皮奶'
+            value: '5f2f',
+            label: '设备3'
         }, {
-            value: '选项3',
-            label: '蚵仔煎'
+            value: '5f4f7ca0-fda7',
+            label: '设备4'
         }, {
-            value: '选项4',
-            label: '龙须面'
+            value: '5f4f7ca0',
+            label: '设备6'
         }, {
-            value: '选项5',
-            label: '北京烤鸭'
+            value: '5f4f7ca0-fda',
+            label: '设备5'
         }];
-        value5: any = [];
-        input: string = '';
         @Prop() isEdit: boolean;
+        @Prop() config: any;
 
         mounted() {
+            // 如果不存在别名数据
+            if (!this.config.edgeClientAliases.length) {
+                this.config.edgeClientAliases.push({
+                    alias: '',
+                    edgeClientList: []
+                });
+            }
         }
 
+        /**
+         * 添加edgeClient数据别名设置
+         */
+        addAlias() {
+            this.config.edgeClientAliases.push({
+                alias: '',
+                edgeClientList: []
+            });
+        }
+
+        /**
+         * 删除edgeClient数据别名设置
+         * @param {number} index
+         */
+        delAlias(index: number) {
+            if (this.config.edgeClientAliases.length === 1) {
+                return this.$message({
+                    message: '至少存在一条数据',
+                    type: 'warning'
+                });
+            }
+            this.config.edgeClientAliases.splice(index, 1);
+        }
+
+        /**
+         * 保存别名设置
+         */
+        saveAlias() {
+            console.log('设置别名');
+            this.dialogSourceVisible = false;
+        }
     }
 </script>
 
@@ -101,11 +138,17 @@
     }
 
     .dashboard-modal-content {
+        max-height: 400px;
+        overflow-y: auto;
         .table-head {
             height: 35px;
+            margin: 0 !important;
             .table-th {
                 padding-left: 50px !important;
             }
+        }
+        .card-body + .card-body {
+            margin-top: 10px;
         }
         .dashboard-modal-card {
             display: flex;

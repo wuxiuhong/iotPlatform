@@ -19,14 +19,14 @@ const dashboard = {
             "alias": "别名1",
             "edgeClientList": [
                 "5f4f7ca0-fda7-11e7-94de-d786c97a036f",
-                "5f4f7ca0-fda7-11e7-94de-d786c97a036f"
+                "5f4f7ca0-fda7"
             ]
         },
         {
             "aliasId": "别名Id",
             "alias": "别名2",
             "edgeClientList": [
-                "5f4f7ca0-fda7-11e7-94de-d786c97a036f"
+                "5f2f"
             ]
         }
     ],
