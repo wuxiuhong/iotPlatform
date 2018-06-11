@@ -63,6 +63,8 @@
                                             <el-collapse accordion class="key-list">
                                                 <el-collapse-item>
                                                     <template slot="title">TimeSeries</template>
+                                                    <el-input v-model="timeValue" placeholder="请输入内容"
+                                                              @keyup.enter.native="addSourceData(timeValue, index, 'TimeSeries')"></el-input>
                                                     <ul>
                                                         <li v-for="keys in item.dataKeys">
                                                         <span class="el-tag">
@@ -77,6 +79,8 @@
                                                 </el-collapse-item>
                                                 <el-collapse-item>
                                                     <template slot="title">Attributes</template>
+                                                    <el-input v-model="attrValue" placeholder="请输入内容"
+                                                              @keyup.enter.native="addSourceData(attrValue, index, 'attributes')"></el-input>
                                                     <ul>
                                                         <li v-for="keys in item.dataKeys">
                                                         <span class="el-tag el-tag--medium">
@@ -178,6 +182,8 @@
         dialogKeyVisible: boolean = false;
         detailsKey: any = {};
         funcValue: string = '';
+        timeValue: string = '';
+        attrValue: string = '';
         @Prop() showModal: boolean;
         @Prop() detailsInfo: any;
         @Prop() aliases: any;
@@ -251,10 +257,11 @@
          * 添加数据值
          * @param {int} index
          * @param {string} value
+         * @param {string} type
          */
-        addSourceData(value: string, index: number) {
+        addSourceData(value: string, index: number, type: string = null) {
             this.detailsInfo.dataSources[index].dataKeys.push({
-                "type": "latest",
+                "type": type,
                 "name": value,
                 "key": "",
                 "valueFunc": ""
@@ -341,11 +348,12 @@
                 li {
                     margin-right: 5px;
                     float: left;
+                    line-height: 30px;
                 }
             }
             .key-list {
                 li {
-                    margin-bottom: 5px;
+                    margin-top: 5px;
                 }
             }
             .table-head {
