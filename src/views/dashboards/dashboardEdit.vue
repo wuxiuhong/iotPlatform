@@ -93,17 +93,34 @@
                                     <el-form-item label="组件位置">
                                         <el-input v-model="detailsInfo.relation.x"></el-input>
                                     </el-form-item>
-                                    <el-form-item label="组件内间距">
+                                    <el-form-item label="内间距">
                                         <el-input v-model="detailsInfo.styles.padding"></el-input>
                                     </el-form-item>
-                                    <el-form-item label="组件字体颜色">
-                                        <el-input v-model="detailsInfo.styles.color"></el-input>
+                                    <el-form-item label="字体颜色">
+                                        <el-color-picker v-model="detailsInfo.styles.color"></el-color-picker>
                                     </el-form-item>
                                     <el-form-item label="组件背景">
-                                        <el-input v-model="detailsInfo.styles.backgroundColor"></el-input>
+                                        <el-color-picker v-model="detailsInfo.styles.backgroundColor"></el-color-picker>
                                     </el-form-item>
-                                    <el-form-item label="组件阴影">
-                                        <el-input v-model="detailsInfo.styles.boxShadow"></el-input>
+                                    <el-form-item label="组件阴影" v-if="detailsInfo.shadow">
+                                        <el-row :gutter="12">
+                                            <el-col :span="4">
+                                                <el-input v-model="detailsInfo.shadow.hShadow"></el-input>
+                                            </el-col>
+                                            <el-col :span="4">
+                                                <el-input v-model="detailsInfo.shadow.vShadow"></el-input>
+                                            </el-col>
+                                            <el-col :span="4">
+                                                <el-input v-model="detailsInfo.shadow.blur"></el-input>
+                                            </el-col>
+                                            <el-col :span="4">
+                                                <el-input v-model="detailsInfo.shadow.spread"></el-input>
+                                            </el-col>
+                                            <el-col :span="6">
+                                                <el-color-picker v-model="detailsInfo.shadow.color"
+                                                                 show-alpha></el-color-picker>
+                                            </el-col>
+                                        </el-row>
                                     </el-form-item>
                                 </el-form>
                             </div>
@@ -149,14 +166,23 @@
         @Prop() aliases: any;
 
         mounted() {
+            const shadow = this.detailsInfo.styles.boxShadow;
+            const index = shadow.lastIndexOf("rgba");
+            const boxOther = shadow.substring(0, index).split(' ');
+            this.detailsInfo.shadow = {
+                color: shadow.substring(index, shadow.length),
+                hShadow: boxOther[0],
+                vShadow: boxOther[1],
+                blur: boxOther[2],
+                spread: boxOther[3]
+            };
+            console.log(this.detailsInfo.shadow);
         }
-
-        // closeDetails() {
-        //     this.$emit('onRefresh');
-        // }
 
         @Emit('on-refresh')
         saveDetails(data: any = null) {
+            const {color, hShadow, vShadow, blur, spread} = this.detailsInfo.shadow;
+            this.detailsInfo.styles.boxShadow = [hShadow, vShadow, blur, spread, color].join(' ');
             this.detailsInfo.styleObject = {
                 ...this.detailsInfo.styleObject,
                 "box-shadow": this.detailsInfo.styles.boxShadow
