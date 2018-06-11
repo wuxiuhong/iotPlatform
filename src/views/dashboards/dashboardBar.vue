@@ -125,9 +125,6 @@
 </script>
 
 <style lang="scss" scoped>
-    .dashboard-bar-component{
-        text-align: left;
-    }
     .dashboard-bar {
         margin-bottom: 5px;
         /*.bar-nav {*/
@@ -172,7 +169,9 @@
             }
         }
     }
-
+    .bar-modal{
+        text-align: left;
+    }
     .dialog-footer {
         .btn-add {
             float: left;

@@ -198,7 +198,6 @@
         z-index: 1000;
         width: 60%;
         height: 100%;
-        border-left: 1px solid #e6e6e6;
         box-shadow: 0 2px 4px -1px rgba(0, 0, 0, .2), 0 4px 5px 0 rgba(0, 0, 0, .14), 0 1px 10px 0 rgba(0, 0, 0, .12);
         .toolbar-header {
             background-color: #262d45;
