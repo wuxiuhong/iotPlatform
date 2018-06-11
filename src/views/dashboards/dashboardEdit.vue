@@ -3,7 +3,7 @@
         <transition name="el-zoom-in-bottom">
             <div class="edit-wrapper side-nav" v-show="showModal">
                 <header class="toolbar-header">
-                    <span class="icon" @click="closeDetails()"><i class="el-icon-close"></i></span>
+                    <span class="icon" @click="saveDetails()"><i class="el-icon-close"></i></span>
                     <div class="header-title">
                         <span class="tb-details-title">{{detailsInfo.title}}</span>
                         <span class="tb-details-subtitle">Timeseries - Flot</span>
@@ -11,8 +11,10 @@
                 </header>
                 <div class="toolbar-body">
                     <div class="toolbar-operation">
-                        <el-button type="primary" size="mini" icon="el-icon-check">保存</el-button>
-                        <el-button type="info" size="mini" icon="el-icon-close" @click="closeDetails()">取消</el-button>
+                        <el-button type="primary" size="mini" icon="el-icon-check" @click="saveDetails(detailsInfo)">
+                            保存
+                        </el-button>
+                        <el-button type="info" size="mini" icon="el-icon-close" @click="saveDetails()">取消</el-button>
                     </div>
                     <el-tabs class="toolbar-tabs" v-model="activeName">
                         <el-tab-pane label="数据" name="first">
@@ -84,7 +86,7 @@
                         </el-tab-pane>
                         <el-tab-pane label="组件设置" name="second">
                             <div class="tab-item-data">
-                                <el-form ref="form" label-width="80px">
+                                <el-form ref="formSetting" label-width="80px">
                                     <el-form-item label="组件名称">
                                         <el-input v-model="detailsInfo.title"></el-input>
                                     </el-form-item>
@@ -154,7 +156,11 @@
         // }
 
         @Emit('on-refresh')
-        closeDetails(data: any = null) {
+        saveDetails(data: any = null) {
+            this.detailsInfo.styleObject = {
+                ...this.detailsInfo.styleObject,
+                "box-shadow": this.detailsInfo.styles.boxShadow
+            };
         }
 
         /**

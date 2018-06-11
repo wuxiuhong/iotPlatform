@@ -92,7 +92,7 @@ const dashboard = {
                 "backgroundColor": "#dedede",
                 "color": "rgba(0, 0, 0, 0.87)",
                 "padding": "0px",
-                "boxShadow": "1px 2px #dedede"
+                "boxShadow": "0 2px 4px 0 rgba(0, 0, 0, 0.5)"
             },
             "dataSources": [
                 {
@@ -172,8 +172,8 @@ const dashboard = {
             },
             "templateType": "latest | time",
             "relation": {
-                "x": 10,
-                "y": 100
+                "x": 0,
+                "y": 120
             },
             "size": {
                 "x": 5,
@@ -190,7 +190,7 @@ const dashboard = {
                 "backgroundColor": "#dedede",
                 "color": "rgba(0, 0, 0, 0.87)",
                 "padding": "0px",
-                "boxShadow": "1px 2px #dedede"
+                "boxShadow": "0 2px 4px 0 rgba(0, 0, 0, 0.5)"
             },
             "dataSources": [
                 {
@@ -271,7 +271,7 @@ const dashboard = {
             "templateType": "latest | time",
             "relation": {
                 "x": 400,
-                "y": 100
+                "y": 120
             },
             "size": {
                 "x": 5,
@@ -288,7 +288,7 @@ const dashboard = {
                 "backgroundColor": "#fff",
                 "color": "rgba(0, 0, 0, 0.87)",
                 "padding": "0px",
-                "boxShadow": "1px 2px #dedede"
+                "boxShadow": "0 2px 4px 0 rgba(0, 0, 0, 0.5)"
             },
             "dataSources": [
                 {
@@ -385,7 +385,7 @@ const dashboard = {
                 "backgroundColor": "#fff",
                 "color": "rgba(0, 0, 0, 0.87)",
                 "padding": "0px",
-                "boxShadow": "1px 2px #dedede"
+                "boxShadow": "0 2px 4px 0 rgba(0, 0, 0, 0.5)"
             },
             "dataSources": [
                 {

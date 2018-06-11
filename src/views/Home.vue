@@ -287,6 +287,7 @@
                 .content-wrapper {
                     background-color: $color-primary;
                     box-sizing: border-box;
+                    color: #ffffff;
                 }
             }
         }

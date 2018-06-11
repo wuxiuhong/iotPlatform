@@ -24,7 +24,7 @@
 
         <!--编辑配置信息 start-->
         <dashboard-edit :details-info="editInfo.data" :aliases="dashboard.edgeClientAliases" @on-refresh="onRefresh"
-                        :show-modal="showModal" v-if="isEdit && editInfo.data"></dashboard-edit>
+                        :show-modal="showModal" v-if="showModal"></dashboard-edit>
         <!--编辑配置信息 end-->
         <!--编辑操作按钮 start-->
         <section class="dashboard-btn-group">
@@ -158,19 +158,17 @@
          * 子组件通信到父组件
          * @param msg
          */
-        parentMethod(msg) {
+        parentMethod(msg: any) {
             console.log(msg, 1);
         }
 
-        onRefresh(msg) {
+        onRefresh(msg: any) {
             this.showModal = false;
-            if (!msg) {
-                this.editInfo = {
-                    data: null,
-                    index: null
-                };
-            }
-
+            this.dashboard.components[this.editInfo.index].data = msg;
+            this.editInfo = {
+                data: null,
+                index: null
+            };
         }
 
     }

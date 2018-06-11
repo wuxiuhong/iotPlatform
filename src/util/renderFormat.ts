@@ -42,7 +42,8 @@ function addStyle(config: any) {
         left: config.relation.x + "px",
         top: config.relation.y + "px",
         "z-index": config.zIndex,
-        backgroundColor: config.backgroundColor
+        backgroundColor: config.backgroundColor,
+        "box-shadow": config.styles.boxShadow
     };
 }
 

@@ -126,7 +126,7 @@
 
 <style lang="scss" scoped>
     .dashboard-bar {
-        margin-bottom: 5px;
+        margin-bottom: 8px;
         /*.bar-nav {*/
             /*text-align: right;*/
         /*}*/
