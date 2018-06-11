@@ -36,7 +36,19 @@
                                             </el-select>
                                         </el-col>
                                         <el-col :span="14" v-if="item.type === 'function'">
-                                            <el-input placeholder="请输入内容"></el-input>
+                                            <el-input v-model="funcValue" placeholder="请输入内容"
+                                                      @keyup.enter.native="addSourceData(funcValue, index)"></el-input>
+                                            <ul class="funcList">
+                                                <li v-for="(keys, keyIndex) in item.dataKeys">
+                                                        <span class="el-tag el-tag--medium">
+                                                            {{keys.name}}
+                                                             <i class="el-tag__edit el-icon-edit"
+                                                                @click="editKey(keys)"></i>
+                                                            <i class="el-tag__close el-icon-close"
+                                                               @click="delKey(index, keyIndex)"></i>
+                                                        </span>
+                                                </li>
+                                            </ul>
                                         </el-col>
                                         <el-col :span="4" v-if="item.type === 'edgeClient'">
                                             <el-select class="w100" v-model="item.aliasId" filterable
@@ -57,7 +69,8 @@
                                                             {{keys.name}}
                                                             <i class="el-tag__edit el-icon-edit"
                                                                @click="editKey(keys)"></i>
-                                                            <i class="el-tag__close el-icon-close"></i>
+                                                            <i class="el-tag__close el-icon-close"
+                                                               @click="delKey(index, keyIndex)"></i>
                                                         </span>
                                                         </li>
                                                     </ul>
@@ -68,7 +81,10 @@
                                                         <li v-for="keys in item.dataKeys">
                                                         <span class="el-tag el-tag--medium">
                                                             {{keys.name}}
-                                                            <i class="el-tag__close el-icon-close"></i>
+                                                             <i class="el-tag__edit el-icon-edit"
+                                                                @click="editKey(keys)"></i>
+                                                            <i class="el-tag__close el-icon-close"
+                                                               @click="delKey(index, keyIndex)"></i>
                                                         </span>
                                                         </li>
                                                     </ul>
@@ -161,6 +177,7 @@
         activeName: string = 'first';
         dialogKeyVisible: boolean = false;
         detailsKey: any = {};
+        funcValue: string = '';
         @Prop() showModal: boolean;
         @Prop() detailsInfo: any;
         @Prop() aliases: any;
@@ -176,7 +193,6 @@
                 blur: boxOther[2],
                 spread: boxOther[3]
             };
-            console.log(this.detailsInfo.shadow);
         }
 
         @Emit('on-refresh')
@@ -216,10 +232,34 @@
         }
 
         /**
+         * 删除key值，并且弹出框弹出
+         * @param {int} index 数组的来源的序列
+         * @param {int} kIndex key的序列
+         */
+        delKey(index: number, kIndex: number) {
+            this.detailsInfo.dataSources[index].dataKeys.splice(kIndex, 1);
+        }
+
+        /**
          * 保存数据key值
          */
         saveKey() {
 
+        }
+
+        /**
+         * 添加数据值
+         * @param {int} index
+         * @param {string} value
+         */
+        addSourceData(value: string, index: number) {
+            this.detailsInfo.dataSources[index].dataKeys.push({
+                "type": "latest",
+                "name": value,
+                "key": "",
+                "valueFunc": ""
+            });
+            this.funcValue = '';
         }
     }
 </script>
@@ -296,6 +336,12 @@
             line-height: 55px;
             .tab-item-data {
                 margin: 0 20px;
+            }
+            .funcList {
+                li {
+                    margin-right: 5px;
+                    float: left;
+                }
             }
             .key-list {
                 li {
