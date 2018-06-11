@@ -2,23 +2,23 @@
     <div class="dashboard-bar-component">
         <!--设置导航 start-->
         <div class="dashboard-bar">
-            <transition name="el-fade-in">
+            <!--<transition name="el-fade-in">-->
                 <div class="bar-nav" v-show="isBar">
                     <el-button type="info" icon="el-icon-setting" circle v-show="isEdit"></el-button>
                     <el-button type="info" icon="el-icon-news" circle @click="dialogSourceVisible = true"></el-button>
                     <el-button type="info" icon="el-icon-download" circle></el-button>
                     <el-button type="info" icon="el-icon-close" circle @click="isBar=false"></el-button>
                 </div>
-            </transition>
-            <transition name="el-fade-in">
+            <!--</transition>-->
+            <!--<transition name="el-fade-in">-->
                 <div class="bar-more" v-show="!isBar">
                     <el-button type="info" icon="el-icon-more" circle @click="isBar=true"></el-button>
                 </div>
-            </transition>
+            <!--</transition>-->
         </div>
         <!--设置导航 end-->
         <!--数据来源别名配置 start-->
-        <el-dialog title="数据来源配置" width="60%" :visible.sync="dialogSourceVisible">
+        <el-dialog title="数据来源配置" class="bar-modal" width="60%" :visible.sync="dialogSourceVisible">
             <div class="dashboard-modal-content">
                 <el-row :gutter="12" class="table-head">
                     <el-col :span="8" class="table-th">别名</el-col>
@@ -125,20 +125,19 @@
 </script>
 
 <style lang="scss" scoped>
+    .dashboard-bar-component{
+        text-align: left;
+    }
     .dashboard-bar {
-        /*position: relative;*/
-        /*top: 0;*/
-        /*z-index: 1000;*/
-        /*height: 55px;*/
-        /*line-height: 55px;*/
-        .bar-nav {
-            text-align: right;
-        }
-        .bar-more {
-            position: absolute;
-            right: 0;
-            top: 0;
-        }
+        margin-bottom: 5px;
+        /*.bar-nav {*/
+            /*text-align: right;*/
+        /*}*/
+        /*.bar-more {*/
+            /*position: absolute;*/
+            /*right: 0;*/
+            /*top: 0;*/
+        /*}*/
     }
 
     .dashboard-modal-content {

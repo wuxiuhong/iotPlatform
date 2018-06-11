@@ -55,7 +55,7 @@ input[type="button"]:disabled {
 }
 
 .dashboard-btn-group {
-  .el-button {
+  .el-button.is-circle {
     padding: 18px;
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .26);
     i {
@@ -63,7 +63,15 @@ input[type="button"]:disabled {
     }
   }
 }
-
+.bar-modal{
+  .el-button.is-circle {
+    padding: 10px;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .26);
+    i {
+      font-size: 14px;
+    }
+  }
+}
 .toolbar-tabs {
   .el-tabs__header {
     padding: 0 20px;

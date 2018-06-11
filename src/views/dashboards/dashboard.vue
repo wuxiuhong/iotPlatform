@@ -23,12 +23,13 @@
         <!--视图中操作菜单 end-->
 
         <!--编辑配置信息 start-->
-        <dashboard-edit :details-info="editInfo.data" :aliases="dashboard.edgeClientAliases" :show-modal="showModal"></dashboard-edit>
+        <dashboard-edit :details-info="editInfo.data" :aliases="dashboard.edgeClientAliases"
+                        :show-modal="showModal"></dashboard-edit>
         <!--编辑配置信息 end-->
         <!--编辑操作按钮 start-->
         <section class="dashboard-btn-group">
             <!--报表Bar start-->
-            <!--<dashboard-bar :is-edit="isEdit" :config="dashboard"></dashboard-bar>-->
+            <dashboard-bar :is-edit="isEdit" :config="dashboard"></dashboard-bar>
             <!--报表Bar end-->
             <el-button v-if="!isEdit" type="primary" icon="el-icon-edit" circle @click="isEdit=true"></el-button>
             <div v-show="isEdit">
@@ -186,5 +187,6 @@
         position: absolute;
         right: 40px;
         bottom: 50px;
+        text-align: right;
     }
 </style>
