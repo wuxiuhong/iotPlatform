@@ -23,8 +23,8 @@
         <!--视图中操作菜单 end-->
 
         <!--编辑配置信息 start-->
-        <dashboard-edit :details-info="editInfo.data" :aliases="dashboard.edgeClientAliases"
-                        :show-modal="showModal"></dashboard-edit>
+        <dashboard-edit :details-info="editInfo.data" :aliases="dashboard.edgeClientAliases" @on-refresh="onRefresh"
+                        :show-modal="showModal" v-if="isEdit && editInfo.data"></dashboard-edit>
         <!--编辑配置信息 end-->
         <!--编辑操作按钮 start-->
         <section class="dashboard-btn-group">
@@ -62,7 +62,7 @@
             components: []
         };
         editInfo: any = {
-            data: {},
+            data: null,
             index: null
         };
         contextMenu: any = {
@@ -76,6 +76,10 @@
             //     if (this.dashboard.components.length)
             //         this.resize();
             // }, 5000);
+            // 定义重置组件监听通知函数
+            this.$on('onHide', (msg: any) => {
+                this.isEdit = false;
+            });
             this.$store.state.isShowLoading = true;
             // 初始化报表数据
             getDashboard({}).then((ret: any) => {
@@ -156,6 +160,17 @@
          */
         parentMethod(msg) {
             console.log(msg, 1);
+        }
+
+        onRefresh(msg) {
+            this.showModal = false;
+            if (!msg) {
+                this.editInfo = {
+                    data: null,
+                    index: null
+                };
+            }
+
         }
 
     }
