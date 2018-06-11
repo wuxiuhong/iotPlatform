@@ -1,8 +1,5 @@
 <template>
     <div @click="contextMenu.show = false">
-        <!--报表Bar start-->
-        <dashboard-bar :is-edit="isEdit" :config="dashboard"></dashboard-bar>
-        <!--报表Bar end-->
         <!--视图 start-->
         <section class="dashboard-wrapper">
             <div class="component-wrapper" v-for="(item,index) in dashboard.components" :scope="item.ref"
@@ -30,6 +27,9 @@
         <!--编辑配置信息 end-->
         <!--编辑操作按钮 start-->
         <section class="dashboard-btn-group">
+            <!--报表Bar start-->
+            <!--<dashboard-bar :is-edit="isEdit" :config="dashboard"></dashboard-bar>-->
+            <!--报表Bar end-->
             <el-button v-if="!isEdit" type="primary" icon="el-icon-edit" circle @click="isEdit=true"></el-button>
             <div v-show="isEdit">
                 <el-button type="success" icon="el-icon-check" circle @click="isEdit=false"></el-button>

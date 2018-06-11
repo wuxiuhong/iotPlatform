@@ -1,14 +1,14 @@
 <template>
     <el-row class="container">
         <el-col :span="24" class="header">
-            <!--<el-col :span="10" class="logo" :class="collapsed?'logo-collapse-width':'logo-width'">-->
-            <!--{{collapsed ? '' : sysName}}-->
-            <!--</el-col>-->
-            <!--<el-col :span="10">-->
-            <!--<div class="tools" @click.prevent="collapse">-->
-            <!--<i class="fa fa-align-justify"></i>-->
-            <!--</div>-->
-            <!--</el-col>-->
+            <el-col :span="10" class="logo" :class="collapsed?'logo-collapse-width':'logo-width'">
+                {{collapsed ? '' : sysName}}
+            </el-col>
+            <el-col :span="10">
+                <div class="tools" @click.prevent="collapse">
+                    <i class="fa fa-align-justify"></i>
+                </div>
+            </el-col>
             <el-col :span="4" class="userinfo">
                 <el-dropdown trigger="hover">
                     <span class="el-dropdown-link userinfo-inner"><img
@@ -22,62 +22,62 @@
             </el-col>
         </el-col>
         <el-col :span="24" class="main">
-            <!--<aside :class="collapsed?'menu-collapsed':'menu-expanded'">-->
-            <!--&lt;!&ndash;导航菜单&ndash;&gt;-->
-            <!--<div v-show="!collapsed" style="height: 100%;">-->
-            <!--<el-menu :default-active="$route.path" class="el-menu-vertical-demo" @open="handleopen"-->
-            <!--@close="handleclose" @select="handleselect"-->
-            <!--unique-opened router>-->
-            <!--<template v-for="(item,index) in $router.options.routes" v-if="!item.hidden">-->
-            <!--<el-submenu :index="index+''" v-if="!item.leaf">-->
-            <!--<template slot="title"><i :class="item.iconCls"></i>{{item.name}}</template>-->
-            <!--<el-menu-item v-for="child in item.children" :index="child.path" :key="child.path"-->
-            <!--v-if="!child.hidden">{{child.name}}-->
-            <!--</el-menu-item>-->
-            <!--</el-submenu>-->
-            <!--<el-menu-item v-if="item.leaf&&item.children.length>0" :index="item.children[0].path"><i-->
-            <!--:class="item.iconCls"></i>{{item.children[0].name}}-->
-            <!--</el-menu-item>-->
-            <!--</template>-->
-            <!--</el-menu>-->
-            <!--</div>-->
-            <!--&lt;!&ndash;导航菜单-折叠后&ndash;&gt;-->
-            <!--<ul class="el-menu el-menu-vertical-demo collapsed" v-show="collapsed" ref="menuCollapsed">-->
-            <!--<li v-for="(item,index) in $router.options.routes" v-if="!item.hidden" class="el-submenu item">-->
-            <!--<template v-if="!item.leaf">-->
-            <!--<div class="el-submenu__title" style="padding-left: 20px;" @mouseover="showMenu(index,true)"-->
-            <!--@mouseout="showMenu(index,false)"><i :class="item.iconCls"></i></div>-->
-            <!--<ul class="el-menu submenu" :class="'submenu-hook-'+index" @mouseover="showMenu(index,true)"-->
-            <!--@mouseout="showMenu(index,false)">-->
-            <!--<li v-for="child in item.children" v-if="!child.hidden" :key="child.path"-->
-            <!--class="el-menu-item" style="padding-left: 40px;"-->
-            <!--:class="$route.path==child.path?'is-active':''" @click="$router.push(child.path)">-->
-            <!--{{child.name}}-->
-            <!--</li>-->
-            <!--</ul>-->
-            <!--</template>-->
-            <!--<template v-else>-->
-            <!--<div class="el-submenu">-->
-            <!--<div class="el-submenu__title el-menu-item"-->
-            <!--style="padding-left: 20px;height: 56px;line-height: 56px;padding: 0 20px;"-->
-            <!--:class="$route.path==item.children[0].path?'is-active':''"-->
-            <!--@click="$router.push(item.children[0].path)"><i :class="item.iconCls"></i>-->
-            <!--</div>-->
-            <!--</div>-->
-            <!--</template>-->
-            <!--</li>-->
-            <!--</ul>-->
-            <!--</aside>-->
-            <section class="content-container" v-loading="this.$store.state.isShowLoading">
+            <aside :class="collapsed?'menu-collapsed':'menu-expanded'">
+                <!--导航菜单-->
+                <div v-show="!collapsed" style="height: 100%;">
+                    <el-menu :default-active="$route.path" class="el-menu-vertical-demo" @open="handleopen"
+                             @close="handleclose" @select="handleselect"
+                             unique-opened router>
+                        <template v-for="(item,index) in $router.options.routes" v-if="!item.hidden">
+                            <el-submenu :index="index+''" v-if="!item.leaf">
+                                <template slot="title"><i :class="item.iconCls"></i>{{item.name}}</template>
+                                <el-menu-item v-for="child in item.children" :index="child.path" :key="child.path"
+                                              v-if="!child.hidden">{{child.name}}
+                                </el-menu-item>
+                            </el-submenu>
+                            <el-menu-item v-if="item.leaf&&item.children.length>0" :index="item.children[0].path"><i
+                                    :class="item.iconCls"></i>{{item.children[0].name}}
+                            </el-menu-item>
+                        </template>
+                    </el-menu>
+                </div>
+                <!--导航菜单-折叠后-->
+                <ul class="el-menu el-menu-vertical-demo collapsed" v-show="collapsed" ref="menuCollapsed">
+                    <li v-for="(item,index) in $router.options.routes" v-if="!item.hidden" class="el-submenu item">
+                        <template v-if="!item.leaf">
+                            <div class="el-submenu__title" style="padding-left: 20px;" @mouseover="showMenu(index,true)"
+                                 @mouseout="showMenu(index,false)"><i :class="item.iconCls"></i></div>
+                            <ul class="el-menu submenu" :class="'submenu-hook-'+index" @mouseover="showMenu(index,true)"
+                                @mouseout="showMenu(index,false)">
+                                <li v-for="child in item.children" v-if="!child.hidden" :key="child.path"
+                                    class="el-menu-item" style="padding-left: 40px;"
+                                    :class="$route.path==child.path?'is-active':''" @click="$router.push(child.path)">
+                                    {{child.name}}
+                                </li>
+                            </ul>
+                        </template>
+                        <template v-else>
+                            <div class="el-submenu">
+                                <div class="el-submenu__title el-menu-item"
+                                     style="padding-left: 20px;height: 56px;line-height: 56px;padding: 0 20px;"
+                                     :class="$route.path==item.children[0].path?'is-active':''"
+                                     @click="$router.push(item.children[0].path)"><i :class="item.iconCls"></i>
+                                </div>
+                            </div>
+                        </template>
+                    </li>
+                </ul>
+            </aside>
+            <section class="content-container"  v-loading="this.$store.state.isShowLoading">
                 <div class="grid-content bg-purple-light">
-                    <el-col :span="24" class="breadcrumb-container">
-                        <strong class="title">{{$route.name}}</strong>
-                        <el-breadcrumb separator="/" class="breadcrumb-inner">
-                            <el-breadcrumb-item v-for="item in $route.matched" :key="item.path">
-                                {{ item.name }}
-                            </el-breadcrumb-item>
-                        </el-breadcrumb>
-                    </el-col>
+                    <!--<el-col :span="24" class="breadcrumb-container">-->
+                        <!--<strong class="title">{{$route.name}}</strong>-->
+                        <!--<el-breadcrumb separator="/" class="breadcrumb-inner">-->
+                            <!--<el-breadcrumb-item v-for="item in $route.matched" :key="item.path">-->
+                                <!--{{ item.name }}-->
+                            <!--</el-breadcrumb-item>-->
+                        <!--</el-breadcrumb>-->
+                    <!--</el-col>-->
                     <el-col :span="24" class="content-wrapper">
                         <transition name="fade" mode="out-in">
                             <router-view></router-view>
@@ -170,8 +170,6 @@
             height: 60px;
             line-height: 60px;
             background: $color-primary;
-            box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.50);
-            border-bottom: 2px solid #000000;
             color: #fff;
             .userinfo {
                 text-align: right;
@@ -181,10 +179,10 @@
                     cursor: pointer;
                     color: #fff;
                     img {
-                        width: 30px;
-                        height: 30px;
+                        width: 40px;
+                        height: 40px;
                         border-radius: 20px;
-                        margin: 15px 0px 15px 10px;
+                        margin: 10px 0px 10px 10px;
                         float: right;
                     }
                 }
@@ -224,7 +222,6 @@
         .main {
             display: flex;
             // background: #324057;
-            background: $color-primary;
             position: absolute;
             top: 60px;
             bottom: 0px;
@@ -271,21 +268,20 @@
                 // bottom: 0px;
                 // left: 230px;
                 overflow-y: scroll;
-                padding: 0 40px 35px;
+                /*padding: 20px;*/
                 .breadcrumb-container {
-                    height: 52px;
-                    line-height: 52px;
+                    //margin-bottom: 15px;
                     .title {
-                        /*width: 200px;*/
+                        width: 200px;
                         float: left;
                         color: #475669;
                     }
                     .breadcrumb-inner {
-                        line-height: 52px;
+                        float: right;
                     }
                 }
                 .content-wrapper {
-                    background-color: $color-primary;
+                    background-color: #fff;
                     box-sizing: border-box;
                 }
             }

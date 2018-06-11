@@ -126,11 +126,11 @@
 
 <style lang="scss" scoped>
     .dashboard-bar {
-        position: relative;
-        top: 0;
-        z-index: 1000;
-        height: 55px;
-        line-height: 55px;
+        /*position: relative;*/
+        /*top: 0;*/
+        /*z-index: 1000;*/
+        /*height: 55px;*/
+        /*line-height: 55px;*/
         .bar-nav {
             text-align: right;
         }
