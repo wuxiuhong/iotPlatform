@@ -353,11 +353,11 @@ const dashboard = {
                             "type": "edgeClient",
                             "dataKeys": [
                                 {
-                                    "key": "WaterPump",
+                                    "key": "WaterPump1",
                                     "value": "return {\n    areaName:\"S11\",\n    deviceType:\"WaterPump\",\n    belongTo:\"WaterCurtainPool\",\n    group:0,\n    category:1,\n    item:1,\n    telemetryValue:1\n}\n//水泵--水帘池"
                                 },
                                 {
-                                    "key": "WaterPump",
+                                    "key": "WaterPump2",
                                     "value": "return {\n    areaName:\"S11\",\n    deviceType:\"WaterPump\",\n    belongTo:\"WaterCurtainPool\",\n    group:0,\n    category:1,\n    item:1,\n    telemetryValue:1\n}\n//水泵--水帘池"
                                 }
                             ]

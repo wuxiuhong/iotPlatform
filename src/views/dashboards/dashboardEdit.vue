@@ -199,7 +199,12 @@
                 blur: boxOther[2],
                 spread: boxOther[3]
             };
+            // 初始化dataKeys
+            // this.detailsInfo.dataSources.forEach((item: any) => {
+            //
+            // });
         }
+
 
         @Emit('on-refresh')
         saveDetails(data: any = null) {
