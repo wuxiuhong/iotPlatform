@@ -1,26 +1,27 @@
 <template>
     <el-row class="container">
-        <el-col :span="24" class="header">
-            <!--<el-col :span="10" class="logo" :class="collapsed?'logo-collapse-width':'logo-width'">-->
-            <!--{{collapsed ? '' : sysName}}-->
-            <!--</el-col>-->
-            <!--<el-col :span="10">-->
-            <!--<div class="tools" @click.prevent="collapse">-->
-            <!--<i class="fa fa-align-justify"></i>-->
-            <!--</div>-->
-            <!--</el-col>-->
-            <el-col :span="4" class="userinfo">
-                <el-dropdown trigger="hover">
-                    <span class="el-dropdown-link userinfo-inner"><img
-                            :src="this.sysUserAvatar"/> {{sysUserName}}</span>
-                    <el-dropdown-menu slot="dropdown">
-                        <el-dropdown-item>我的消息</el-dropdown-item>
-                        <el-dropdown-item>设置</el-dropdown-item>
-                        <el-dropdown-item divided @click.native="logout">退出登录</el-dropdown-item>
-                    </el-dropdown-menu>
-                </el-dropdown>
-            </el-col>
-        </el-col>
+        <!--暂时隐藏-->
+        <!--<el-col :span="24" class="header">-->
+        <!--&lt;!&ndash;<el-col :span="10" class="logo" :class="collapsed?'logo-collapse-width':'logo-width'">&ndash;&gt;-->
+        <!--&lt;!&ndash;{{collapsed ? '' : sysName}}&ndash;&gt;-->
+        <!--&lt;!&ndash;</el-col>&ndash;&gt;-->
+        <!--&lt;!&ndash;<el-col :span="10">&ndash;&gt;-->
+        <!--&lt;!&ndash;<div class="tools" @click.prevent="collapse">&ndash;&gt;-->
+        <!--&lt;!&ndash;<i class="fa fa-align-justify"></i>&ndash;&gt;-->
+        <!--&lt;!&ndash;</div>&ndash;&gt;-->
+        <!--&lt;!&ndash;</el-col>&ndash;&gt;-->
+        <!--<el-col :span="4" class="userinfo">-->
+        <!--<el-dropdown trigger="hover">-->
+        <!--<span class="el-dropdown-link userinfo-inner"><img-->
+        <!--:src="this.sysUserAvatar"/> {{sysUserName}}</span>-->
+        <!--<el-dropdown-menu slot="dropdown">-->
+        <!--<el-dropdown-item>我的消息</el-dropdown-item>-->
+        <!--<el-dropdown-item>设置</el-dropdown-item>-->
+        <!--<el-dropdown-item divided @click.native="logout">退出登录</el-dropdown-item>-->
+        <!--</el-dropdown-menu>-->
+        <!--</el-dropdown>-->
+        <!--</el-col>-->
+        <!--</el-col>-->
         <el-col :span="24" class="main">
             <!--<aside :class="collapsed?'menu-collapsed':'menu-expanded'">-->
             <!--&lt;!&ndash;导航菜单&ndash;&gt;-->
@@ -226,8 +227,8 @@
             // background: #324057;
             background: $color-primary;
             position: absolute;
-            top: 60px;
-            bottom: 0px;
+            top: 0;
+            bottom: 0;
             overflow: hidden;
             aside {
                 flex: 0 0 230px;
@@ -245,7 +246,7 @@
                     }
                     .submenu {
                         position: absolute;
-                        top: 0px;
+                        top: 0;
                         left: 60px;
                         z-index: 99999;
                         height: auto;

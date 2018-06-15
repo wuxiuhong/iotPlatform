@@ -8,7 +8,6 @@ import Vuex from 'vuex';
 import routes from './routes';
 import Mock from './mock';
 import './styles/index.scss';
-
 Mock.bootstrap();
 import 'font-awesome/css/font-awesome.min.css';
 

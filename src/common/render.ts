@@ -1,5 +1,6 @@
 import { renderFormat } from '../util/renderFormat';
 import echarts from 'echarts';
+import $ from 'jquery';
 
 /**
  * 处理组件，生成子组件
@@ -21,18 +22,18 @@ function renderFn(data: any, index: number) {
         mounted() {
             // 定义重置组件监听通知函数
             this.$on('onResize', (msg: any) => {
-                this.onResize();
+                if (typeof this.onResize === 'function') this.onResize();
             });
             // 定义重置组件监听通知函数
-            this.$on('onUpdate', (msg: any) => {
-                this.onUpdate();
+            this.$on('onDataUpdated', (msg: any) => {
+                if (typeof this.onResize === 'function') this.onDataUpdated(msg);
             });
             // 处理初始化格式处理
-            new Function('maxIot', 'echarts', data.template.template.controllerScript.mounted)(this, echarts);
+            new Function('maxIot', 'echarts', '$', data.template.template.controllerScript.mounted)(this, echarts, $);
         },
-        methods: new Function(data.template.template.controllerScript.methods)(),
+        methods: new Function('maxIot', 'echarts', '$', data.template.template.controllerScript.methods)(this, echarts, $),
         beforeDestroy() {
-            new Function(data.template.template.controllerScript.destroy)();
+            new Function(data.template.template.controllerScript.onDestroy)();
         }
     };
     return data;

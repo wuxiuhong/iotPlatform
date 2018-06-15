@@ -38,9 +38,13 @@ function addStyleFile(params: string = null, ref: string) {
  * @param config 配置信息
  */
 function addStyle(config: any) {
+
     return {
-        left: config.relation.x + "px",
+        width: config.styles.width ? config.styles.width : 'auto',
+        height: config.styles.height ? config.styles.height + 'px' : 'auto',
+        left: (typeof config.relation.x === 'string') ? config.relation.x : config.relation.x + "px",
         top: config.relation.y + "px",
+        padding: config.styles.padding,
         "z-index": config.zIndex,
         backgroundColor: config.backgroundColor,
         "box-shadow": config.styles.boxShadow

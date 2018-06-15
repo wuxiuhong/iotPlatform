@@ -159,7 +159,7 @@
                     <el-input v-model="detailsKey.name"></el-input>
                 </el-form-item>
                 <el-form-item label="值">
-                    <el-input type="textarea" v-model="detailsKey.valueFunc"></el-input>
+                    <textarea class="el-textarea__inner js-editor" placeholder="请输入值" v-model="detailsKey.valueFunc"></textarea>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
@@ -390,6 +390,12 @@
                 }
             }
         }
+    }
+    .js-editor {
+        width: 100%;
+        height: 120px;
+        outline: none;
+        overflow: auto;
     }
 
 </style>

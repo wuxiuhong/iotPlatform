@@ -63,19 +63,19 @@
         dialogSourceVisible: boolean = false;
         options: any = [{
             value: '5f4f7ca0-fda7-11e7-94de-d786c97a036f',
-            label: '设备2'
+            label: 'edgeClient1'
         }, {
             value: '5f2f',
-            label: '设备3'
+            label: 'edgeClient2'
         }, {
             value: '5f4f7ca0-fda7',
-            label: '设备4'
+            label: 'edgeClient3'
         }, {
             value: '5f4f7ca0',
-            label: '设备6'
+            label: 'edgeClient4'
         }, {
             value: '5f4f7ca0-fda',
-            label: '设备5'
+            label: 'edgeClient5'
         }];
         @Prop() isEdit: boolean;
         @Prop() config: any;

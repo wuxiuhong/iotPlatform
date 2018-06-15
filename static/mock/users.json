@@ -1,0 +1,18 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "username": "admin",
+      "password": "123456",
+      "avatar": "http://www.qqpk.cn/Article/UploadFiles/201203/20120301134818217.jpg",
+      "name": "Wendy"
+    }
+  ],
+  "login": {
+    "id": 1,
+    "username": "admin",
+    "password": "123456",
+    "avatar": "http://www.qqpk.cn/Article/UploadFiles/201203/20120301134818217.jpg",
+    "name": "Wendy"
+  }
+}

@@ -48,24 +48,27 @@ function WebsocketService() {
             cmdsWrapper.historyCmds.length > 0 ||
             cmdsWrapper.attrSubCmds.length > 0)) {
             // 发送数据
-            dataStream.send({
-                method: "sub",
-                params: {
-                    action: "telemtry",
-                    params: cmdsWrapper
-                }
-            });
-            cmdsWrapper.tsSubCmds = [];
-            cmdsWrapper.historyCmds = [];
-            cmdsWrapper.attrSubCmds = [];
+            if (dataStream.readyState === 1) {
+                dataStream.send(JSON.stringify({
+                    method: "sub",
+                    params: {
+                        action: "telemtry",
+                        params: cmdsWrapper.tsSubCmds
+                    }
+                }));
+                cmdsWrapper.tsSubCmds = [];
+                cmdsWrapper.historyCmds = [];
+                cmdsWrapper.attrSubCmds = [];
+            }
         }
         tryOpenSocket();
     }
 
     /**
-     *  连接, 数据发送中
+     *  连接成功, 数据发送中
      */
     function onOpen() {
+        console.log("WebSocket conntected.");
         isOpening = false;
         isOpened = true;
         if (reconnectTimer) {
@@ -93,25 +96,18 @@ function WebsocketService() {
     function onMessage(message: any) {
         if (message.data) {
             const data = JSON.parse(message.data);
+            if (data === 200 || (data === 500)) return;
             // 对数据的处理
-            if (data.subscriptionId) {
-                const subscriber = subscribers[data.subscriptionId];
-                if (subscriber && data) {
-                    const keys = fetchKeys(subscriber);
-                    if (!data.data) data.data = {};
-                    for (let k = 0; k < keys.length; k++) {
-                        const key = keys[k];
-                        if (!data.data[key]) data.data[key] = [];
-                    }
-                    subscriber.onUpdate(data); // 订阅后获取的值
-                }
+            const subscriber = subscribers[1];
+            if (subscriber && data) {
+                subscriber.onData(formatKeys(data, subscriber)); // 订阅后获取的值
             }
         }
         checkToClose();
     }
 
     /**
-     * 关闭 websocket
+     * 当Browser接收到WebSocketServer端发送的关闭连接请求
      */
     function onClose() {
         isOpening = false;
@@ -129,15 +125,15 @@ function WebsocketService() {
             if (reconnectTimer) clearTimeout(reconnectTimer);
             reconnectTimer = setTimeout(tryOpenSocket, RECONNECT_INTERVAL);
         }
-        // toast.showError($translate.instant('widget.wsconnectionclose'));
         console.log('wsconnectionclose');
     }
 
     /**
-     * websocket 过程中的异常错误
+     * websocket 连接失败，发送、接收数据失败或者处理数据出现错误
      */
     function onError() {
         isOpening = false;
+        console.log('连接失败，发送、接收数据失败');
     }
 
     /**
@@ -145,11 +141,22 @@ function WebsocketService() {
      * @param subscriber
      * @return {any}
      */
-    function fetchKeys(subscriber: any) {
+    function formatKeys(data: any, subscriber: any) {
         const command = subscriber.subscriptionCommand || subscriber.historyCommand;
-        return (command && command.keys && command.keys.length > 0)
-            ? command.keys.split(",")
-            : [];
+        const commandItem = command.find((item: any) => item.clientid === data.edgeClientId);
+        const result = [];
+        data.telemetry.forEach((item: any) => {
+            const keyInfo = commandItem.key.find((keyItem: any) => keyItem.key === item.key);
+            return result.push({
+                t: item.ts,
+                v: item.value,
+                k: {
+                    o: item.key,
+                    l: keyInfo.label
+                }
+            });
+        });
+        return result;
     }
 
     /**
@@ -195,7 +202,6 @@ function WebsocketService() {
      */
     function openSocket(token: string) {
         // telemetryUri + '?token=' + token  { headers: {token: token}} as any
-        console.log(telemetryUri);
         dataStream = new WebSocket(telemetryUri);
         dataStream.onopen = onOpen; // 连接, 数据发送中
         dataStream.onmessage = onMessage; // 订阅获取信息 数据已接收
@@ -208,6 +214,7 @@ function WebsocketService() {
      * @param close
      */
     function closeSocket() {
+        console.log('关闭 websocket');
         isActive = false;
         if (isOpened) dataStream.close();
     }
@@ -229,30 +236,47 @@ function WebsocketService() {
         cmdsWrapper.attrSubCmds = [];
         if (close) closeSocket();
     }
+
     // reset(true);
+
+    /**
+     * 处理发送订阅参数的数据
+     * @param subscriber
+     */
+    function formatSubscriber(subscriber: any) {
+        const result = [];
+        subscriber.subscriptionCommand.forEach((command: any) => {
+            result.push({
+                ...command,
+                key: command.key.map((item: any) => item.key)
+            });
+        });
+        return result;
+    }
 
     /**
      * 发起订阅
      * @param subscriber
      */
     function subscribe(subscriber: any) {
-        console.log(subscriber, 'tetst');
         isActive = true;
         const cmdId = nextCmdId(); // 设置当前订阅ID
         subscribers[cmdId] = subscriber;
         subscribersCount++;
         if (subscriber.subscriptionCommand) {
-            subscriber.subscriptionCommand.cmdId = cmdId;
+            // 处理数据
+            const sendData = formatSubscriber(subscriber);
+            // subscriber.subscriptionCommand.subscriptionId = cmdId;
             if (subscriber.type === dataKeyType.latest) {
                 // 遥测数据订阅
-                cmdsWrapper.tsSubCmds.push(subscriber.subscriptionCommand);
+                cmdsWrapper.tsSubCmds = cmdsWrapper.tsSubCmds.concat(sendData);
             } else if (subscriber.type === dataKeyType.attribute) {
                 // 属性数据订阅
-                cmdsWrapper.attrSubCmds.push(subscriber.subscriptionCommand);
+                cmdsWrapper.attrSubCmds = cmdsWrapper.attrSubCmds.concat(sendData);
             }
         } else if (subscriber.historyCommand) {
-            subscriber.historyCommand.cmdId = cmdId;
-            cmdsWrapper.historyCmds.push(subscriber.historyCommand);
+            // subscriber.historyCommand.subscriptionId = cmdId;
+            cmdsWrapper.historyCmds = cmdsWrapper.historyCmds.concat(subscriber.historyCommand);
         }
         // 发布执行命令
         publishCommands();
@@ -268,14 +292,15 @@ function WebsocketService() {
             let cmdId = null;
             if (subscriber.subscriptionCommand) {
                 subscriber.subscriptionCommand.unsubscribe = true;
+                const sendData = formatSubscriber(subscriber);
                 if (subscriber.type === dataKeyType.latest) {
-                    cmdsWrapper.tsSubCmds.push(subscriber.subscriptionCommand);
+                    cmdsWrapper.tsSubCmds = cmdsWrapper.tsSubCmds.concat(sendData);
                 } else if (subscriber.type === dataKeyType.attribute) {
-                    cmdsWrapper.attrSubCmds.push(subscriber.subscriptionCommand);
+                    cmdsWrapper.attrSubCmds = cmdsWrapper.attrSubCmds.concat(sendData);
                 }
-                cmdId = subscriber.subscriptionCommand.cmdId;
+                cmdId = subscriber.subscriptionCommand.subscriptionId || 1;
             } else if (subscriber.historyCommand) {
-                cmdId = subscriber.historyCommand.cmdId;
+                cmdId = subscriber.historyCommand.subscriptionId || 1;
             }
             if (cmdId && subscribers[cmdId]) {
                 delete subscribers[cmdId];
@@ -288,7 +313,7 @@ function WebsocketService() {
     return {
         subscribe: subscribe,
         unsubscribe: unsubscribe,
-        reset: reset(true)
+        reset: reset
     };
 }
 

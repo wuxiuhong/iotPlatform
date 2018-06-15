@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 49.2 (51160) - http://www.bohemiancoding.com/sketch -->
+    <title>icon/dataAlert/temp/n</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="icon/dataAlert/temp/n" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g>
+            <rect id="bound" fill="#D8D8D8" opacity="0" x="0" y="0" width="24" height="24"></rect>
+            <circle id="Oval" fill="#01C6FD" cx="12" cy="17" r="3.5"></circle>
+            <rect id="Rectangle" fill="#01C6FD" x="11" y="7" width="2" height="10" rx="1"></rect>
+            <path d="M11.9996109,22.4537257 C8.99202386,22.4537257 6.54548992,20.0028945 6.54548992,16.9917619 C6.54548992,15.0653852 7.53453083,13.316684 9.19123273,12.3168695 L9.4542507,12.1571174 L9.4542507,2.54627431 L14.5449711,2.54627431 L14.5449711,12.1571174 L14.8087673,12.3168695 C16.4654692,13.316684 17.4545101,15.0653852 17.4545101,16.9917619 C17.4545101,20.0028945 15.007198,22.4537257 11.9996109,22.4537257 M14.0912392,2 L9.90876078,2 C9.35647603,2 8.90876078,2.44771525 8.90876078,3 L8.90876078,11.8493024 C7.16801764,12.9005492 6,14.8066647 6,16.9917619 C6,20.3099302 8.68620712,23 11.9996109,23 C15.3137929,23 18,20.3099302 18,16.9917619 C18,14.8066647 16.8319824,12.9005492 15.0912392,11.8493024 L15.0912392,3 C15.0912392,2.44771525 14.643524,2 14.0912392,2 Z" id="Fill-12" stroke="#01C6FD" stroke-width="0.8" fill="#01C6FD"></path>
+        </g>
+    </g>
+</svg>

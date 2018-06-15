@@ -27,28 +27,29 @@
                         :show-modal="showModal" v-if="showModal"></dashboard-edit>
         <!--编辑配置信息 end-->
         <!--编辑操作按钮 start-->
-        <section class="dashboard-btn-group">
-            <!--报表Bar start-->
-            <dashboard-bar :is-edit="isEdit" :config="dashboard"></dashboard-bar>
-            <!--报表Bar end-->
-            <el-button v-if="!isEdit" type="primary" icon="el-icon-edit" circle @click="isEdit=true"></el-button>
-            <div v-show="isEdit">
-                <el-button type="success" icon="el-icon-check" circle @click="isEdit=false"></el-button>
-                <el-button type="danger" icon="el-icon-close" circle @click="isEdit=false"></el-button>
-            </div>
-        </section>
+        <!--<section class="dashboard-btn-group">-->
+            <!--&lt;!&ndash;报表Bar start&ndash;&gt;-->
+            <!--<dashboard-bar :is-edit="isEdit" :config="dashboard"></dashboard-bar>-->
+            <!--&lt;!&ndash;报表Bar end&ndash;&gt;-->
+            <!--<el-button v-if="!isEdit" type="primary" icon="el-icon-edit" circle @click="isEdit=true"></el-button>-->
+            <!--<div v-show="isEdit">-->
+                <!--<el-button type="success" icon="el-icon-check" circle @click="isEdit=false"></el-button>-->
+                <!--<el-button type="danger" icon="el-icon-close" circle @click="isEdit=false"></el-button>-->
+            <!--</div>-->
+        <!--</section>-->
         <!--编辑操作按钮 end-->
     </div>
 </template>
 
 <script lang="ts">
     import Vue from 'vue';
-    import { renderFn } from '../../common/render.ts';
+    import { renderFn, subscribeEdgeClient } from '../../common';
     import { Component } from 'vue-property-decorator';
     import { getDashboard } from '../../api/dashboard';
     import dashboardBar from './dashboardBar.vue';
     import dashboardEdit from './dashboardEdit.vue';
     import WebsocketService from '../../util/websocket.service';
+    import _ from 'lodash';
 
     @Component({
         components: {
@@ -71,57 +72,32 @@
             style: {}
         };
 
+        created() {
+            // 这样就能保证 resize 只归某个实例拥有
+            this.resize = _.debounce(() => {
+                this.dashboard.components.forEach((item: any) => {
+                    this.$refs[item.ref][0].$emit('onResize', '');
+                });
+            }, 1000);
+        }
+
         mounted() {
             // 定义重置组件监听通知函数
             this.$on('onHide', (msg: any) => {
                 this.isEdit = false;
             });
+            window.addEventListener('resize', this.resize, {passive: false});
             this.$store.state.isShowLoading = true;
+
             // 初始化报表数据
             getDashboard({}).then((ret: any) => {
                 this.dashboard = ret.data;
-                // 处理格式
+                // 处理组件格式
                 this.dashboard.components = this.dashboard.components.map((item: any, index: number) => {
                     return renderFn(item, index);
                 });
                 // 处理需要订阅的数据
-                this.dashboard.components.forEach((com: any) => {
-                    com.dataSources.forEach((dataSource: any) => {
-                        if (dataSource.type === 'edgeClient') {
-                            // 通过别名获取对应的edgeclient数组
-                            const edgeClientAliases = this.dashboard.edgeClientAliases.find(
-                                (Alias: any) => Alias.aliasId === dataSource.aliasId);
-                            edgeClientAliases.edgeClientList.forEach((clientId: string) => {
-                                // todo 通过clientId，获取edgeClientId对应的所有key值
-                                let keyData = [];
-                                if (this.dashboard.edgeClients.id === clientId) keyData = this.dashboard.edgeClients.keys;
-                                const keys = dataSource.dataKeys.filter((keyItem: any) => keyData.includes(keyItem.key));
-                                if (keys.length) {
-                                    console.log({
-                                        "clientid": clientId,
-                                        "key": keys.map((item: any) => item.key)
-                                    });
-                                    WebsocketService().subscribe({
-                                        subscriptionCommand: {
-                                            "clientid": clientId,
-                                            "key": keys.map((item: any) => item.key)
-                                        },
-                                        type: 'latest',
-                                        onData: (data: any) => {
-                                            if (data.data) {
-                                                // 处理返回的数据
-                                                this.$refs[com.ref][0].$emit('onDataUpdated', data.data);
-                                            }
-                                        },
-                                        onReconnected: () => {
-                                        }
-                                    });
-                                }
-                            });
-
-                        }
-                    });
-                });
+                subscribeEdgeClient.bind(this)(this.dashboard);
                 this.$store.state.isShowLoading = false;
             });
         }
@@ -158,7 +134,7 @@
             if (this.editInfo.index === 0) {
                 this.$refs[this.dashboard.components[this.editInfo.index].ref][0].$emit('onDataUpdated', [
                     {
-                        v: '运行12', // 遥测数据的值
+                        v: 1, // 遥测数据的值
                         t: 1528358866224, // 时间戳
                         k: {o: "OPmtate", l: "OPmtate"} // key 以及可以的label名
                     },
@@ -233,6 +209,11 @@
             };
         }
 
+        beforeDestroy() {
+            window.removeEventListener('resize', this.resize);
+            WebsocketService().reset(true);
+        }
+
     }
 </script>
 
@@ -260,8 +241,9 @@
 
     .dashboard-btn-group {
         position: absolute;
-        right: 40px;
+        right: 48px;
         bottom: 50px;
         text-align: right;
+        z-index: 100;
     }
 </style>

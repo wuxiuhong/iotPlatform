@@ -20,7 +20,13 @@ export default {
         return context == null || context === "" || context === "undefined" ? "" : context;
     },
     formatDate: {
-        format: function (date, pattern) {
+        /**
+         * 处理时间格式
+         * @param date
+         * @param pattern
+         * @return {any}
+         */
+        format: function (date: any, pattern: any) {
             pattern = pattern || DEFAULT_PATTERN;
             return pattern.replace(SIGN_REGEXP, function ($0) {
                 switch ($0.charAt(0)) {
