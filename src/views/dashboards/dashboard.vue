@@ -27,16 +27,16 @@
                         :show-modal="showModal" v-if="showModal"></dashboard-edit>
         <!--编辑配置信息 end-->
         <!--编辑操作按钮 start-->
-        <!--<section class="dashboard-btn-group">-->
-            <!--&lt;!&ndash;报表Bar start&ndash;&gt;-->
-            <!--<dashboard-bar :is-edit="isEdit" :config="dashboard"></dashboard-bar>-->
-            <!--&lt;!&ndash;报表Bar end&ndash;&gt;-->
-            <!--<el-button v-if="!isEdit" type="primary" icon="el-icon-edit" circle @click="isEdit=true"></el-button>-->
-            <!--<div v-show="isEdit">-->
-                <!--<el-button type="success" icon="el-icon-check" circle @click="isEdit=false"></el-button>-->
-                <!--<el-button type="danger" icon="el-icon-close" circle @click="isEdit=false"></el-button>-->
-            <!--</div>-->
-        <!--</section>-->
+        <section class="dashboard-btn-group">
+            <!--报表Bar start-->
+            <dashboard-bar :is-edit="isEdit" :config="dashboard"></dashboard-bar>
+            <!--报表Bar end-->
+            <el-button v-if="!isEdit" type="primary" icon="el-icon-edit" circle @click="isEdit=true"></el-button>
+            <div v-show="isEdit">
+                <el-button type="success" icon="el-icon-check" circle @click="isEdit=false"></el-button>
+                <el-button type="danger" icon="el-icon-close" circle @click="isEdit=false"></el-button>
+            </div>
+        </section>
         <!--编辑操作按钮 end-->
     </div>
 </template>
@@ -221,6 +221,7 @@
     .dashboard-wrapper {
         position: relative;
         height: calc(100vh - 150px);
+        z-index: 0
     }
 
     .component-wrapper {
@@ -244,6 +245,5 @@
         right: 48px;
         bottom: 50px;
         text-align: right;
-        z-index: 100;
     }
 </style>

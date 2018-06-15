@@ -24,8 +24,7 @@
                                     <el-col :span="16" class="table-th">数据</el-col>
                                 </el-row>
                                 <el-card shadow="always" class="card-body"
-                                         v-for="(item, index) in detailsInfo.dataSources"
-                                         :key="index">
+                                         v-for="(item, index) in detailsInfo.dataSources" :key="index">
                                     <el-row :gutter="12" class="card-body-key">
                                         <el-col :span="1">{{index+1}}</el-col>
                                         <el-col :span="6">
@@ -159,7 +158,7 @@
                     <el-input v-model="detailsKey.name"></el-input>
                 </el-form-item>
                 <el-form-item label="值">
-                    <textarea class="el-textarea__inner js-editor" placeholder="请输入值" v-model="detailsKey.valueFunc"></textarea>
+                    <codemirror class="js-editor" :value="detailsKey.valueFunc" :options="codeOptions"></codemirror>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
@@ -175,9 +174,23 @@
 <script lang="ts">
     import Vue from 'vue';
     import { Component, Prop, Emit } from 'vue-property-decorator';
+    import { codemirror } from 'vue-codemirror-lite';
+    import 'codemirror/mode/javascript/javascript';
 
-    @Component({})
+    @Component({
+        components: {
+            codemirror
+        }
+    })
     export default class DashboardEdit extends Vue {
+        private codeOptions: any = {
+            mode: 'javascript',
+            extraKeys: {'Ctrl-Space': 'autocomplete'},
+            tabSize: 2,
+            lineNumbers: true,
+            lineWrapping: true,
+            iewportMargin: Infinity
+        };
         activeName: string = 'first';
         dialogKeyVisible: boolean = false;
         detailsKey: any = {};
@@ -364,6 +377,7 @@
             .table-head {
                 height: 35px;
                 margin: 0 !important;
+                color: #000;
                 .table-th {
                     padding-left: 50px !important;
                 }
@@ -391,11 +405,11 @@
             }
         }
     }
+
     .js-editor {
-        width: 100%;
-        height: 120px;
-        outline: none;
-        overflow: auto;
+        font-size: 14px;
+        line-height: 25px;
+        border: 1px solid #ddd;
     }
 
 </style>
