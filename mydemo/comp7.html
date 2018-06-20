@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body{
+            background-color: #292c4a;
+            color:rgb(24, 174, 156);
+            font-weight:bold;
+        }
+        .top-row{
+            height: 40px;
+            line-height: 40px;
+        }
+        .col1{
+            width:auto;
+            font-size:14px;
+            float:left;
+            letter-spacing: 2px;
+        }
+        .col1 img{
+            vertical-align: middle;
+        }
+        .obj {
+            clear:both;
+            height: 0px;
+            width:100%;
+            min-width:300px;
+            border: 1px solid rgba(24, 174, 156,0.5);
+
+            border-radius: 0 50% 50% 0;
+        }
+        .infomore{
+            margin-top:13px;
+            width:16px;
+            height:16px;
+            line-height:16px;
+            border-radius:10px;
+           /* background-color: rgba(254,254,254,.5);;*/
+            background: url(svg/info/n.svg) no-repeat;
+            float:right;
+            text-align:center;
+            color:rgba(0,0,0,.5);
+            font-size:12px;
+            font-weight:bold;
+        }
+        .infomore:hover{
+             background: url(svg/info/h.svg) no-repeat;
+            conent:"";
+        }
+    </style>
+</head>
+<body>
+<div class="top-row">
+    <div class="col1" id="title"><embed src="svg/bullet/green.svg" />&nbsp;&nbsp;刀具磨损量预测</div>
+    <div class="infomore"></div>
+</div>
+</body>
+</html>
+<script src="js/jquery-3.3.1.min.js"></script>
+<script>
+    var da={};
+    onInit=function(){
+    };
+
+    var  onDataUpdated=function(data){
+        $.each(data,function(i,obj){
+
+            eval("da."+obj.k.o+"='"+obj.v+"'");
+        });
+        $("#title").html('<embed src="svg/bullet/green.svg" style="" />&nbsp;&nbsp;'+da.comp_title);
+    };
+
+    onResize=function(){
+
+    };
+    onDestroy=function(){
+
+    };
+    onPendding=function(){
+
+    };
+
+    var data=[
+        {
+            v:"刀具磨损量预测",//遥测数据的值
+            t:1528358866224,//时间戳
+            k:{o:"comp_title",l:"comp_title"}//key 以及可以的label名
+        }
+    ];
+    onDataUpdated(data);
+</script>

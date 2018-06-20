@@ -1,0 +1,6 @@
+﻿[
+  {
+        "label": "comp_title",
+        "valueFunc": "return {\n    comp_title:\"刀具磨损量预测\"}\n//刀具剩余寿命"
+    }
+]

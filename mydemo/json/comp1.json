@@ -1,0 +1,22 @@
+﻿[
+    {
+        "label": "OPmtate",
+        "valueFunc": "return {\n    OPmtate:\"运行\"}\n//机床状态"
+    },
+    {
+        "label": "workcount",
+         "valueFunc": "return {\n    workcount:\"2\"}\n//加工件数"
+    },
+    {
+        "label": "poweronTime",
+        "valueFunc": "return {\n    poweronTime:\"\"}\n//开机时间"
+    },
+    {
+        "label": "cycletime",
+         "valueFunc": "return {\n    cycletime:\"\"}\n//水循环时间"
+    },
+    {
+        "label": "operatingTime",
+        "valueFunc": "return {\n    operatingTime:\"\"}\n//运行时间"
+    }
+]

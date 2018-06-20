@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 49.2 (51160) - http://www.bohemiancoding.com/sketch -->
+    <title>icon/dataAlert/load/d</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="icon/dataAlert/load/d" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="icon/dataAlert/load/n">
+            <rect id="bound" fill="#D8D8D8" opacity="0" x="0" y="0" width="24" height="24"></rect>
+            <path d="M21.9996,7.99985 L21.9996,4.41420503 C21.9996,3.86192028 21.5518848,3.41420503 20.9996,3.41420503 C20.7343844,3.41420503 20.4800312,3.51956118 20.292495,3.70709648 L3.70711708,20.2923915 C3.31659182,20.6829148 3.31659023,21.3160798 3.70711355,21.706605 C3.89465007,21.8941425 4.14900474,21.9995 4.4142221,21.9995 L17.99968,21.9995 L17.99968,8.99985 C17.99968,8.44756525 18.4473953,7.99985 18.99968,7.99985 L21.9996,7.99985 Z M20.00004,22 L22,22 L22,20.00005 L20.00004,20.00005 L20.00004,22 Z M20.00004,18.0001 L22,18.0001 L22,10.0003 L20.00004,10.0003 L20.00004,18.0001 Z" id="Fill-14" fill="#E04F23"></path>
+        </g>
+    </g>
+</svg>

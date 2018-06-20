@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body{
+            background-color: #292c4a;
+            color:rgb(24, 174, 156);
+
+        }
+        .top-row{
+            height: 40px;
+            line-height: 40px;
+        }
+        .col1{
+            width:auto;
+            font-size:14px;
+            float:left;
+            letter-spacing: 2px;
+        }
+        .col1 img{
+            vertical-align: middle;
+        }
+        .obj {
+            clear:both;
+            height: 0px;
+            width:100%;
+            min-width:300px;
+            border: 1px solid rgba(24, 174, 156,0.5);
+
+            border-radius: 0 50% 50% 0;
+        }
+        .infomore{
+            margin-top:13px;
+            width:16px;
+            height:16px;
+            line-height:16px;
+            border-radius:10px;
+            background-color: rgba(254,254,254,.5);;
+            float:right;
+            text-align:center;
+            color:rgba(0,0,0,.5);
+            font-size:12px;
+            font-weight:bold;
+        }
+        .leftdiv{
+            float:left;
+            width:100px;
+            height:100px;
+            line-height:100px;
+            font-size:50px;
+            text-align: left;
+            font-weight: normal;
+            color:rgb(1, 198, 253);
+        }
+        .rightdiv{
+            float:left;
+            width:calc(100% - 110px);
+            margin-left:10px;
+            margin-top:15px;
+        }
+        .txtdiv{
+            color:rgba(255,255,255,0.5);
+            font-size:14px;
+            font-weight: normal;
+        }
+        .barLife div{
+            width:4px;
+            height: 35px;
+            border-radius: 10px;
+            background-color: rgba(255,255,255,0.3);
+            float:left;
+            margin-right:5px;
+        }
+        .bottomdiv{
+            margin-top:10px;
+        }
+        em{
+            font-size:18px;
+            font-style:normal;
+        }
+        .rightdiv span{
+            color:rgba(255,255,255,0.5);
+            font-weight: 100;
+        }
+        .left{
+            float:left;
+            width:75%;
+        }
+        .right{
+            float:left;
+            width:calc(25% - 60px);
+            text-align: left;
+            padding-left:60px;
+        }
+        .righttxt{
+            font-size:14px;
+            color:rgba(255,255,255,0.5);
+            font-weight:100;
+        }
+        .right-sub-txt{
+            font-size:50px;
+            color:rgb(1, 198, 253);
+            font-weight:100;
+        }
+        .alarm{
+            color: rgb(224, 79, 35);
+        }
+        .warn{
+            color: #EAB62A;
+        }
+        .ok{
+            color:rgba(49, 178, 231,1);
+        }
+    </style>
+
+</head>
+<body>
+<div class="top-row">
+    <div class="col1"><img src="images/14.png"/>&nbsp;&nbsp;刀具剩余寿命</div>
+    <div class="infomore">i</div>
+</div>
+<div style="height: 100px;">
+
+    <div class="left">
+        <div class="leftdiv" id="tool_rul_perc">70<em>%</em></div>
+        <div class="rightdiv">
+            <div style="width:100%;"><span>0</span><span style="padding-left:calc(50% - 20px)">50</span><span style="padding-left:calc(50% - 50px)">100</span></div>
+            <div class="barLife"></div>
+        </div>
+    </div>
+    <div class="right">
+        <div class="righttxt">刀具剩余寿命</div>
+        <div class="right-sub-txt" id="tool_rul">122<em>min</em></div>
+    </div>
+   </div>
+</body>
+</html>
+<script src="js/jquery-3.3.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script>
+    var init=function(){
+        var width=$(".barLife").width();
+        var bar=$(".barLife");
+        bar.empty();
+        var n=width/9;
+        for(var i=1;i<n;i++){
+            $(".barLife").append("<div></div>");
+        }
+    };
+
+
+    var set=function(percent,tool_warn,tool_alarm){
+        var width=$(".barLife").width();
+        var newwidth=percent/100.0*width;
+        var n=newwidth/9;
+        $(".barLife div").css("background-color","rgba(255,255,255,0.3)");
+        for(var i=0;i<n;i++){
+            if(tool_alarm==1){
+                $(".barLife div").eq(i).css("background-color","rgb(224, 79, 35)");
+            }
+            else if(tool_warn==1){
+                $(".barLife div").eq(i).css("background-color","#EAB62A");
+            }
+            else{
+                $(".barLife div").eq(i).css("background-color","rgba(49, 178, 231, 0.8)");
+            }
+        }
+        if(tool_alarm==1){
+            $("#tool_rul_perc").removeClass("ok").removeClass("warn").addClass("alarm");
+            $("#tool_rul").removeClass("ok").removeClass("warn").addClass("alarm");
+        }
+        else if(tool_warn==1){
+            $("#tool_rul_perc").removeClass("ok").removeClass("alarm").addClass("warn");
+            $("#tool_rul").removeClass("ok").removeClass("alarm").addClass("warn");
+        }
+        else{
+            $("#tool_rul_perc").removeClass("alarm").removeClass("warn").addClass("ok");
+            $("#tool_rul").removeClass("alarm").removeClass("warn").addClass("ok");
+        }
+        $("#tool_rul_perc").html(percent+"<em>%</em>");
+    };
+
+    $(window).resize(function() {
+        init();
+        set($("#tool_rul_perc").html());
+    });
+
+    var data=[
+        {
+            v:1,
+            t:1528358866224,
+            k:{o:"tool_warn",l:"tool_warn"}
+        },
+        {
+            v:0,//遥测数据的值
+            t:1528358866224,//时间戳
+            k:{o:"tool_alarm",l:"tool_alarm"}
+        },
+        {
+            v:10,
+            t:1528358866224,
+            k:{o:"tool_rul_perc",l:"tool_rul_perc"}
+        },
+        {
+            v:110,
+            t:1528358866224,
+            k:{o:"tool_rul",l:"tool_rul"}
+        }
+    ];
+    var da={};
+
+
+   var onInit=function(){
+        init();
+    };
+   var onDataUpdated=function(data){
+        $.each(data,function(i,obj){
+
+            eval("da."+obj.k.o+"='"+obj.v+"'");
+        });
+        set(da.tool_rul_perc,da.tool_warn,da.tool_alarm);
+        $("#tool_rul").html(da.tool_rul+"<em>min</em>");
+    };
+    onResize=function(){
+
+    };
+    onDestroy=function(){
+
+    };
+    onPendding=function(){
+
+    };
+    onInit();
+    onDataUpdated(data);
+
+    var a=100;
+    var getData=function(){
+        var tool_warn=0,tool_alarm=0,tool_rul=100;
+        if(a<0){
+            a=100;
+        }
+        if(a<40){
+            tool_warn=1;
+        }
+        if(a<20){
+            tool_alarm=1;
+        }
+        tool_rul=a;
+        a = a -2;
+        return {
+            tool_rul: tool_rul,
+            tool_rul_perc:tool_rul,
+            tool_warn:tool_warn,
+            tool_alarm:tool_alarm
+        }
+    };
+    setInterval(function () {
+        var datanow=getData();
+        var data=[
+            {
+                v:datanow.tool_warn,
+                t:1528358866224,
+                k:{o:"tool_warn",l:"tool_warn"}
+            },
+            {
+                v:datanow.tool_alarm,//遥测数据的值
+                t:1528358866224,//时间戳
+                k:{o:"tool_alarm",l:"tool_alarm"}
+            },
+            {
+                v:datanow.tool_rul_perc,
+                t:1528358866224,
+                k:{o:"tool_rul_perc",l:"tool_rul_perc"}
+            },
+            {
+                v:datanow.tool_rul,
+                t:1528358866224,
+                k:{o:"tool_rul",l:"tool_rul"}
+            }
+        ];
+        onDataUpdated(data);
+    },2000);
+</script>

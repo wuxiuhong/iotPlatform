@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 49.2 (51160) - http://www.bohemiancoding.com/sketch -->
+    <title>icon/operationStats/running</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M0,0.893122081 L0,11.8509021 C0,12.7564795 0.629361663,12.8993498 1.09900174,12.5945599 L9.73349208,7.0299478 C10.088836,6.66654456 10.088836,6.07821229 9.73349208,5.71480905 L1.09900174,0.150196904 C0.928290136,0.0578807583 0.748786519,0 0.586134261,0 C0.260829746,0 0,0.232988369 0,0.893122081 Z" id="path-1"></path>
+    </defs>
+    <g id="icon/operationStats/running" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="icon/cncstatus/running" transform="translate(3.000000, 2.000000)">
+            <mask id="mask-2" fill="white">
+                <use xlink:href="#path-1"></use>
+            </mask>
+            <use id="Clip-6" fill="#01C6FD" xlink:href="#path-1"></use>
+        </g>
+    </g>
+</svg>

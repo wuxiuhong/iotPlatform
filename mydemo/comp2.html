@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body{
+            background-color:#262d45;
+        }
+        .main{
+            width:100%;
+            height: 140px;
+            background-color:#262d45;
+            color:rgba(255,255,255,0.5);
+            font-size:13px;
+        }
+        .tpdiv{
+            width:calc(22% - 6px);
+            height:96px;
+            float:left;
+            vertical-align: middle;
+            background-color:#292c4a;
+            margin:0 auto;
+            text-align:center;
+            border:3px solid rgba(49, 178, 231, 0.8);
+            -webkit-border-radius:5px;
+            -moz-border-radius:5px;
+            border-radius:5px;
+            color:rgba(255,255,255,0.9);
+            padding-top:38px;
+        }
+        .leftdiv{
+            float:left;
+            width:75%;
+            height:100%;
+            padding-left:20px;
+        }
+        .top-row{
+            height: 40px;
+            line-height: 40px;
+        }
+        .col1{
+            width:300px;
+            font-size:14px;
+            letter-spacing: 2px;
+            color:#07b3a5;
+        }
+
+
+        .bottom-row{
+            height: 35px;
+            line-height: 35px;
+        }
+        .bottom-row div{
+            float:left;
+            width:25%;
+            overflow: hidden;
+            text-overflow:ellipsis;
+            white-space: nowrap;
+        }
+        .bottom-row div span{
+            width:auto;
+            padding-right:20px;
+            color:rgba(255,255,255,0.9);
+        }
+        .bottom-row div span:first-child{
+
+            color:rgba(255,255,255,0.5);
+        }
+        .obj {
+            clear:both;
+            height: 0px;
+            width: 20%;
+            min-width:300px;
+            border: 1px solid rgba(24, 174, 156,0.5);
+
+            border-radius: 0 50% 50% 0;
+        }
+        .col1 img{
+            vertical-align: middle;
+        }
+        hr{
+            margin-top: 23px;
+            clear: both;
+            display: inline-block;
+            width: 100%;
+            border:none;
+            border-top:1px solid rgba(255,255,255,0.3);
+        }
+        .leftdiv-col1{
+            float:left;
+            width:calc(100% - 90px);
+        }
+        .leftdiv-col2{
+            float:right;
+            width:90px;
+            padding-top:40px;
+        }
+        .alarm{
+            width:calc(22% - 6px);
+            height:96px;
+            float:left;
+            vertical-align: middle;
+
+            margin:0 auto;
+            text-align:center;
+
+            -webkit-border-radius:5px;
+            -moz-border-radius:5px;
+            border-radius:5px;
+            color:rgba(255,255,255,0.9);
+            padding-top:38px;
+            background: linear-gradient(to right,#E04F23,#EAB62A);
+        }
+        .warn{
+            width:calc(22% - 6px);
+            height:96px;
+            float:left;
+            vertical-align: middle;
+
+            margin:0 auto;
+            text-align:center;
+
+            -webkit-border-radius:5px;
+            -moz-border-radius:5px;
+            border-radius:5px;
+            color:rgba(255,255,255,0.9);
+            padding-top:38px;
+            background: linear-gradient(to right,#EAB62A,#E04F23);
+        }
+    </style>
+</head>
+<body>
+<div id="app" class="main">
+    <div id="tool_status" class="tpdiv">
+      <div id="knife_status_img"><img src="svg/meter/n.svg"></div>
+      <div id="knife_status_txt">刀具状态正常</div>
+    </div>
+    <div class="leftdiv">
+        <div class="leftdiv-col1">
+            <div class="top-row">
+                <div class="col1"><img src="svg/bullet/green.svg">&nbsp;&nbsp;刀具基础信息</div>
+            </div>
+
+            <div class="bottom-row" style="margin-top:5px;">
+                <div><span>刀具品牌</span><span>日立</span>  </div>
+                <div><span>刀具规格</span><span>D35</span>  </div>
+                <div><span>主轴刀号</span><span id="currenttoolnum">T21</span>  </div>
+                <div><span>预备刀号</span><span id="pretoolnum">T09</span>  </div>
+            </div>
+            <div class="bottom-row" >
+                <div><span>X 轴负载</span><span id="x_load">40%</span>  </div>
+                <div><span>Y 轴负载</span><span id="y_load">40%</span>  </div>
+                <div><span>Z 轴负载</span><span id="z_load">40%</span>  </div>
+
+
+            </div>
+        </div>
+
+        <div class="leftdiv-col2">
+            <img src="images/tool.png" />
+        </div>
+        <hr/>
+    </div>
+
+</div>
+
+</body>
+
+</html>
+<script src="js/jquery-3.3.1.min.js"></script>
+
+<script>
+    var data=[
+        {
+            v:'T21',//遥测数据的值
+            t:1528358866224,//时间戳
+            k:{o:"currenttoolnum",l:"currenttoolnum"}//主轴刀号
+        },
+        {
+            v:21,//遥测数据的值
+            t:1528358866224,//时间戳
+            k:{o:"pretoolnum",l:"pretoolnum"}//预备刀号
+        },
+        {
+            v:'40%',//遥测数据的值
+            t:1528358866224,//时间戳
+            k:{o:"x_load",l:"x_load"}//x负载
+        },
+        {
+            v:'45%',//遥测数据的值
+            t:1528358866224,//时间戳
+            k:{o:"y_load",l:"y_load"}//y负载
+        },
+        {
+            v:'30%',//遥测数据的值
+            t:1528358866224,//时间戳
+            k:{o:"z_load",l:"z_load"}//z负载
+        },
+        {
+            v:0,//遥测数据的值
+            t:1528358866224,//时间戳
+            k:{o:"tool_break_alarm",l:"tool_break_alarm"}//z负载
+        }];
+
+    var da={};
+
+
+    onInit=function(){
+
+    };
+
+ var   onDataUpdated=function(data){
+        $.each(data,function(i,obj){
+
+            eval("da."+obj.k.o+"='"+obj.v+"'");
+        });
+        $("#currenttoolnum").html(da.currenttoolnum);
+        $("#pretoolnum").html(da.pretoolnum);
+        $("#x_load").html(da.x_load);
+        $("#y_load").html(da.y_load);
+        $("#z_load").html(da.z_load);
+        if(da.tool_break_alarm==1){
+            $("#tool_status").removeClass("tpdiv").removeClass("warn").addClass("alarm");
+            $("#knife_status_txt").html("刀具断刀提示");
+            $("#knife_status_img").html('<img src="svg/meter/a.svg">');
+        }
+        else if(da.tool_break_warn==1){
+            $("#tool_status").removeClass("tpdiv").removeClass("alarm").addClass("warn");
+            $("#knife_status_txt").html("刀具断刀提示");
+            $("#knife_status_img").html('<img src="svg/meter/a.svg">');
+        }
+        else{
+            $("#tool_status").removeClass("alarm").removeClass("warn").addClass("tpdiv");
+            $("#knife_status_txt").html("刀具状态正常");
+            $("#knife_status_img").html('<img src="svg/meter/n.svg">');
+        }
+    };
+
+    onResize=function(){
+
+    };
+
+    onDestroy=function(){
+
+    };
+
+    onPendding=function(){
+
+    };
+    onDataUpdated(data);
+
+    var a=100;
+    var getstatus=function(){
+        var tool_warn=0,tool_alarm=0,tool_rul=100;
+        if(a<0){
+            a=100;
+        }
+        if(a<40){
+            tool_warn=1;
+        }
+        if(a<20){
+            tool_alarm=1;
+        }
+        tool_rul=a;
+        a = a -2;
+        return {
+            tool_rul: tool_rul,
+            tool_break_warn:tool_warn,
+            tool_break_alarm:tool_alarm
+        }
+    };
+    setInterval(function () {
+        var getdata=getstatus();
+        var data=[
+            {
+                v:'T21',//遥测数据的值
+                t:1528358866224,//时间戳
+                k:{o:"currenttoolnum",l:"currenttoolnum"}//主轴刀号
+            },
+            {
+                v:21,//遥测数据的值
+                t:1528358866224,//时间戳
+                k:{o:"pretoolnum",l:"pretoolnum"}//预备刀号
+            },
+            {
+                v:'40%',//遥测数据的值
+                t:1528358866224,//时间戳
+                k:{o:"x_load",l:"x_load"}//x负载
+            },
+            {
+                v:'45%',//遥测数据的值
+                t:1528358866224,//时间戳
+                k:{o:"y_load",l:"y_load"}//y负载
+            },
+            {
+                v:'30%',//遥测数据的值
+                t:1528358866224,//时间戳
+                k:{o:"z_load",l:"z_load"}//z负载
+            },
+            {
+                v:getdata.tool_break_alarm,//遥测数据的值
+                t:1528358866224,//时间戳
+                k:{o:"tool_break_alarm",l:"tool_break_alarm"}//z负载
+            },
+            {
+                v:getdata.tool_break_warn,//遥测数据的值
+                t:1528358866224,//时间戳
+                k:{o:"tool_break_warn",l:"tool_break_warn"}//z负载
+            }];
+        onDataUpdated(data);
+    },2000);
+
+</script>

@@ -1,0 +1,24 @@
+﻿[{
+		"label": "tool_break_alarm",
+		"valueFunc": "return {\n    tool_break_alarm:\"\"}\n//断刀报警"
+	},
+	{
+		"label": "currenttoolnum",
+		"valueFunc": "return {\n    currenttoolnum:\"\"}\n//主轴刀号"
+	}, {
+		"label": "pretoolnum",
+		"valueFunc": "return {\n    pretoolnum:\"1\"}\n//预备刀号"
+	},
+
+	{
+		"label": "x_load",
+		"valueFunc": "return {\n    x_load:\"1\"}\n//x轴负载"
+	},
+	{
+		"label": "x_load",
+		"valueFunc": "return {\n    x_load:\"1\"}\n//y轴负载"
+	}, {
+		"label": "z_load",
+		"valueFunc": "return {\n   z_load:\"1\"}\n//z轴负载"
+	}
+]

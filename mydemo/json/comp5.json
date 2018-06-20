@@ -1,0 +1,14 @@
+﻿[
+    {
+        "label": "spindle_fcft_score",
+        "valueFunc": "return {\n    spindle_fcft_score:\"0\"}\n//FIFT评分"
+    },
+    {
+        "label": "spindle_thres",
+        "valueFunc": "return {\n    spindle_thres:\"0\"}\n//阀值"
+    },
+    {
+        "label": "spindle_alarm",
+        "valueFunc": "return {\n    spindle_alarm:\"0\"}\n//是否报警"
+    }
+]

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="32px" height="32px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 49.2 (51160) - http://www.bohemiancoding.com/sketch -->
+    <title>icon/notification</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="144.98291%" id="linearGradient-1">
+            <stop stop-color="#00ECE0" offset="0%"></stop>
+            <stop stop-color="#01C6FD" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="icon/notification" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g>
+            <rect id="bound" fill="#D8D8D8" opacity="0" x="0" y="0" width="32" height="32"></rect>
+            <path d="M20.595027,24.9640649 C20.595027,27.5322811 18.5132973,29.6144432 15.9446486,29.6144432 C13.3764324,29.6144432 11.2942703,27.5322811 11.2942703,24.9640649 L2.16216216,24.9640649 L5.99874595,24.9640649 L5.99874595,15.0150919 C5.99874595,9.52233514 10.4519351,5.06914595 15.9446919,5.06914595 L15.9446919,2.16216216 L15.9446919,5.06940541 C21.4374486,5.06914595 25.8906378,9.52233514 25.8906378,15.0150919 L25.8906378,24.9640649 L29.7267027,24.9640649 L20.595027,24.9640649 Z" id="Notification" stroke="url(#linearGradient-1)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+        </g>
+    </g>
+</svg>
