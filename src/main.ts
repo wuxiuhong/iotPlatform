@@ -7,7 +7,7 @@ import VueRouter from 'vue-router';
 import store from './vuex/store';
 import Vuex from 'vuex';
 import routes from './routes';
-// import Mock from './mock';
+import Mock from './mock';
 import './styles/index.scss';
 
 // Mock.bootstrap();

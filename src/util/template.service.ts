@@ -132,6 +132,7 @@ function TemplateService(data: any, _self: any) {
             const TemplateTypeFunction = new Function(TemplateFunctionBody);
             const TemplateType = TemplateTypeFunction.apply(_self);
             TemplateTypeInstance = new TemplateType(templateContext);
+            console.log(TemplateTypeInstance);
             return TemplateTypeInstance;
         } catch (e) {
             console.log('抛出异常');

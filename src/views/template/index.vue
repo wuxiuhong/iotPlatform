@@ -10,11 +10,12 @@
 
 <script lang="ts">
     import Vue from 'vue';
-    import { Component } from 'vue-property-decorator';
-    import { TemplateApi } from '../../api';
+    import {Component} from 'vue-property-decorator';
+    import {TemplateApi} from '../../api';
     import TemplateService from '../../util/template.service';
-    import { renderTemplateFn } from '../../common';
+    import {renderTemplateFn} from '../../common';
     import _ from 'lodash';
+
 
     @Component
     export default class Template extends Vue {
