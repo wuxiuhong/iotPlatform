@@ -145,6 +145,7 @@ function WebsocketService() {
         const command = subscriber.subscriptionCommand || subscriber.historyCommand;
         const commandItem = command.find((item: any) => item.clientid === data.edgeClientId);
         const result = [];
+        // todo 待处理找到deviceId处理返回给组件的数据
         data.telemetry.forEach((item: any) => {
             const keyInfo = commandItem.key.find((keyItem: any) => keyItem.key === item.key);
             return result.push({

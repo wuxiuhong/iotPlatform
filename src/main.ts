@@ -1,17 +1,19 @@
 import Vue from 'vue';
 import App from './App.vue';
 import ElementUI from 'element-ui';
+import VueCodeMirror from 'vue-codemirror-lite';
 import 'element-ui/lib/theme-chalk/index.css';
 import VueRouter from 'vue-router';
 import store from './vuex/store';
 import Vuex from 'vuex';
 import routes from './routes';
-import Mock from './mock';
+// import Mock from './mock';
 import './styles/index.scss';
-Mock.bootstrap();
-import 'font-awesome/css/font-awesome.min.css';
 
+// Mock.bootstrap();
+import 'font-awesome/css/font-awesome.min.css';
 Vue.use(ElementUI);
+Vue.use(VueCodeMirror);
 Vue.use(VueRouter);
 Vue.use(Vuex as any);
 

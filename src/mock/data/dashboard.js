@@ -13,24 +13,41 @@ const dashboard = {
         ],
         "backgroundSizeMode" : "100%"
     },
-    "edgeClients" : {
-        "id" : "6147f73d-07f5-4f1f-94b3-887f8e216e77",
-        "keys" : ['age', 'name']
-    },
     "edgeClientAliases" : [
         {
             "aliasId" : 1,
             "alias" : "别名1",
-            "edgeClientList" : [
-                "6147f73d-07f5-4f1f-94b3-887f8e216e77",
-                "5f4f7ca0-fda7"
+            "edgeClients" : [
+                {
+                    "edgeClientId" : "6147f73d-07f5-4f1f-94b3-887f8e216e77",
+                    "edgeClientName" : "C-edgeclient",
+                    "deviceList" : [
+                        {"id" : "6147f73d-07f5-4f1f-94b3-887f8e216e77", "name" : "冲压机1", "keys" : ["k1", "k2"]},
+                        {"id" : "5f4f7ca0-fda7", "name" : "冲压机2", "keys" : ["k1", "k2", "k3"]}
+                    ]
+                },
+                {
+                    "edgeClientId" : "9147f73d-07f5-4f1f-94b3-887f8e216e78",
+                    "edgeClientName" : "D-edgeclient",
+                    "deviceList" : [
+                        {"id" : "6147f73d-07f5-4f1f-94b3-887f8e216e77", "name" : "冲压机3", "keys" : ["k1", "k2"]},
+                        {"id" : "5f4f7ca0-fda7", "name" : "冲压机4", "keys" : ["k1", "k2", "k3"]}
+                    ]
+                }
             ]
         },
         {
             "aliasId" : 2,
-            "alias" : "别名2",
-            "edgeClientList" : [
-                "5f2f"
+            "alias" : "C-edgeclient",
+            "edgeClients" : [
+                {
+                    "edgeClientId" : "6147f73d-07f5-4f1f-94b3-887f8e216e77",
+                    "edgeClientName" : "C-edgeclient",
+                    "deviceList" : [
+                        {"id" : "6147f73d-07f5-4f1f-94b3-887f8e216e77", "name" : "冲压机4", "keys" : ["k1", "k2"]},
+                        {"id" : "5f4f7ca0-fda7", "name" : "冲压机6", "keys" : ["k1", "k2", "k3"]}
+                    ]
+                }
             ]
         }
     ],
@@ -65,11 +82,11 @@ const dashboard = {
                     },
                     "dataSources" : [
                         {
-                            "label" : "age",
+                            "label" : "k1",
                             "valueFunc" : "return {\n    areaName:\"S11\",\n    deviceType:\"WaterPump\",\n    belongTo:\"WaterCurtainPool\",\n    group:0,\n    category:1,\n    item:1,\n    telemetryValue:1\n}\n//水泵--水帘池"
                         },
                         {
-                            "label" : "WaterPump2",
+                            "label" : "k2",
                             "valueFunc" : "return {\n    areaName:\"S11\",\n    deviceType:\"WaterPump\",\n    belongTo:\"WaterCurtainPool\",\n    group:0,\n    category:1,\n    item:1,\n    telemetryValue:1\n}\n//水泵--水帘池"
                         }
                     ]
@@ -101,19 +118,37 @@ const dashboard = {
             "dataSources" : [
                 {
                     "type" : "edgeClient",
+                    "aliasId" : 2,
+                    "dataKeys" : [
+                        {
+                            "deviceId" : "f5f02b38-4dab-4ba9-9160-fc4aab58ff84",
+                            "edgeClientId" : "d9e80502-a9e2-44ab-9402-0cb97829bb1a",
+                            "type" : "latest",
+                            "label" : "operatingTime",
+                            "key" : "wsstompkey",
+                            "valueFunc" : "",
+                        },
+                        {
+                            "deviceId" : "d9e80502-a9e2-44ab-9402-0cb97829bb1a",
+                            "edgeClientId" : "f5f02b38-4dab-4ba9-9160-fc4aab58ff84",
+                            "type" : "latest",
+                            "label" : "edgeClient2",
+                            "key" : "k2",
+                            "valueFunc" : ""
+                        }
+                    ]
+                },
+                {
+                    "type" : "edgeClient",
                     "aliasId" : 1,
                     "dataKeys" : [
                         {
-                            "type" : "attributes",
-                            "label" : "edgeClient1",
-                            "key" : "age",
-                            "valueFunc" : "return {\n    areaName:\"S11\",\n    deviceType:\"WaterPump\",\n    belongTo:\"WaterCurtainPool\",\n    group:0,\n    category:1,\n    item:1,\n    telemetryValue:1\n}\n//水泵--水帘池"
-                        },
-                        {
+                            "edgeClientId" : "f5f02b38-4dab-4ba9-9160-fc4aab58ff84",
+                            "deviceId" : "d9e80502-a9e2-44ab-9402-0cb97829bb1a",
                             "type" : "latest",
-                            "label" : "edgeClient2",
-                            "key" : "WaterPump2",
-                            "valueFunc" : "return {\n    areaName:\"S11\",\n    deviceType:\"WaterPump\",\n    belongTo:\"WaterCurtainPool\",\n    group:0,\n    category:1,\n    item:1,\n    telemetryValue:1\n}\n//水泵--水帘池"
+                            "label" : "poweronTime",
+                            "key" : "wsstompkey",
+                            "valueFunc" : "",
                         }
                     ]
                 }
@@ -134,7 +169,7 @@ const dashboard = {
                 "template" : {
                     "dependent" : [],
                     "templateHtml" : "<div class=\"empty-component\"></div>",
-                    "templateCss" : ".empty-component{ width:calc(100vw - 88px); height: 100%;  background-color:#262d45;  } ",
+                    "templateCss" : ".empty-component{ width:100%; height: 100%;  background-color:#262d45;  } ",
                     "controllerScript" : {},
                     "defaultData" : {
                         "title" : '刀具磨损量预测'
@@ -154,7 +189,8 @@ const dashboard = {
             "title" : "刀具磨损量预测",
             "zIndex" : 0,
             "styles" : {
-                "height" : 720,
+                "width" : "100%",
+                "height" : 740,
                 "showTitle" : false,
                 "titleStyle" : {
                     "fontSize" : "16px",
@@ -184,7 +220,7 @@ const dashboard = {
                     "templateCss" : ".main{ width:100%; height: 140px; background-color:#262d45; color:rgba(255,255,255,0.5); font-size:13px; } .tpdiv{ width:calc(25% - 26px); height:96px; float:left; vertical-align: middle; background-color:#292c4a; margin:0 auto; text-align:center; border:3px solid rgba(49, 178, 231, 0.8); -webkit-border-radius:5px; -moz-border-radius:5px; border-radius:5px; color:rgba(255,255,255,0.9); padding-top:38px; } .leftdiv{ float:left; width:75%; height:100%; padding-left:20px; } .top-row{ height: 40px; line-height: 40px; } .col1{ width:300px; font-size:14px; letter-spacing: 2px; color:#07b3a5; } .bottom-row{ height: 35px; line-height: 35px; } .bottom-row div{ float:left; width:25%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } .bottom-row div span{ width:auto; padding-right:20px; color:rgba(255,255,255,0.9); } .bottom-row div span:first-child{ color:rgba(255,255,255,0.5); } .obj { clear:both; height: 0px; width: 20%; min-width:300px; border: 1px solid rgba(24, 174, 156,0.5); border-radius: 0 50% 50% 0; } .col1 img{ vertical-align: middle; } hr{ margin-top: 23px; clear: both; display: inline-block; width: 100%; border:none; border-top:1px solid rgba(255,255,255,0.3); } .leftdiv-col1{ float:left; width:calc(100% - 130px); } .leftdiv-col2{ float:right; width:90px; padding-top:40px; } .alarm{ width:calc(22% - 6px); height:96px; float:left; vertical-align: middle; margin:0 auto; text-align:center; -webkit-border-radius:5px; -moz-border-radius:5px; border-radius:5px; color:rgba(255,255,255,0.9); padding-top:38px; background: linear-gradient(to right,#E04F23,#EAB62A); }",
                     "controllerScript" : {
                         "mounted" : "maxIot.formatData(maxIot.currentData)",
-                        "methods" : " return { onDataUpdated(data) {if (data.length) { data.forEach((item) => { this.currentData[item.k.l]= item.v; }); } maxIot.formatData(this.currentData)}, onResize() {}, formatData(data) { if (data.tool_break_alarm === 1) { $(\"#tool_status\").removeClass(\"tpdiv\").addClass(\"alarm\"); $(\"#knife_status_txt\").html(\"刀具断刀提示\");$(\"#knife_status_img\").html('<img src=\"./static/images/svg/meter/a.svg\">');} else { $(\"#tool_status\").removeClass(\"alarm\").addClass(\"tpdiv\"); $(\"#knife_status_txt\").html(\"刀具状态正常\");  $(\"#knife_status_img\").html('<img src=\"./static/images/svg/meter/n.svg\">');} }}",
+                        "methods" : " return { onDataUpdated(data) {if (data.length) { data.forEach((item) => { this.currentData[item.k.l]= item.v; }); } this.formatData(this.currentData)}, onResize() {}, formatData(data) { if (data.tool_break_alarm === 1) { $(\"#tool_status\").removeClass(\"tpdiv\").addClass(\"alarm\"); $(\"#knife_status_txt\").html(\"刀具断刀提示\");$(\"#knife_status_img\").html('<img src=\"./static/images/svg/meter/a.svg\">');} else { $(\"#tool_status\").removeClass(\"alarm\").addClass(\"tpdiv\"); $(\"#knife_status_txt\").html(\"刀具状态正常\");  $(\"#knife_status_img\").html('<img src=\"./static/images/svg/meter/n.svg\">');} }}",
                         "onDestroy" : "console.log('销毁')"
                     },
                     "defaultData" : {
@@ -193,21 +229,7 @@ const dashboard = {
                             "z_load" : "30%"
                         }
                     },
-                    "dataSources" : [
-                        {
-                            "type" : "edgeClient",
-                            "dataKeys" : [
-                                {
-                                    "key" : "WaterPump",
-                                    "value" : "return {\n    areaName:\"S11\",\n    deviceType:\"WaterPump\",\n    belongTo:\"WaterCurtainPool\",\n    group:0,\n    category:1,\n    item:1,\n    telemetryValue:1\n}\n//水泵--水帘池"
-                                },
-                                {
-                                    "key" : "WaterPump",
-                                    "value" : "return {\n    areaName:\"S11\",\n    deviceType:\"WaterPump\",\n    belongTo:\"WaterCurtainPool\",\n    group:0,\n    category:1,\n    item:1,\n    telemetryValue:1\n}\n//水泵--水帘池"
-                                }
-                            ]
-                        }
-                    ]
+                    "dataSources" : []
                 }
             },
             "templateType" : "latest | time",
@@ -235,34 +257,16 @@ const dashboard = {
             },
             "dataSources" : [
                 {
-                    "type" : "function",
-                    "dataKeys" : [
-                        {
-                            "type" : "latest",
-                            "name" : "f(x)",
-                            "color" : "#ffd600",
-                            "key" : "WaterPump",
-                            "valueFunc" : "return {\n    areaName:\"S11\",\n    deviceType:\"WaterPump\",\n    belongTo:\"WaterCurtainPool\",\n    group:0,\n    category:1,\n    item:1,\n    telemetryValue:1\n}\n//水泵--水帘池"
-                        }
-                    ]
-                },
-                {
                     "type" : "edgeClient",
                     "aliasId" : 1,
                     "dataKeys" : [
                         {
-                            "type" : "attr",
-                            "label" : "edgeClient1",
-                            "color" : "#ffd600",
-                            "key" : "WaterPump",
-                            "valueFunc" : "return {\n    areaName:\"S11\",\n    deviceType:\"WaterPump\",\n    belongTo:\"WaterCurtainPool\",\n    group:0,\n    category:1,\n    item:1,\n    telemetryValue:1\n}\n//水泵--水帘池"
-                        },
-                        {
+                            "edgeClientId" : "6147f73d-07f5-4f1f-94b3-887f8e216e77",
+                            "deviceId" : "6147f73d-07f5-4f1f-94b3-887f8e216e77",
                             "type" : "latest",
-                            "label" : "edgeClient2",
-                            "color" : "#ffd600",
-                            "key" : "WaterPump",
-                            "valueFunc" : "return {\n    areaName:\"S11\",\n    deviceType:\"WaterPump\",\n    belongTo:\"WaterCurtainPool\",\n    group:0,\n    category:1,\n    item:1,\n    telemetryValue:1\n}\n//水泵--水帘池"
+                            "label" : "key2",
+                            "key" : "k2",
+                            "valueFunc" : ""
                         }
                     ]
                 }
@@ -388,7 +392,7 @@ const dashboard = {
                     "templateHtml" : "<div id=\"mainChart2\" style=\"width: 100%;height:350px;\"></div>",
                     "templateCss" : "",
                     "controllerScript" : {
-                        "mounted" : "maxIot.option = { title: { text: '刀具衰退趋势图', left:'‘0%', top:'0%', textStyle:{ color:'rgba(255,255,255,0.5)', fontStyle:'normal', fontFamily:'sans-serif', fontSize:14 } }, tooltip: { trigger: 'axis', formatter: function (params) { params = params[0]; return \"磨损量 <span style='color:#01c6fd' >\"+ params.value[1]+ \"mm</span>\"; }, axisPointer: { type: 'cross', animation: false, label: { backgroundColor: '#505765' } }, textStyle:{ color:'rgba(255,255,255,0.5)' } }, xAxis: { type: 'value', boundaryGap: false, name:'(mins)', nameGap:20, splitNumber:16, axisLine:{ lineStyle:{ color:'rgba(255,255,255,0.5)' } }, axisLabel:{ interval:5 }, splitLine: { show: false } }, yAxis: { type: 'value', name:'磨损量（mm）', nameTextStyle:{ color:'#399fae', fontSize:'16px' }, nameGap:30, axisTick:{ length:'0' }, axisLine:{ lineStyle:{ color:'rgba(255,255,255,0.5)' } }, }, grid:{ left:36, top:90 }, visualMap: { top: 10, right: 10, pieces: [{ gt: 0, lte: 0.2, color: '#E04F23' }, { gt:0.2, lte: 0.4, color: '#EAB62A' }, { gt: 0.4, lte: 1, color: '#01c5fd' }], outOfRange: { color: '#999' }, show:false }, color:['#E04F23','#EAB62A','#01c5fd'], series: [ { data:[], type: 'line', showSymbol:false, symbolSize:1,   smooth: true, itemStyle: { normal: { borderWidth: 3, borderColor: 'white', color: 'blue' } }, markLine: { data: [ { name: '最小值',xAxis:0} ], lineStyle:{ type:'solid', color:'#000' }, symbol:'', label:{ show:false } } }, { data:[], type: 'line', symbol:'none', smooth: true, itemStyle:{ normal:{ color:'#20aefc', show:false } }, lineStyle: { normal: { width: 4, type: 'dashed' } } }, { name:'低故障率', type:'line', animation: false, areaStyle: { normal: {} }, lineStyle: { normal: { width: 3 } }, markArea: { data: [[{ yAxis: '0' }, { yAxis: '0.2' }]] }, },{ name:'中等故障率', type:'line', animation: false, areaStyle: { normal: {} }, lineStyle: { normal: { width: 1 } }, markArea: { data: [[{ yAxis: '0.2' }, { yAxis: '0.4' }]] } },{ name:'高故障率', type:'line', animation: false, areaStyle: { normal: {} }, lineStyle: { normal: { width: 1 } }, markArea: { data: [[{ yAxis: '0.4' }, { yAxis: '1' }]] } }] }; setInterval(function () { var data=[ { v:'2018-06-10 12:19:20', t:1528358866224, k:{o:\"tool_start_time\",l:\"tool_start_time\"} }, { v:maxIot.getDatestr(), t:1528358866224, k:{o:\"tool_end_time\",l:\"tool_end_time\"} }, { v: maxIot.getData(), t:1528358866224, k:{o:\"tool_wear\",l:\"tool_wear\"} }, { v:\"[0.5,0.4,0.3]\", t:1528358866224, k:{o:\"tool_wear_prid\",l:\"tool_wear_prid\"} }, { v:0, t:1528358866224, k:{o:\"tool_alarm\",l:\"tool_alarm\"} }, { v:1, t:1528358866224, k:{o:\"tool_warn\",l:\"tool_warn\"} }, { v:0.4, t:1528358866224, k:{o:\"tool_warn_thres\",l:\"tool_warn_thres\"} }, { v:0.2, t:1528358866224, k:{o:\"tool_alarm_thres\",l:\"tool_alarm_thres\"} } ]; maxIot.onDataUpdated(data); },5000);",
+                        "mounted" : "maxIot.option = { title: { text: '刀具衰退趋势图', left:'‘0%', top:'0%', textStyle:{ color:'rgba(255,255,255,0.5)', fontStyle:'normal', fontFamily:'sans-serif', fontSize:14 } }, tooltip: { trigger: 'axis', formatter: function (params) { params = params[0]; return \"磨损量 <span style='color:#01c6fd' >\"+ params.value[1]+ \"mm</span>\"; }, axisPointer: { type: 'cross', animation: false, label: { backgroundColor: '#505765' } }, textStyle:{ color:'rgba(255,255,255,0.5)' } }, xAxis: { type: 'value', boundaryGap: false, name:'(mins)', nameGap:10, splitNumber:16, axisLine:{ lineStyle:{ color:'rgba(255,255,255,0.5)' } }, axisLabel:{ interval:5 }, splitLine: { show: false } }, yAxis: { type: 'value', name:'磨损量（mm）', nameTextStyle:{ color:'#399fae', fontSize:'16px' }, nameGap:30, axisTick:{ length:'0' }, axisLine:{ lineStyle:{ color:'rgba(255,255,255,0.5)' } }, }, grid:{ left:36, top:90 }, visualMap: { top: 10, right: 10, pieces: [{ gt: 0, lte: 0.2, color: '#E04F23' }, { gt:0.2, lte: 0.4, color: '#EAB62A' }, { gt: 0.4, lte: 1, color: '#01c5fd' }], outOfRange: { color: '#999' }, show:false }, color:['#E04F23','#EAB62A','#01c5fd'], series: [ { data:[], type: 'line', showSymbol:false, symbolSize:1,   smooth: true, itemStyle: { normal: { borderWidth: 3, borderColor: 'white', color: 'blue' } }, markLine: { data: [ { name: '最小值',xAxis:0} ], lineStyle:{ type:'solid', color:'#000' }, symbol:'', label:{ show:false } } }, { data:[], type: 'line', symbol:'none', smooth: true, itemStyle:{ normal:{ color:'#20aefc', show:false } }, lineStyle: { normal: { width: 4, type: 'dashed' } } }, { name:'低故障率', type:'line', animation: false, areaStyle: { normal: {} }, lineStyle: { normal: { width: 3 } }, markArea: { data: [[{ yAxis: '0' }, { yAxis: '0.2' }]] }, },{ name:'中等故障率', type:'line', animation: false, areaStyle: { normal: {} }, lineStyle: { normal: { width: 1 } }, markArea: { data: [[{ yAxis: '0.2' }, { yAxis: '0.4' }]] } },{ name:'高故障率', type:'line', animation: false, areaStyle: { normal: {} }, lineStyle: { normal: { width: 1 } }, markArea: { data: [[{ yAxis: '0.4' }, { yAxis: '1' }]] } }] }; setInterval(function () { var data=[ { v:'2018-06-10 12:19:20', t:1528358866224, k:{o:\"tool_start_time\",l:\"tool_start_time\"} }, { v:maxIot.getDatestr(), t:1528358866224, k:{o:\"tool_end_time\",l:\"tool_end_time\"} }, { v: maxIot.getData(), t:1528358866224, k:{o:\"tool_wear\",l:\"tool_wear\"} }, { v:\"[0.5,0.4,0.3]\", t:1528358866224, k:{o:\"tool_wear_prid\",l:\"tool_wear_prid\"} }, { v:0, t:1528358866224, k:{o:\"tool_alarm\",l:\"tool_alarm\"} }, { v:1, t:1528358866224, k:{o:\"tool_warn\",l:\"tool_warn\"} }, { v:0.4, t:1528358866224, k:{o:\"tool_warn_thres\",l:\"tool_warn_thres\"} }, { v:0.2, t:1528358866224, k:{o:\"tool_alarm_thres\",l:\"tool_alarm_thres\"} } ]; if (maxIot.a < 0) { maxIot.a = 1; maxIot.oldData = []; maxIot.myChart.resize(); } else { maxIot.onDataUpdated(data); } },2000);",
                         "methods" : "return { onDataUpdated(data) { if (data.length) { data.forEach((item) => { this.da[item.k.l]= item.v; }); var minutes=0; if(this.oldData.length==0){ this.oldData.push([0,this.da.tool_wear]); this.firstDate=this.da.tool_end_time; } else{ var minutes= this.getMinsDiff(this.da.tool_end_time,this.firstDate); this.oldData.push([minutes,this.da.tool_wear]); } this.curmin=minutes; var tool_wear_prid= eval (\"(\" + this.da.tool_wear_prid + \")\"); var arr=[]; arr.push([this.curmin,this.da.tool_wear]); arr.push([this.curmin+1,tool_wear_prid[0]]); arr.push([this.curmin+2,tool_wear_prid[1]]); arr.push([this.curmin+3,tool_wear_prid[2]]); this.option.series[0].data = this.oldData; this.option.series[1].data = arr; this.option.visualMap.pieces[0].lte=this.da.tool_alarm_thres; this.option.visualMap.pieces[1].gt=this.da.tool_alarm_thres; this.option.visualMap.pieces[1].lte=this.da.tool_warn_thres; this.option.visualMap.pieces[2].gt=this.da.tool_warn_thres; this.option.series[2].markArea.data[0][1].yAxis=this.da.tool_alarm_thres; this.option.series[3].markArea.data[0][0].yAxis= this.da.tool_alarm_thres; this.option.series[3].markArea.data[0][1].yAxis= this.da.tool_warn_thres; this.option.series[4].markArea.data[0][0].yAxis= this.da.tool_warn_thres; this.option.series[0].markLine.data[0].xAxis = minutes; } this.myChart = echarts.init(document.getElementById('mainChart2'));   this.myChart.setOption(this.option, true);}, onResize() { this.myChart.resize();}, getMinsDiff(date1,date2){ var date=new Date(date1).getTime() - new Date(date2).getTime(); var diffmins=date/(60*1000) ; return diffmins; }, getDatestr(){ var date=new Date(\"2018-06-10 12:20:20\"); date.setMinutes(date.getMinutes() + this.n++); return date; }, getData(){ this.a=this.a-0.02; return this.a; } }"
                     },
                     "defaultData" : {
@@ -585,34 +589,16 @@ const dashboard = {
             },
             "dataSources" : [
                 {
-                    "type" : "function",
-                    "dataKeys" : [
-                        {
-                            "type" : "latest",
-                            "name" : "f(x)",
-                            "color" : "#ffd600",
-                            "key" : "WaterPump",
-                            "valueFunc" : "return {\n    areaName:\"S11\",\n    deviceType:\"WaterPump\",\n    belongTo:\"WaterCurtainPool\",\n    group:0,\n    category:1,\n    item:1,\n    telemetryValue:1\n}\n//水泵--水帘池"
-                        }
-                    ]
-                },
-                {
                     "type" : "edgeClient",
                     "aliasId" : 1,
                     "dataKeys" : [
                         {
-                            "type" : "attr",
-                            "label" : "edgeClient1",
-                            "color" : "#ffd600",
-                            "key" : "WaterPump",
-                            "valueFunc" : "return {\n    areaName:\"S11\",\n    deviceType:\"WaterPump\",\n    belongTo:\"WaterCurtainPool\",\n    group:0,\n    category:1,\n    item:1,\n    telemetryValue:1\n}\n//水泵--水帘池"
-                        },
-                        {
+                            "deviceId" : "6sdf5we6-sad546s-sd55-1asf",
+                            "edgeClientId" : "6sdf5we7-sad586s-sd55-5asp",
                             "type" : "latest",
-                            "label" : "edgeClient2",
-                            "color" : "#ffd600",
-                            "key" : "WaterPump",
-                            "valueFunc" : "return {\n    areaName:\"S11\",\n    deviceType:\"WaterPump\",\n    belongTo:\"WaterCurtainPool\",\n    group:0,\n    category:1,\n    item:1,\n    telemetryValue:1\n}\n//水泵--水帘池"
+                            "label" : "key2",
+                            "key" : "k2",
+                            "valueFunc" : ""
                         }
                     ]
                 }
@@ -845,10 +831,10 @@ const dashboard = {
                 "createTime" : "2018-5-28",
                 "template" : {
                     "dependent" : [],
-                    "templateHtml" : "<div id=\"riskChart\" style=\"width: 100%;height:300px;\"></div>",
+                    "templateHtml" : "<div id=\"riskChart\" style=\"width: 100%; height:300px;\"></div>",
                     "templateCss" : "",
                     "controllerScript" : {
-                        "mounted" : "const data= [ { \"value\": 0, \"date\": \"2012-05-01\" }, { \"value\": 0.1, \"date\": \"2012-05-02\" }, { \"value\": 0.15, \"date\": \"2012-05-03\" }, { \"value\": 0.15, \"date\": \"2012-05-04\" }, { \"value\": 0.15, \"date\": \"2012-05-05\" }, { \"value\":0.15, \"date\": \"2012-05-06\" }, { \"value\":0.15, \"date\": \"2012-05-07\" }, { \"value\": 0.15, \"date\": \"2012-05-08\" }, { \"value\": 0.15, \"date\": \"2012-05-09\" }, { \"value\": 0.15, \"date\": \"2012-05-10\" }, { \"value\": 0.15, \"date\": \"2012-05-11\" }, { \"value\": 0.15, \"date\": \"2012-05-12\" }, { \"value\":0.15, \"date\": \"2012-05-13\" }, { \"value\": 0.15, \"date\": \"2012-05-14\" }, { \"value\":0.15, \"date\": \"2012-05-15\" }, { \"value\": 0.15, \"date\": \"2012-05-16\" }, { \"value\":0.15, \"date\": \"2012-05-17\" }, { \"value\": 0.15, \"date\":\"2012-05-18\" }, { \"value\": 0.15, \"date\": \"2012-05-19\" }, { \"value\":0.15, \"date\": \"2012-05-20\" }, { \"value\":0.15, \"date\": \"2012-05-21\" }, { \"value\": 0.15, \"date\": \"2012-05-22\" }, { \"value\": 0.15, \"date\": \"2012-05-23\" }, { \"value\": 0.5, \"date\": \"2012-05-24\" }, { \"value\":0.15, \"date\": \"2012-05-25\" }, { \"value\":0.15, \"date\": \"2012-05-26\" }, { \"value\":0.15, \"date\": \"2012-05-27\" }, { \"value\": 0.15, \"date\": \"2012-05-28\" }, { \"value\":0.15, \"date\": \"2012-05-29\" }, { \"value\":0.15, \"date\": \"2012-05-30\" } ];  maxIot.myChart = echarts.init(document.getElementById('riskChart')); maxIot.option = { title: { text: '健康风险变化曲线', left:'‘0%', top:'0%', textStyle:{ color:'rgba(255,255,255,0.5)', fontStyle:'normal', fontFamily:'sans-serif', fontSize:14 } }, tooltip: { trigger: 'axis', formatter: function (params) { params = params[0]; return \"日期 <span style='color:#01c6fd' >\"+ params.name+ \"</span><br/>风险值 <span style='color:#01c6fd'>\"+ params.value+ \"</span>\"; }, axisPointer: { type: 'cross', animation: false, label: { backgroundColor: '#505765' } }, textStyle:{ color:'rgba(255,255,255,0.5)' } }, xAxis: { type: 'category', boundaryGap: true, name:'日期(天)', nameLocation:'end', nameGap:20, axisLine:{ lineStyle:{ color:'rgba(255,255,255,0.5)' } } ,axisLabel: { formatter: function (value, idx) { var date = new Date(value); return [date.getMonth() + 1, date.getDate()].join('/'); }, interval:1 }, splitLine: { show: false } }, yAxis: { type: 'value', name:'风险值', nameTextStyle:{ color:'rgba(255,255,255,0.5)', fontSize:'14' }, nameGap:30, axisTick:{ length:'0' }, axisLine:{ lineStyle:{ color:'rgba(255,255,255,0.5)' } }, }, grid:{ left:36, top:90 }, visualMap: { top: 10, right: 10, pieces: [{ gt: 0, lte: 0.2, color: '#01c5fd' }, { gt:0.2, lte: 0.4, color: '#EAB62A' }, { gt: 0.4, lte: 1, color: '#E04F23' }], outOfRange: { color: '#999' }, show:false }, color:['#01c5fd','#EAB62A','rgba(224,79,35,0.1)'], series: [{ type: 'line', showSymbol:false, symbolSize:0, itemStyle:{ normal:{ color:'#20aefc', show:false } }, itemStyle: { normal: { borderWidth: 3, borderColor: 'yellow', color: 'blue' } } }, { name:'低风险', type:'line', animation: false, areaStyle: { normal: {} }, lineStyle: { normal: { width: 3 } }, markArea: { data: [[{ yAxis: '0' }, { yAxis: '0.2' }]] }, },{ name:'中等风险', type:'line', animation: false, areaStyle: { normal: {} }, lineStyle: { normal: { width: 1 } }, markArea: { data: [[{ yAxis: '0.2' }, { yAxis: '0.4' }]] } },{ name:'高风险', type:'line', animation: false, areaStyle: { normal: {} }, lineStyle: { normal: { width: 1 } }, markArea: { data: [[{ yAxis: '0.4' }, { yAxis: '1' }]] } }] }; maxIot.option.series[0].data = data.map(function (item) { return item.value; }); maxIot.myChart.setOption(maxIot.option, true);",
+                        "mounted" : "const data= [ { \"value\": 0, \"date\": \"2012-05-01\" }, { \"value\": 0.1, \"date\": \"2012-05-02\" }, { \"value\": 0.15, \"date\": \"2012-05-03\" }, { \"value\": 0.15, \"date\": \"2012-05-04\" }, { \"value\": 0.15, \"date\": \"2012-05-05\" }, { \"value\":0.15, \"date\": \"2012-05-06\" }, { \"value\":0.15, \"date\": \"2012-05-07\" }, { \"value\": 0.15, \"date\": \"2012-05-08\" }, { \"value\": 0.15, \"date\": \"2012-05-09\" }, { \"value\": 0.15, \"date\": \"2012-05-10\" }, { \"value\": 0.15, \"date\": \"2012-05-11\" }, { \"value\": 0.15, \"date\": \"2012-05-12\" }, { \"value\":0.15, \"date\": \"2012-05-13\" }, { \"value\": 0.15, \"date\": \"2012-05-14\" }, { \"value\":0.15, \"date\": \"2012-05-15\" }, { \"value\": 0.15, \"date\": \"2012-05-16\" }, { \"value\":0.15, \"date\": \"2012-05-17\" }, { \"value\": 0.15, \"date\":\"2012-05-18\" }, { \"value\": 0.15, \"date\": \"2012-05-19\" }, { \"value\":0.15, \"date\": \"2012-05-20\" }, { \"value\":0.15, \"date\": \"2012-05-21\" }, { \"value\": 0.15, \"date\": \"2012-05-22\" }, { \"value\": 0.15, \"date\": \"2012-05-23\" }, { \"value\": 0.5, \"date\": \"2012-05-24\" }, { \"value\":0.15, \"date\": \"2012-05-25\" }, { \"value\":0.15, \"date\": \"2012-05-26\" }, { \"value\":0.15, \"date\": \"2012-05-27\" }, { \"value\": 0.15, \"date\": \"2012-05-28\" }, { \"value\":0.15, \"date\": \"2012-05-29\" }, { \"value\":0.15, \"date\": \"2012-05-30\" } ];  maxIot.myChart = echarts.init(document.getElementById('riskChart')); maxIot.option = { title : { text : '健康风险变化曲线', left : '‘0%', top : '0%', textStyle : { color : 'rgba(255,255,255,0.5)', fontStyle : 'normal', fontFamily : 'sans-serif', fontSize : 14 } }, tooltip : { trigger : 'axis', formatter : function (params) { params = params[0]; return \"日期 <span style='color:#01c6fd' >\" + params.name + \"</span><br/>风险值 <span style='color:#01c6fd'>\" + params.value + \"</span>\"; }, axisPointer : { type : 'cross', animation : false, label : { backgroundColor : '#505765' } }, textStyle : { color : 'rgba(255,255,255,0.5)' } }, xAxis : { type : 'category', boundaryGap : true, name : '日期(天)', nameLocation : 'end', nameGap : 10, axisLine : { lineStyle : { color : 'rgba(255,255,255,0.5)' } }, axisLabel : { formatter : function (value, idx) { var date = new Date(value); return [date.getMonth() + 1, date.getDate()].join('/'); }, interval : 1 }, splitLine : { show : false } }, yAxis : { type : 'value', name : '风险值', nameTextStyle : { color : 'rgba(255,255,255,0.5)', fontSize : '14' }, nameGap : 30, axisTick : { length : '0' }, axisLine : { lineStyle : { color : 'rgba(255,255,255,0.5)' } }, }, grid : { left : 36, top : 90 }, visualMap : { top : 10, right : 10, pieces : [{ gt : 0, lte : 0.2, color : '#01c5fd' }, { gt : 0.2, lte : 0.4, color : '#EAB62A' }, { gt : 0.4, lte : 1, color : '#E04F23' }], outOfRange : { color : '#999' }, show : false }, color : ['#01c5fd', '#EAB62A', 'rgba(224,79,35,0.1)'], series : [{ type : 'line', showSymbol : false, symbolSize : 0, itemStyle : { normal : { color : '#20aefc', show : false } }, itemStyle : { normal : { borderWidth : 3, borderColor : 'yellow', color : 'blue' } } }, { name : '低风险', type : 'line', animation : false, areaStyle : { normal : {} }, lineStyle : { normal : { width : 3 } }, markArea : { data : [[{ yAxis : '0' }, { yAxis : '0.2' }]] }, }, { name : '中等风险', type : 'line', animation : false, areaStyle : { normal : {} }, lineStyle : { normal : { width : 1 } }, markArea : { data : [[{ yAxis : '0.2' }, { yAxis : '0.4' }]] } }, { name : '高风险', type : 'line', animation : false, areaStyle : { normal : {} }, lineStyle : { normal : { width : 1 } }, markArea : { data : [[{ yAxis : '0.4' }, { yAxis : '1' }]] } }] }; maxIot.option.xAxis.data = data.map(function (item) { return item.date; }); maxIot.option.series[0].data = data.map(function (item) { return item.value; }); maxIot.myChart.setOption(maxIot.option, true);",
                         "methods" : "return { onDataUpdated(data) {}, onResize() {this.myChart.resize();}}"
                     },
                     "defaultData" : {

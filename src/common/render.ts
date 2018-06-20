@@ -1,4 +1,4 @@
-import { renderFormat } from '../util/renderFormat';
+import { renderFormat, addStyleFile, getHtml } from '../util/renderFormat';
 import echarts from 'echarts';
 import $ from 'jquery';
 
@@ -39,4 +39,43 @@ function renderFn(data: any, index: number) {
     return data;
 }
 
-export { renderFn };
+/**
+ * 处理组件数据
+ * @param data
+ * @param {number} index
+ * @return {any}
+ */
+function renderTemplateFn(data: any) {
+    // 初始化格式
+    addStyleFile(data.template.templateCss, 'child');
+    const {onResize, onDataUpdated, onInit, onDestroy, onRender} = data.getTemplate;
+    const result = {
+        template: getHtml(data.template.templateHtml),
+        props: ['content'],
+        data() {
+            return {
+                ...data.template.defaultData,
+                ...data.template.getTemplate
+            };
+        },
+        mounted() {
+            // 定义重置组件监听通知函数
+            this.$on('onResize', (msg: any) => {
+                if (typeof onResize === 'function') onResize();
+            });
+            // 定义重置组件监听通知函数
+            this.$on('onDataUpdated', (msg: any) => {
+                if (typeof onDataUpdated === 'function') onDataUpdated(msg);
+            });
+            // 处理初始化格式处理
+            onInit();
+        },
+        methods: onRender(),
+        beforeDestroy() {
+            onDestroy();
+        }
+    };
+    return result;
+}
+
+export { renderFn, renderTemplateFn };

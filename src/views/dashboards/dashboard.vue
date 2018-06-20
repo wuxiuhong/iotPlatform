@@ -7,6 +7,7 @@
                 <component :is="item.comp" :content="item.props" :ref="item.ref"
                            @child-event="parentMethod" keep-alive></component>
             </div>
+            <CopyRight></CopyRight>
         </section>
         <!--视图 end-->
         <!--视图中操作菜单 start-->
@@ -27,17 +28,18 @@
                         :show-modal="showModal" v-if="showModal"></dashboard-edit>
         <!--编辑配置信息 end-->
         <!--编辑操作按钮 start-->
-        <section class="dashboard-btn-group">
-            <!--报表Bar start-->
-            <dashboard-bar :is-edit="isEdit" :config="dashboard"></dashboard-bar>
-            <!--报表Bar end-->
-            <el-button v-if="!isEdit" type="primary" icon="el-icon-edit" circle @click="isEdit=true"></el-button>
-            <div v-show="isEdit">
-                <el-button type="success" icon="el-icon-check" circle @click="isEdit=false"></el-button>
-                <el-button type="danger" icon="el-icon-close" circle @click="isEdit=false"></el-button>
-            </div>
-        </section>
+        <!--<section class="dashboard-btn-group">-->
+        <!--&lt;!&ndash;报表Bar start&ndash;&gt;-->
+        <!--<dashboard-bar :is-edit="isEdit" :config="dashboard"></dashboard-bar>-->
+        <!--&lt;!&ndash;报表Bar end&ndash;&gt;-->
+        <!--<el-button v-if="!isEdit" type="primary" icon="el-icon-edit" circle @click="isEdit=true"></el-button>-->
+        <!--<div v-show="isEdit">-->
+        <!--<el-button type="success" icon="el-icon-check" circle @click="isEdit=false"></el-button>-->
+        <!--<el-button type="danger" icon="el-icon-close" circle @click="isEdit=false"></el-button>-->
+        <!--</div>-->
+        <!--</section>-->
         <!--编辑操作按钮 end-->
+
     </div>
 </template>
 
@@ -49,12 +51,14 @@
     import dashboardBar from './dashboardBar.vue';
     import dashboardEdit from './dashboardEdit.vue';
     import WebsocketService from '../../util/websocket.service';
+    import CopyRight from '../../components/layout/CopyRight.vue';
     import _ from 'lodash';
 
     @Component({
         components: {
             dashboardBar,
-            dashboardEdit
+            dashboardEdit,
+            CopyRight
         }
     })
     export default class Dashboard extends Vue {
@@ -131,34 +135,34 @@
             this.showModal = true;
             this.dashboard.components[this.editInfo.index].props[0].type = 'test';
             // 更新数据
-            if (this.editInfo.index === 0) {
-                this.$refs[this.dashboard.components[this.editInfo.index].ref][0].$emit('onDataUpdated', [
-                    {
-                        v: 1, // 遥测数据的值
-                        t: 1528358866224, // 时间戳
-                        k: {o: "OPmtate", l: "OPmtate"} // key 以及可以的label名
-                    },
-                    {
-                        v: 2, // 遥测数据的值
-                        t: 1528358866224, // 时间戳
-                        k: {o: "workcount", l: "workcount"} // key 以及可以的label名
-                    },
-                    {
-                        v: 6, // 遥测数据的值
-                        t: 1528358866224, // 时间戳
-                        k: {o: "poweronTime", l: "poweronTime"} // key 以及可以的label名
-                    },
-                    {
-                        v: 6, // 遥测数据的值
-                        t: 1528358866224, // 时间戳
-                        k: {o: "cycletime", l: "cycletime"} // key 以及可以的label名
-                    },
-                    {
-                        v: 5, // 遥测数据的值
-                        t: 1528358866224, // 时间戳
-                        k: {o: "operatingTime", l: "operatingTime"} // key 以及可以的label名
-                    }]);
-            }
+            // if (this.editInfo.index === 0) {
+            //     this.$refs[this.dashboard.components[this.editInfo.index].ref][0].$emit('onDataUpdated', [
+            //         {
+            //             v: 1, // 遥测数据的值
+            //             t: 1528358866224, // 时间戳
+            //             k: {o: "OPmtate", l: "OPmtate"} // key 以及可以的label名
+            //         },
+            //         {
+            //             v: 2, // 遥测数据的值
+            //             t: 1528358866224, // 时间戳
+            //             k: {o: "workcount", l: "workcount"} // key 以及可以的label名
+            //         },
+            //         {
+            //             v: 6, // 遥测数据的值
+            //             t: 1528358866224, // 时间戳
+            //             k: {o: "poweronTime", l: "poweronTime"} // key 以及可以的label名
+            //         },
+            //         {
+            //             v: 6, // 遥测数据的值
+            //             t: 1528358866224, // 时间戳
+            //             k: {o: "cycletime", l: "cycletime"} // key 以及可以的label名
+            //         },
+            //         {
+            //             v: 5, // 遥测数据的值
+            //             t: 1528358866224, // 时间戳
+            //             k: {o: "operatingTime", l: "operatingTime"} // key 以及可以的label名
+            //         }]);
+            // }
 
         }
 
@@ -220,7 +224,8 @@
 <style lang="scss" scoped>
     .dashboard-wrapper {
         position: relative;
-        height: calc(100vh - 150px);
+        width: 100%;
+        min-height: 890px;
         z-index: 0
     }
 

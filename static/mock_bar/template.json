@@ -1,0 +1,30 @@
+{
+  "templates": [
+    {
+      "id": "3f825d20-fe01-11e7-83b5-9b9f49d154f1",
+      "version": "1.0.0",
+      "name": "主轴健康风险监测图表",
+      "type": "html",
+      "templateType": "组件模板类型",
+      "image": "缩略图",
+      "createTime": "2018-5-28",
+      "template": {
+        "dependent": [],
+        "templateHtml": "<div> <div class=\"txtdiv\" @click=\"onClick\">健康值</div> <div class=\"bottomdiv\"> <div class=\"leftdiv\" id=\"spindle_fcft_score\">0</div> <div class=\"rightdiv\"> <div style=\"width:100%;\"><span>0</span><span style=\"padding-left:calc(50% - 20px)\">0.5</span><span style=\"padding-left:calc(50% - 50px)\">1.0</span></div> <div class=\"bar\"></div> </div> </div> </div>",
+        "templateCss": ".leftdiv{ float:left; width:80px; height:65px; line-height:75px; font-size:50px; text-align: center; font-weight: normal; } .rightdiv{ float:left; width:calc(100% - 95px); margin-left:10px; } .txtdiv{ color:rgba(255,255,255,0.5); font-size:14px; font-weight: normal; } .bar div{ width:4px; height: 35px; border-radius: 10px; background-color: rgba(255,255,255,0.3); float:left; margin-right:5px; } .bottomdiv{ margin-top:10px; } em{ font-size:18px; } .rightdiv span{ color:rgba(255,255,255,0.5); } .alarm{ color: rgb(224, 79, 35); } .warn{ color: #EAB62A; } .ok{ color:rgba(49, 178, 231,1); }",
+        "controllerScript": "self.data= {spindle_fcft_score:0, spindle_alarm:1}; self.onInit= function(){self.data.spindle_fcft_score = 1; console.log(self.data); console.log(self.ctx.echarts) }, self.onResize = function(){self.onDataUpdated('重置')}, self.onDataUpdated = function(msg){ console.log(msg)},self.onClick = function(){ console.log('click'); console.log(self.ctx.echarts)}, self.onDestroy = function(){ console.log('销毁')}",
+        "defaultData": {
+          "title": "主轴健康风险监测图表",
+          "i": 1,
+          "da": {
+            "spindle_fcft_score": 0,
+            "spindle_alarm": 1,
+            "spindle_thres": 40,
+            "spindle_warn": 0
+          }
+        },
+        "dataSources": []
+      }
+    }
+  ]
+}

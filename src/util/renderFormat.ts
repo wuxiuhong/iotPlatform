@@ -65,5 +65,7 @@ function getHtml(html: string) {
 }
 
 export {
-    renderFormat
+    renderFormat,
+    addStyleFile,
+    getHtml
 };

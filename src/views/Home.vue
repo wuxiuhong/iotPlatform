@@ -272,10 +272,10 @@
                 // bottom: 0px;
                 // left: 230px;
                 overflow-y: scroll;
-                padding: 0 40px 35px;
                 .breadcrumb-container {
                     height: 52px;
                     line-height: 52px;
+                    padding: 0 30px;
                     .title {
                         /*width: 200px;*/
                         float: left;
@@ -289,6 +289,8 @@
                     background-color: $color-primary;
                     box-sizing: border-box;
                     color: #ffffff;
+                    min-width: 1600px;
+                    padding: 0 30px;
                 }
             }
         }

@@ -1,43 +1,49 @@
 const jsonServer = require('json-server');
+const server = jsonServer.create();
+
 const path = require('path');
 const fs = require('fs');
 const _ = require('lodash'); // 支持加载多个db文件
-const server = jsonServer.create();
-const middleware = jsonServer.defaults();
-
 const mockDir = path.join(__dirname, 'static/mock/');
 const files = fs.readdirSync(mockDir);
+const PORT = 3000;
+
 let base = {};
 files.forEach((file) => {
     if (file.indexOf('.json') > -1) {
         _.extend(base, require(path.resolve(mockDir, file)));
     }
 });
-server.use(middleware);
 const router = jsonServer.router(base);
 
+// 使用中间件
+const middleware = jsonServer.defaults();
+server.use(middleware);
+
+// 重写请求地址
 server.use(jsonServer.rewriter({
     'api/*' : '/$1'
 }));
 
-// Add custom routes before JSON Server router
-server.get('/echo', (req, res) => {
-    res.jsonp(req.query);
-});
+// 处理请求数据
 server.use(jsonServer.bodyParser);
 server.use((req, res, next) => {
-    if (req.method === 'POST') {
-        req.body.createAt = Date.now();
+    const url = req.url;
+    req.url = url.replace(/(get)|(add)|(update)|(delete)/, '');
+    // console.log()
+    if (/^\/update/.test(url)) {
+        req.method = 'PUT';
+        req.url = `${req.url}/${req.body.id}`;
+    } else if (/^\/delete/.test(url)) {
+        req.method = 'DELETE';
+        req.url = `${req.url}/${req.body.id}`;
     }
     next();
 });
 server.use(router);
-server.use('/api', router);
-
 // 返回自定义格式数据
 router.render = (req, res) => {
     const blackList = [];
-    console.log(res);
     const localData = res.locals.data;
     const data = (localData instanceof Array && !blackList.includes(req.originalUrl))
         ? {data : localData, totalCounts : 20}
@@ -48,6 +54,6 @@ router.render = (req, res) => {
     });
 };
 
-server.listen(3000, () => {
-    console.log('JSON Server is running')
+server.listen(PORT, () => {
+    console.log(`mock server is running: ${PORT}`);
 });

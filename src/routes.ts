@@ -2,6 +2,7 @@ import Login from './views/Login.vue';
 import NotFound from './views/404.vue';
 import Home from './views/Home.vue';
 import Dashborad from './views/dashboards/dashboard.vue';
+import Template from './views/template/index.vue';
 
 const routes = [
     {
@@ -23,7 +24,17 @@ const routes = [
         iconCls: 'fa fa-dashboard',
         leaf: true, // 只有一个节点
         children: [
-            {path: '/dashboards', component: Dashborad, name: '报表'}
+            {path: '/dashboards', component: Dashborad, name: '报表'},
+        ]
+    },
+    {
+        path: '/',
+        component: Home,
+        name: '',
+        iconCls: 'fa fa-dashboard',
+        leaf: true, // 只有一个节点
+        children: [
+            {path: '/template', component: Template, name: '模板'},
         ]
     },
     {

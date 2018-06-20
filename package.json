@@ -69,6 +69,7 @@
     "tslint-config-standard": "^7.0.0",
     "tslint-loader": "^3.6.0",
     "typescript": "^2.8.4",
+    "uglifyjs-webpack-plugin": "^1.2.5",
     "url-loader": "^0.5.9",
     "vue-loader": "^11.3.4",
     "vue-style-loader": "^2.0.5",

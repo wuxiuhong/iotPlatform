@@ -11,22 +11,25 @@ function subscribeEdgeClient(data: any) {
     const comLabels = [];
     const subscriptionCommand = [];
     data.components.forEach((com: any) => {
-        let labels = [];
+        const labels = [];
         com.dataSources.forEach((dataSource: any) => {
             if (dataSource.type === 'edgeClient') {
-                // 通过别名获取对应的edgeclient数组
-                const edgeClientAliases = data.edgeClientAliases.find(
-                    (Alias: any) => Alias.aliasId === dataSource.aliasId);
-                edgeClientAliases.edgeClientList.forEach((clientId: string) => {
-                    // todo 通过clientId，获取edgeClientId对应的所有key值
-                    let keyData = [];
-                    if (data.edgeClients.id === clientId) keyData = data.edgeClients.keys;
-                    const keys = dataSource.dataKeys.filter((keyItem: any) => keyData.includes(keyItem.key));
-                    labels = labels.concat(keys.map((item: any) => item.label));
-                    if (keys.length) subscriptionCommand.push({
-                        "clientid": clientId,
-                        "key": keys
-                    });
+
+                dataSource.dataKeys.filter((keyItem: any) => {
+                    // keyData.includes(keyItem.key)
+                    labels.push(keyItem.label);
+                    const command = subscriptionCommand.find((item: any) =>
+                        (item.clientid === keyItem.edgeClientId && item.deviceid === keyItem.deviceId));
+                    if (command) {
+                        if (command.key.includes(keyItem.key)) return;
+                        command.key.push(keyItem);
+                    } else {
+                        subscriptionCommand.push({
+                            "clientid": keyItem.edgeClientId,
+                            "deviceid": keyItem.deviceId,
+                            "key": [keyItem]
+                        });
+                    }
                 });
             }
         });
@@ -45,7 +48,6 @@ function subscribeEdgeClient(data: any) {
                 comLabels.forEach((com: any) => {
                     if (com.labels) {
                         if (subscription.find((sub: any) => com.labels.includes(sub.k.l))) {
-                            console.log(subscription);
                             this.$refs[com.ref][0].$emit('onDataUpdated', subscription);
                         }
                     }

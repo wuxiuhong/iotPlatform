@@ -33,10 +33,14 @@ ol, ul {
   border-radius: 10px;
 }
 
+::-webkit-scrollbar-corner {
+  display: none;
+}
+
 /*定义滑块 内阴影+圆角*/
 ::-webkit-scrollbar-thumb {
   border-radius: 10px;
-  background-color: #dedede;
+  background-color: rgba(255,255,255,0.5);
 }
 
 input[type="button"]:disabled {
