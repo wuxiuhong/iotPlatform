@@ -111,7 +111,6 @@
 <body>
 
 <div>
-    <input type="button" id="button1" onclick="self.onClick()" value="Button 1"/>
     <div class="txtdiv">FCFT评分</div>
     <div class="bottomdiv">
         <div class="leftdiv" id="spindle_fcft_score">0</div>
@@ -121,11 +120,9 @@
             <div class="bar"></div>
         </div>
     </div>
-
 </div>
 </body>
 </html>
-
 <script src="js/jquery-3.3.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script>
@@ -171,15 +168,17 @@
         }, 2000);
     };
 
-    self.onResize = function () {
-        self.onDataUpdated("重置")
-    };
 
     self.onDataUpdated = function (data) {
         self.ctx.$.each(data, function (i, obj) {
             eval("self.data.da." + obj.k.o + "='" + obj.v + "'");
         });
         self.set(self.data.da.spindle_fcft_score, self.data.da.spindle_alarm, self.data.da.spindle_warn);
+    };
+
+    self.onResize = function () {
+        self.onInit();
+        self.set(self.ctx.$("#spindle_fcft_score").html());
     };
 
     self.onDestroy = function () {

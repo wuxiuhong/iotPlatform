@@ -5,59 +5,25 @@
     <title>Title</title>
     <script src="js/echarts.js"></script>
     <style>
-        body{
+        body {
             background-color: #292c4a;
-            color:rgb(24, 174, 156);
+            color: rgb(24, 174, 156);
 
         }
-        .top-row{
-            height: 40px;
-            line-height: 40px;
-        }
-        .col1{
-            width:auto;
-            font-size:14px;
-            float:left;
-            letter-spacing: 2px;
-        }
-        .col1 img{
-            vertical-align: middle;
-        }
-        .obj {
-            clear:both;
-            height: 0px;
-            width:100%;
-            min-width:300px;
-            border: 1px solid rgba(24, 174, 156,0.5);
-
-            border-radius: 0 50% 50% 0;
-        }
-        .infomore{
-            margin-top:13px;
-            width:16px;
-            height:16px;
-            line-height:16px;
-            border-radius:10px;
-            background-color: rgba(254,254,254,.5);;
-            float:right;
-            text-align:center;
-            color:rgba(0,0,0,.5);
-            font-size:12px;
-            font-weight:bold;
-        }
-        #main{
-            width:100%;
+        #mainChart {
+            width: 100%;
             min-height: 300px;
         }
-        em{
-            font-size:12px;
-            color:red;
+
+        em {
+            font-size: 12px;
+            color: red;
         }
     </style>
 </head>
 <body>
 
-<div id="main"></div>
+<div id="mainChart"></div>
 
 </body>
 </html>
@@ -66,15 +32,22 @@
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script>
 
-var da={};
-var myChart = echarts.init(document.getElementById('main'));
-  var  onInit=function(){
-        // 基于准备好的dom，初始化echarts实例
+    var self = {
+        ctx: {
+            $: $,
+            echarts: echarts
+        }
+    };
 
+    self.data = {
+        da: {},
+        option: {},
+        a: 1
+    };
 
-        // 指定图表的配置项和数据
-        option = {
-            tooltip : {
+    self.onInit = function () {
+        self.data.option = {
+            tooltip: {
                 formatter: "{a} <br/>{b} : {c}%"
             },
             series: [
@@ -88,8 +61,8 @@ var myChart = echarts.init(document.getElementById('main'));
                     max: 100,
                     splitNumber: 2,
                     radius: '80%',
-                    axisLine: {            // 坐标轴线
-                        lineStyle: {       // 属性lineStyle控制线条样式
+                    axisLine: {
+                        lineStyle: {
                             "width": 10,
                             color: [
                                 [0.6, '#01C6FD'],
@@ -98,82 +71,74 @@ var myChart = echarts.init(document.getElementById('main'));
                             ]
                         }
                     },
-                    axisTick:{show:false},
-                    splitLine: {           // 分隔线
-                        length: 10,         // 属性length控制线长
-                        lineStyle: {       // 属性lineStyle（详见lineStyle）控制线条样式
+                    axisTick: {show: false},
+                    splitLine: {
+                        length: 10,
+                        lineStyle: {
                             color: 'auto'
                         },
-                        show:false
+                        show: false
                     },
                     pointer: {
-                        width:3
+                        width: 3
                     },
                     title: {
-                        offsetCenter: [0, '30%'],       // x, y，单位px
+                        offsetCenter: [0, '30%'],
                     },
-                    axisLabel:{
-
-                    },
+                    axisLabel: {},
                     detail: {
-                        // 其余属性默认使用全局文本样式，详见TEXTSTYLE
                         fontWeight: 'normal',
 
-                        color:'rgba(49, 178, 231,1)',
+                        color: 'rgba(49, 178, 231,1)',
                         offsetCenter: ["0%", "80%"],
-                        formatter:function(value){
-                            return "{a|"+value+"}"+"{b|%}";
+                        formatter: function (value) {
+                            return "{a|" + value + "}" + "{b|%}";
                         },
-                        rich:{
-                           a:{
-                               fontSize:44
-                           } ,
-                            b:{
-                               fontSize:22,
-                                padding:5,
-                                verticalAlign:'bottom'
+                        rich: {
+                            a: {
+                                fontSize: 44
+                            },
+                            b: {
+                                fontSize: 22,
+                                padding: 5,
+                                verticalAlign: 'bottom'
                             }
                         }
                     }
                 }
             ]
         };
+        var myChart = self.ctx.echarts.init(document.getElementById('mainChart'));
+        setInterval(function () {
+            self.data.option.series[0].data[0].value = self.getData();
+            myChart.setOption(self.data.option, true);
+        }, 500);
     };
 
-
-    onDataUpdated=function(data){
-        $.each(data,function(i,obj){
-
-            eval("da."+obj.k.o+"='"+obj.v+"'");
+    self.onDataUpdated = function (data) {
+        self.ctx.$.each(data, function (i, obj) {
+            eval("self.data.da." + obj.k.o + "='" + obj.v + "'");
         });
-        option.series[0].data[0].value = da.tool_wear_ratio;
-    };
-    onResize=function(){
-
-    };
-    onDestroy=function(){
-
-    };
-    onPendding=function(){
-
+        self.data.option.series[0].data[0].value = self.data.da.tool_wear_ratio;
     };
 
-    onInit();
+    self.onResize = function () {
+        self.onInit();
+    };
 
-var a = 1;
-var getData = function () {
-console.log(a);
-    if(a<0){
-        a=1;
-    }
+    self.onDestroy = function () {
+        console.log("销毁")
+    };
 
-    var result=((1-a)*100).toFixed(0);
-    a = a - 0.02;
-    return result;
-}
+    self.getData = function () {
+        if (self.data.a < 0) {
+            self.data.a = 1;
+        }
+        var result = ((1 - self.data.a) * 100).toFixed(0);
+        self.data.a = self.data.a - 0.02;
+        return result;
+    };
 
-    setInterval(function () {
-        option.series[0].data[0].value = getData();
-        myChart.setOption(option, true);
-    },500);
+    self.onInit();
+
 </script>
