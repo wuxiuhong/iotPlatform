@@ -129,7 +129,11 @@
 
     var self = {
         ctx: {
-            $: $
+            $: $,
+            eventMessage: {
+                $emit: function () {},
+                $on:function () {}
+            }
         }
     };
 
@@ -138,6 +142,7 @@
         i: 1
     };
     self.onInit = function () {
+        self.ctx.eventMessage.$emit('testMessage', '测试组件间通信');
         var width = self.ctx.$(".bar").width();
         var bar = self.ctx.$(".bar");
         bar.empty();
@@ -145,8 +150,36 @@
         for (var i = 1; i < n; i++) {
             self.ctx.$(".bar").append("<div></div>");
         }
+        var getstatus = function () {
+            var spindle_alarm = 0, spindle_warn = 0, spindle_fcft_score = 0;
+            if (self.data.i < 0) {
+                self.data.i = 1;
+            }
+            if (self.data.i < 0.2) {
+                spindle_fcft_score = self.data.i;
+                spindle_alarm = 1;
+                spindle_warn = 0;
+            }
+            else if (self.data.i < 0.8) {
+                spindle_fcft_score = self.data.i;
+                spindle_alarm = 0;
+                spindle_warn = 1;
+            }
+            else {
+                spindle_fcft_score = self.data.i;
+                spindle_alarm = 0;
+                spindle_warn = 0;
+            }
+            self.data.i = (self.data.i - 0.1).toFixed(1);
+
+            return {
+                spindle_fcft_score: spindle_fcft_score,
+                spindle_alarm: spindle_alarm,
+                spindle_warn: spindle_warn
+            };
+        };
         setInterval(function () {
-            var da = self.getstatus();
+            var da = getstatus();
             var data = [
                 {
                     v: da.spindle_fcft_score,
@@ -212,35 +245,6 @@
             self.ctx.$("#spindle_fcft_score").removeClass("alarm").removeClass("warn").addClass("ok");
         }
         self.ctx.$("#spindle_fcft_score").html(percent);
-    };
-
-    self.getstatus = function () {
-        var spindle_alarm = 0, spindle_warn = 0, spindle_fcft_score = 0;
-        if (self.data.i < 0) {
-            self.data.i = 1;
-        }
-        if (self.data.i < 0.2) {
-            spindle_fcft_score = self.data.i;
-            spindle_alarm = 1;
-            spindle_warn = 0;
-        }
-        else if (self.data.i < 0.8) {
-            spindle_fcft_score = self.data.i;
-            spindle_alarm = 0;
-            spindle_warn = 1;
-        }
-        else {
-            spindle_fcft_score = self.data.i;
-            spindle_alarm = 0;
-            spindle_warn = 0;
-        }
-        self.data.i = (self.data.i - 0.1).toFixed(1);
-
-        return {
-            spindle_fcft_score: spindle_fcft_score,
-            spindle_alarm: spindle_alarm,
-            spindle_warn: spindle_warn
-        };
     };
 
     self.onClick = function () {
