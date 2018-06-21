@@ -8,7 +8,7 @@ import $ from 'jquery';
  * @return {{onInit: () => void; onDestroy: () => void}}
  * @constructor
  */
-function TemplateService(data: any, _self: any) {
+function TemplateService(data: any, _self: any = null) {
     // 处理格式
     const templateContext: any = {
         inited: false,

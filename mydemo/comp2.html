@@ -112,7 +112,7 @@
             padding-top:38px;
             background: linear-gradient(to right,#E04F23,#EAB62A);
         }
-        .warn{
+        .tpwarn{
             width:calc(22% - 6px);
             height:96px;
             float:left;
@@ -158,7 +158,7 @@
         </div>
 
         <div class="leftdiv-col2">
-            <img src="images/tool.png" />
+            <img src="images/dao.png" />
         </div>
         <hr/>
     </div>
@@ -221,17 +221,17 @@
         $("#y_load").html(da.y_load);
         $("#z_load").html(da.z_load);
         if(da.tool_break_alarm==1){
-            $("#tool_status").removeClass("tpdiv").removeClass("warn").addClass("alarm");
+            $("#tool_status").removeClass("tpdiv").removeClass("tpwarn").addClass("alarm");
             $("#knife_status_txt").html("刀具断刀提示");
             $("#knife_status_img").html('<img src="svg/meter/a.svg">');
         }
         else if(da.tool_break_warn==1){
-            $("#tool_status").removeClass("tpdiv").removeClass("alarm").addClass("warn");
+            $("#tool_status").removeClass("tpdiv").removeClass("alarm").addClass("tpwarn");
             $("#knife_status_txt").html("刀具断刀提示");
             $("#knife_status_img").html('<img src="svg/meter/a.svg">');
         }
         else{
-            $("#tool_status").removeClass("alarm").removeClass("warn").addClass("tpdiv");
+            $("#tool_status").removeClass("alarm").removeClass("tpwarn").addClass("tpdiv");
             $("#knife_status_txt").html("刀具状态正常");
             $("#knife_status_img").html('<img src="svg/meter/n.svg">');
         }
@@ -250,11 +250,13 @@
     };
     onDataUpdated(data);
 
-    var a=100;
+//add by gwh
+
+    var a=58;
     var getstatus=function(){
         var tool_warn=0,tool_alarm=0,tool_rul=100;
         if(a<0){
-            a=100;
+            a=58;
         }
         if(a<40){
             tool_warn=1;

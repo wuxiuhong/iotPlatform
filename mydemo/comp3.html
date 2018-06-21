@@ -1,125 +1,139 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
     <style>
-        body{
-            background-color:#262d45;
+        body {
+            background-color: #262d45;
         }
-        .main{
-            width:100%;
+
+        .main {
+            width: 100%;
             height: 140px;
-            background-color:#262d45;
-            color:rgba(255,255,255,0.5);
-            font-size:13px;
+            background-color: #262d45;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 13px;
         }
-        .tpdiv{
-            width:calc(18% - 6px);
-            height:96px;
-            float:left;
+
+        .tpdiv {
+            width: calc(18% - 6px);
+            height: 96px;
+            float: left;
             vertical-align: middle;
-            background-color:#262d45;
-            margin:0 auto;
-            text-align:center;
-            border:3px solid rgba(49, 178, 231, 0.8);
-            -webkit-border-radius:5px;
-            -moz-border-radius:5px;
-            border-radius:5px;
-            color:rgba(255,255,255,0.9);
-            padding-top:38px;
+            background-color: #262d45;
+            margin: 0 auto;
+            text-align: center;
+            border: 3px solid rgba(49, 178, 231, 0.8);
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            border-radius: 5px;
+            color: rgba(255, 255, 255, 0.9);
+            padding-top: 38px;
         }
-        .leftdiv{
-            float:left;
-            width:calc(82% - 20px);
-            height:100%;
-            padding-left:20px;
+
+        .leftdiv {
+            float: left;
+            width: calc(82% - 20px);
+            height: 100%;
+            padding-left: 20px;
         }
-        .top-row{
+
+        .top-row {
             height: 40px;
             line-height: 40px;
         }
-        .col1{
-            width:300px;
-            font-size:14px;
+
+        .col1 {
+            width: 300px;
+            font-size: 14px;
             letter-spacing: 2px;
-            color:#07b3a5;
+            color: #07b3a5;
         }
 
-
-        .bottom-row{
+        .bottom-row {
             height: 35px;
             line-height: 35px;
         }
-        .bottom-row div{
-            float:left;
-            width:50%;
+
+        .bottom-row div {
+            float: left;
+            width: 50%;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
         }
-        .bottom-row div span{
-            width:auto;
-            padding-right:20px;
-            color:rgba(255,255,255,0.9);
-        }
-        .bottom-row div span:first-child{
 
-            color:rgba(255,255,255,0.5);
+        .bottom-row div span {
+            width: auto;
+            padding-right: 20px;
+            color: rgba(255, 255, 255, 0.9);
         }
+
+        .bottom-row div span:first-child {
+
+            color: rgba(255, 255, 255, 0.5);
+        }
+
         .obj {
-            clear:both;
+            clear: both;
             height: 0px;
             width: 20%;
-            min-width:300px;
-            border: 1px solid rgba(24, 174, 156,0.5);
+            min-width: 300px;
+            border: 1px solid rgba(24, 174, 156, 0.5);
 
             border-radius: 0 50% 50% 0;
         }
-        .col1 img{
+
+        .col1 img {
             vertical-align: middle;
         }
-        hr{
+
+        hr {
             margin-top: 23px;
             clear: both;
             display: inline-block;
             width: 100%;
-            border:none;
-            border-top:1px solid rgba(255,255,255,0.3);
+            border: none;
+            border-top: 1px solid rgba(255, 255, 255, 0.3);
 
         }
-        .leftdiv-col1{
-            float:left;
-            width:calc(100% - 130px);
+
+        .leftdiv-col1 {
+            float: left;
+            width: calc(100% - 130px);
         }
-        .leftdiv-col2{
-            float:right;
-            width:90px;
-            padding-top:40px;
+
+        .leftdiv-col2 {
+            float: right;
+            width: 90px;
+            padding-top: 40px;
         }
-        .alarm{
-            width:calc(18% - 6px);
-            height:96px;
-            float:left;
+
+        .alarm {
+            width: calc(18% - 6px);
+            height: 96px;
+            float: left;
             vertical-align: middle;
 
-            margin:0 auto;
-            text-align:center;
+            margin: 0 auto;
+            text-align: center;
 
-            -webkit-border-radius:5px;
-            -moz-border-radius:5px;
-            border-radius:5px;
-            color:rgba(255,255,255,0.9);
-            padding-top:38px;
-            background: linear-gradient(to right,#E04F23,#EAB62A);
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            border-radius: 5px;
+            color: rgba(255, 255, 255, 0.9);
+            padding-top: 38px;
+            background: linear-gradient(to right, #E04F23, #EAB62A);
         }
     </style>
 </head>
 <body>
-<div class="main">
-    <div  id="spindle_status" class="tpdiv">
-        <div id="img"><img src="svg/meter/n.svg"></div>
-        <div id="status_txt">主轴状态正常</div>
+<div class="main" id="maxiot_cd_comp3_main">
+    <div id="spindle_status" v-bind:class="{alarm:da.alarm,tpdiv:!da.alarm}">
+            <div v-if="da.alarm"><img src="svg/meter/a.svg"></div>
+            <div v-else><img src="svg/meter/n.svg"></div>
+        <div>{{da.statustxt}}</div>
     </div>
     <div class="leftdiv">
         <div class="leftdiv-col1">
@@ -127,23 +141,22 @@
                 <div class="col1"><img src="svg/bullet/green.svg"/>&nbsp;&nbsp;主轴基础信息</div>
 
             </div>
-
             <div class="bottom-row" style="margin-top:5px;">
-                <div style="width:55%;"><span>主轴编号</span><span>D09s361</span>  </div>
-                <div style="width:45%;"><span>主轴设定转速</span><span id="RPM_set">6000</span>  </div>
+                <div style="width:55%;"><span>主轴编号</span><span>D09s361</span></div>
+                <div style="width:45%;"><span>主轴设定转速</span><span id="RPM_set">{{da.RPM_set}}</span></div>
 
 
             </div>
-            <div class="bottom-row" >
-                <div  style="width:55%;"><span>主轴型号</span><span>SK 40 / HSK80</span>  </div>
-                <div style="width:45%;"><span>主轴实际转速</span><span id="RPM_actual">6000</span>  </div>
+            <div class="bottom-row">
+                <div style="width:55%;"><span>主轴型号</span><span>SK 40 / HSK80</span></div>
+                <div style="width:45%;"><span>主轴实际转速</span><span id="RPM_actual">{{da.RPM_actual}}</span></div>
 
 
             </div>
         </div>
 
         <div class="leftdiv-col2">
-            <img src="images/spindle.png" />
+            <img src="images/spindle.png"/>
         </div>
         <hr/>
     </div>
@@ -157,85 +170,93 @@
 <script src="js/jquery-3.3.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script>
-    var data=[
-        {
-            v:0,//遥测数据的值
-            t:1528358866224,//时间戳
-            k:{o:"spindle_alarm",l:"spindle_alarm"}//key 以及可以的label名
-        },
-        {
-            v:5000,//遥测数据的值
-            t:1528358866224,//时间戳
-            k:{o:"RPM_set",l:"RPM_set"}//主轴设定转速
-        },{
-            v:6600,//遥测数据的值
-            t:1528358866224,//时间戳
-            k:{o:"RPM_actual",l:"RPM_actual"}//主轴实际转速
-        }];
-    var da={};
 
+    var self = {
+        ctx: {
+            $: $,
+            eventMessage: {
+                $emit: function () {
 
+                },
+                $on: function () {
 
-
-    onInit=function(){
-
+                }
+            }
+        }
     };
-  var  onDataUpdated=function(data){
-        $.each(data,function(i,obj){
 
-            eval("da."+obj.k.o+"='"+obj.v+"'");
+    self.data = {
+        da: {},
+        data: [],
+        spindle_alarm: 0
+    };
+
+    self.onInit = function () {
+        setInterval(function () {
+            var data = [
+                {
+                    v: self.getstatus(),
+                    t: 1528358866224,
+                    k: {o: "spindle_alarm", l: "spindle_alarm"}
+                },
+                {
+                    v: 5000,
+                    t: 1528358866224,
+                    k: {o: "RPM_set", l: "RPM_set"}
+                }, {
+                    v: 6600,
+                    t: 1528358866224,
+                    k: {o: "RPM_actual", l: "RPM_actual"}
+                }];
+            self.onDataUpdated(data);
+        }, 10000);
+    };
+    self.onDataUpdated = function (data) {
+        self.ctx.$.each(data, function (i, obj) {
+            eval("self.data.da." + obj.k.o + "='" + obj.v + "'");
         });
-        if(da.spindle_alarm==1){
-            $("#spindle_status").removeClass("tpdiv").addClass("alarm");
-            $("#status_txt").html("主轴故障报警");
-            $("#img").html('<img src="svg/meter/a.svg">');
+        if (self.data.da.spindle_alarm === 1) {
+            self.data.da.alarm=true;
+            self.data.da.statustxt = '主轴故障报警';
+        } else {
+            self.data.da.alarm=false;
+            self.data.da.statustxt = '主轴状态正常"';
         }
-        else{
-            $("#spindle_status").removeClass("alarm").addClass("tpdiv");
-            $("#status_txt").html("主轴状态正常");
-            $("#img").html('<img src="svg/meter/n.svg">');
+    };
+    self.onResize = function () {
+
+    };
+    self.onDestroy = function () {
+
+    };
+    self.onPendding = function () {
+
+    };
+
+    self.getstatus = function () {
+        if (self.data.spindle_alarm === 0) {
+            self.data.spindle_alarm = 1;
+        } else {
+            self.data.spindle_alarm = 0;
         }
-      $("#RPM_set").html(da.RPM_set);
-      $("#RPM_actual").html(da.RPM_actual);
+        return self.data.spindle_alarm;
     };
-    onResize=function(){
 
-    };
-    onDestroy=function(){
 
-    };
-    onPendding=function(){
-
-    };
-    onDataUpdated(data);
-
-//    add by gwh
-    var spindle_alarm=0;
-    var getstatus=function(){
-        if(spindle_alarm==0){
-            spindle_alarm=1;
-        }else{
-            spindle_alarm=0;
+    // 测试环境构造
+    var app = new Vue({
+        el: '#maxiot_cd_comp3_main',
+        data: {
+            da: {
+                RPM_set: "1",
+                RPM_actual: "2",
+                spindle_alarm: "1",
+                statustxt: "主轴状态正常",
+                alarm:true
+            }
+        },
+        mounted: function () {
+            self.onInit();
         }
-        return spindle_alarm;
-    };
-    setInterval(function () {
-        var data=[
-            {
-                v:getstatus(),
-                t:1528358866224,
-                k:{o:"spindle_alarm",l:"spindle_alarm"}
-            },
-            {
-                v:5000,
-                t:1528358866224,
-                k:{o:"RPM_set",l:"RPM_set"}
-            },{
-                v:6600,
-                t:1528358866224,
-                k:{o:"RPM_actual",l:"RPM_actual"}
-            }];
-        onDataUpdated(data);
-    },10000);
-
+    });
 </script>

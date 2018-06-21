@@ -1,77 +1,87 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 
     <style>
-.main{
-    width:100%;
-    height: 100px;
-    background-color:#262d45;
-    color:rgba(255,255,255,0.7);
-    font-size:14px;
-    overflow: auto;
-    }
-    .leftdiv{
-        float:left;
-        width:190px;
-        height:100%;
-        line-height:100px ;
-    }
-    .leftdiv img{
-        vertical-align: middle;
-    }
-    .rightdiv{
-        float:left;
-        width:calc(100% - 190px);
-        height:calc(100% - 15px);
-        padding-top:15px;
-    }
+        .main {
+            width: 100%;
+            height: 100px;
+            background-color: #262d45;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+            overflow: auto;
+        }
 
-.bottom-row{
-    height:35px;
-    line-height: 35px;
-    float:left;
-   width:100%;
-}
-.bottom-row div{
-    float:left;
-    width:16%;
-    color:#ededef;
-    overflow: hidden;
-    text-overflow:ellipsis;
-    white-space: nowrap;
-}
-.bottom-row div span:first-child{
-   padding-right:10px;
-    color:rgba(255,255,255,0.5);
-}
-.bottom-row div img{
-    vertical-align: middle;
-}
+        .leftdiv {
+            float: left;
+            width: 190px;
+            height: 100%;
+            line-height: 100px;
+        }
+
+        .leftdiv img {
+            vertical-align: middle;
+        }
+
+        .rightdiv {
+            float: left;
+            width: calc(100% - 190px);
+            height: calc(100% - 15px);
+            padding-top: 15px;
+        }
+
+        .bottom-row {
+            height: 35px;
+            line-height: 35px;
+            float: left;
+            width: 100%;
+        }
+
+        .bottom-row div {
+            float: left;
+            width: 16%;
+            color: #ededef;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .bottom-row div span:first-child {
+            padding-right: 10px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .bottom-row div img {
+            vertical-align: middle;
+        }
     </style>
 
 </head>
 <body>
-<div  id="app" class="main">
+<div id="maxiot_cd_comp1_app" class="main">
     <div class="leftdiv"><img src="images/cnc.png"></div>
     <div class="rightdiv">
         <div class="bottom-row">
-            <div style="color:#04c1b0;"><img src="svg/bullet/green.svg" style="" />&nbsp;&nbsp;机床信息</div>
-            <div><span>设备编号</span><span >22323423</span></div>
+            <div style="color:#04c1b0;"><img src="svg/bullet/green.svg" style=""/>&nbsp;&nbsp;机床信息</div>
+            <div><span>设备编号</span><span>22323423</span></div>
             <div><span>设备型号</span><span>快捷设备DEPO SPEED</span></div>
             <div><span>类别</span><span>立式</span></div>
             <div><span>入厂日期</span><span>2001/01/05</span></div>
             <div><span>年限</span><span>14.2</span></div>
         </div>
         <div class="bottom-row">
-            <div><span>机床状态</span><span  style="color:#09a4d5;"  id="OPmtate">{{OPmtate}}&nbsp;&nbsp;</span></div>
-            <div><span>网络状态</span><span  style="color:#7ed651;">在线&nbsp;&nbsp;<img src="svg/internetStats/online.svg" /></span></div>
-            <div><span>加工件数</span><span id="workcount">{{workcount}}</span></div>
-            <div><span>开机时间</span><span id="poweronTime">{{poweronTime}}h</span></div>
-            <div><span>循环时间</span><span id="cycletime">{{cycletime}}h</span></div>
-            <div><span>运行时间</span><span id="operatingTime">{{operatingTime}}m</span></div>
+            <div><span>机床状态</span>
+                <span v-if="da.opstate === 1" style="color:#09a4d5;" >在线 &nbsp;&nbsp;<img src="svg/internetStats/online.svg" /></span>
+                <span v-else style="color:#09a4d5;" >离线 &nbsp;&nbsp;<img src="svg/internetStats/offline.svg" /></span>
+            </div>
+            <div><span>网络状态</span><span style="color:#7ed651;">在线&nbsp;&nbsp;<img
+                    src="svg/internetStats/online.svg"/></span></div>
+            <div><span>加工件数</span><span id="workcount">{{da.workcount}}</span></div>
+            <div><span>开机时间</span><span id="poweronTime">{{da.poweronTime}}h</span></div>
+            <div><span>循环时间</span><span id="cycletime">{{da.cycletime}}h</span></div>
+            <div><span>运行时间</span><span id="operatingTime">{{da.operatingTime}}m</span></div>
 
         </div>
     </div>
@@ -81,65 +91,89 @@
 </html>
 <script src="js/jquery-3.3.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-<script>
-    var data=[
-        {
-            v:'运行',//遥测数据的值
-            t:1528358866224,//时间戳
-            k:{o:"OPmtate",l:"OPmtate"}//key 以及可以的label名
-        },
-        {
-            v:2,//遥测数据的值
-            t:1528358866224,//时间戳
-            k:{o:"workcount",l:"workcount"}//key 以及可以的label名
-        },
-        {
-            v:6,//遥测数据的值
-            t:1528358866224,//时间戳
-            k:{o:"poweronTime",l:"poweronTime"}//key 以及可以的label名
-        },
-        {
-            v:6,//遥测数据的值
-            t:1528358866224,//时间戳
-            k:{o:"cycletime",l:"cycletime"}//key 以及可以的label名
-        },
-        {
-            v:5,//遥测数据的值
-            t:1528358866224,//时间戳
-            k:{o:"operatingTime",l:"operatingTime"}//key 以及可以的label名
-        }];
 
-    var da={};
+<script type="text/javascript">
 
-    onInit=function(){
+    var self = {
+        ctx: {
+            $: $,
+            eventMessage: {
+                $emit: function () {
 
+                },
+                $on: function () {
+
+                }
+            }
+        }
     };
 
-  var  onDataUpdated=function(data){
-        $.each(data,function(i,obj){
+    self.data = {
+        da: {},
+        data: [
+            {
+                v: '运行',
+                t: 1528358866224,
+                k: {o: "opstate", l: "opstate"}
+            },
+            {
+                v: 2,
+                t: 1528358866224,
+                k: {o: "workcount", l: "workcount"}
+            },
+            {
+                v: 6,
+                t: 1528358866224,
+                k: {o: "poweronTime", l: "poweronTime"}
+            },
+            {
+                v: 6,
+                t: 1528358866224,
+                k: {o: "cycletime", l: "cycletime"}
+            },
+            {
+                v: 5,
+                t: 1528358866224,
+                k: {o: "operatingTime", l: "operatingTime"}
+            }]
+    };
 
-            eval("da."+obj.k.o+"='"+obj.v+"'");
+    self.onInit = function () {
+        self.onDataUpdated(self.data.data);
+    };
+
+    self.onDataUpdated = function (data) {
+        self.ctx.$.each(data, function (i, obj) {
+            eval("self.data.da." + obj.k.o + "='" + obj.v + "'");
         });
+    };
 
-        if(da.OPmtate==1){
-            $("#OPmtate").html("在线"+'&nbsp;&nbsp;<img src="svg/internetStats/online.svg" />');
+    self.onResize = function () {
+
+    };
+    self.onDestroy = function () {
+
+    };
+    self.onPendding = function () {
+
+    };
+
+    // 测试环境构造
+    var app = new Vue({
+        el: '#maxiot_cd_comp1_app',
+        data: {
+            da: {
+                workcount: "1",
+                poweronTime: "2",
+                cycletime: "3",
+                operatingTime: "4",
+                opstate :1
+            }
+        },
+        mounted: function () {
+            console.log(self)
+            self.onInit();
         }
-        else{
-            $("#OPmtate").html("离线"+'&nbsp;&nbsp;<img src="svg/internetStats/offline.svg" />');
-        }
-        $("#workcount").html(da.workcount);
-        $("#poweronTime").html(da.poweronTime);
-        $("#cycletime").html(da.cycletime);
-        $("#operatingTime").html(da.operatingTime);
-    };
-    onResize=function(){
-
-    };
-    onDestroy=function(){
-
-    };
-    onPendding=function(){
-
-    };
-    onDataUpdated(data);
+    })
+    console.log(app);
 </script>

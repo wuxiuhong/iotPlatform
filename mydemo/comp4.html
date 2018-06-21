@@ -1,89 +1,105 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
     <style>
-        body{
-            background-color:#292c4a;
+        body {
+            background-color: #292c4a;
         }
-        .main{
-            width:100%;
-            height:80px;
-            background-color:#292c4a;
-            border-bottom:1px solid rgba(255,255,255,0.3);
-            font-size:12px;
+
+        .main {
+            width: 100%;
+            height: 80px;
+            background-color: #292c4a;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            font-size: 12px;
         }
-.row-item{
-    height:45px;
 
-    float:left;
-    width:25%;
-color:rgba(255,255,255,0.5);
-}
+        .row-item {
+            height: 45px;
 
-        .row-item div img{
+            float: left;
+            width: 25%;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .row-item div img {
             vertical-align: middle;
         }
-        .col1{
-            width:20px;
-            text-align: left;
-            padding-left:0px;
-            float:left;
 
-            padding-top:13px;
+        .col1 {
+            width: 20px;
+            text-align: left;
+            padding-left: 0px;
+            float: left;
+
+            padding-top: 13px;
         }
-        .col2{
+
+        .col2 {
             text-align: right;
-            padding-left:13px;
-            font-size:34px;
-            width:40px;
-            float:left;
+            padding-left: 13px;
+            font-size: 34px;
+            width: 40px;
+            float: left;
 
             height: 40px;
         }
-        .col3{
-            width:40px;
-            text-align: left;
-            padding-left:3px;
-            float:left;
 
-            padding-top:19px;
-            font-size:16px;
+        .col3 {
+            width: 40px;
+            text-align: left;
+            padding-left: 3px;
+            float: left;
+
+            padding-top: 19px;
+            font-size: 16px;
         }
-        .statusok{
-            color:#01c6fd;
+
+        .statusok {
+            color: #01c6fd;
         }
-.alarm{
-    color:#EAb62A;
-}
-        .colorwhite{
-            color:rgba(255,255,255,0.5);
+
+        .alarm {
+            color: #EAb62A;
+        }
+
+        .colorwhite {
+            color: rgba(255, 255, 255, 0.5);
         }
     </style>
 </head>
 <body>
-<div id="app" class="main">
+<div id="maxiot_cd_comp4_app" class="main">
 
-<div class="row-item statusok ">
-    <div class="colorwhite">电流</div>
-    <div class="col1"><img src="svg/spindleData/elect/n.svg"/></div><div class="col2" id="spindle_current"></div><div class="col3">A</div>
-</div>
+    <div class="row-item statusok ">
+        <div class="colorwhite">电流</div>
+        <div class="col1"><img src="svg/spindleData/elect/n.svg"/></div>
+        <div class="col2" id="spindle_current">{{da.spindle_current}}</div>
+        <div class="col3">A</div>
+    </div>
     <div class="row-item">
         <div>前轴承温度</div>
-        <div id="font-div" v-bind:class="temp_front_bearing>temp_thres_front_bearing ? 'alarm':'statusok'">
-        <div id="front-img" class="col1" ><img src="svg/spindleData/temp/n.svg"/></div><div class="col2" id="temp_front_bearing"></div><div class="col3" id="front-w">℃</div>
+        <div id="font-div" v-bind:class="data.alarm1 ? 'alarm':'statusok'">
+            <div id="front-img" class="col1"><img src="svg/spindleData/temp/n.svg"/></div>
+            <div class="col2" id="temp_front_bearing">{{da.temp_front_bearing}}</div>
+            <div class="col3" id="front-w">℃</div>
         </div>
     </div>
     <div class="row-item">
         <div>后轴承温度</div>
-        <div id="back-div"  v-bind:class="temp_back_bearing>temp_thres_back_bearing ? 'alarm':'statusok'">
-        <div  id="back-img" class="col1" ><img src="svg/spindleData/temp/n.svg"/></div><div class="col2" id="temp_back_bearing"></div><div class="col3" id="back-w">℃</div>
+        <div id="back-div" v-bind:class="data.alarm2 ? 'alarm':'statusok'">
+            <div id="back-img" class="col1"><img src="svg/spindleData/temp/n.svg"/></div>
+            <div class="col2" id="temp_back_bearing">{{da.temp_back_bearing}}</div>
+            <div class="col3" id="back-w">℃</div>
         </div>
     </div>
-    <div class="row-item statusok" >
+    <div class="row-item statusok">
         <div class="colorwhite">负载</div>
-        <div class="col1"><img src="svg/spindleData/load/n.svg"/></div><div class="col2" id="spindle_load"></div><div class="col3">%</div>
+        <div class="col1"><img src="svg/spindleData/load/n.svg"/></div>
+        <div class="col2" id="spindle_load">{{da.spindle_load}}</div>
+        <div class="col3">%</div>
     </div>
 
 </div>
@@ -92,148 +108,149 @@ color:rgba(255,255,255,0.5);
 <script src="js/jquery-3.3.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script>
+    var self = {
+        ctx: {
+            $: $,
+            eventMessage: {
+                $emit: function () {
 
+                },
+                $on: function () {
 
+                }
+            }
+        }
+    };
 
-    var da={};
+    self.data = {
+        da: {},
+        data: [],
+        frontw: 35,
+        backw: 35,
+        alarm1:false,
+        alarm2:false
+    };
 
-    var data=[
-        {
-            v:35,//遥测数据的值
-            t:1528358866224,//时间戳
-            k:{o:"temp_front_bearing",l:"temp_front_bearing"}//
-        },
-        {
-            v:35,//遥测数据的值
-            t:1528358866224,//时间戳
-            k:{o:"temp_back_bearing",l:"temp_back_bearing"}//key 以及可以的label名
-        },
-        {
-            v:getRandom(0,100),//遥测数据的值
-            t:1528358866224,//时间戳
-            k:{o:"spindle_load",l:"spindle_load"}//key 以及可以的label名
-        },
-        {
-            v:getRandom(0,100),//遥测数据的值
-            t:1528358866224,//时间戳
-            k:{o:"spindle_current",l:"spindle_current"}//key 以及可以的label名
-        },
-        {
-            v:40,//遥测数据的值
-            t:1528358866224,//时间戳
-            k:{o:"temp_thres_front_bearing",l:"temp_thres_front_bearing"}//key 以及可以的label名
-        },
-        {
-            v:40,//遥测数据的值
-            t:1528358866224,//时间戳
-            k:{o:"temp_thres_back_bearing",l:"temp_thres_back_bearing"}//key 以及可以的label名
-        }];
-
-    var frontw=35,backw=35;
-    var getTemp=function(){
-        frontw++;
-        backw++;
-        if(frontw==46){
-            frontw=35;
-            backw=35;
+    self.getTemp = function () {
+        self.data.frontw++;
+        self.data.backw++;
+        if (self.data.frontw == 46) {
+            self.data.frontw = 35;
+            self.data.backw = 35;
         }
         return {
-            frontw:frontw,
-            backw:backw
+            frontw: self.data.frontw,
+            backw: self.data.backw
         }
+    };
+
+
+    self.onInit = function () {
+        setInterval(function () {
+            var getData = self.getTemp();
+            var data = [
+                {
+                    v: getData.frontw,
+                    t: 1528358866224,
+                    k: {o: "temp_front_bearing", l: "temp_front_bearing"}
+                },
+                {
+                    v: getData.backw,
+                    t: 1528358866224,
+                    k: {o: "temp_back_bearing", l: "temp_back_bearing"}
+                },
+                {
+                    v: self.getRandom(0, 100),
+                    t: 1528358866224,
+                    k: {o: "spindle_load", l: "spindle_load"}
+                },
+                {
+                    v: self.getRandom(0, 100),
+                    t: 1528358866224,
+                    k: {o: "spindle_current", l: "spindle_current"}
+                },
+                {
+                    v: 40,
+                    t: 1528358866224,
+                    k: {o: "temp_thres_front_bearing", l: "temp_thres_front_bearing"}
+                },
+                {
+                    v: 40,
+                    t: 1528358866224,
+                    k: {o: "temp_thres_back_bearing", l: "temp_thres_back_bearing"}
+                }];
+
+
+            self.onDataUpdated(data);
+        }, 2000);
+    };
+
+    self.onDataUpdated = function (data) {
+
+        self.ctx.$.each(data, function (i, obj) {
+            eval("self.data.da." + obj.k.o + "='" + obj.v + "'");
+        });
+
+        if (self.data.da.temp_front_bearing >= self.data.da.temp_thres_front_bearing) {
+            self.data.alarm1=true;
+            self.ctx.$("#front-w").css("font-size", "34px");
+            self.ctx.$("#front-w").css("padding-top", "0px");
+            self.ctx.$("#front-img").html('<img src="svg/spindleData/temp/a.svg">');
+        } else {
+            self.data.alarm1 = false;
+            self.ctx.$("#front-w").css("font-size", "16px");
+            self.ctx.$("#front-w").css("padding-top", "19px");
+            self.ctx.$("#front-img").html('<img src="svg/spindleData/temp/n.svg">');
+        }
+
+        if (self.data.da.temp_back_bearing >= self.data.da.temp_thres_back_bearing) {
+            self.data.alarm2=true;
+            self.ctx.$("#back-w").css("font-size", "34px");
+            self.ctx.$("#back-w").css("padding-top", "0px");
+            self.ctx.$("#back-img").html('<img src="svg/spindleData/temp/a.svg">');
+        } else {
+            self.data.alarm2=false;
+            self.ctx.$("#back-w").css("font-size", "16px");
+            self.ctx.$("#back-w").css("padding-top", "19px");
+            self.ctx.$("#back-img").html('<img src="svg/spindleData/temp/n.svg">');
+        }
+    };
+    self.onResize = function () {
+
+    };
+    self.onDestroy = function () {
+
+    };
+    self.onPendding = function () {
+
+    };
+
+    self.getRandom = function (min, max) {
+        var r = Math.random() * (max - min);
+        var re = Math.round(r + min);
+        re = Math.max(Math.min(re, max), min);
+        return re;
     }
 
-    setInterval(function(){
-        var getData=getTemp();
-        var data=[
-            {
-                v:getData.frontw,//遥测数据的值
-                t:1528358866224,//时间戳
-                k:{o:"temp_front_bearing",l:"temp_front_bearing"}//
+
+    // 测试环境构造
+    var app = new Vue({
+        el: '#maxiot_cd_comp4_app',
+        data: {
+            da: {
+                temp_front_bearing: "1",
+                temp_back_bearing: "2",
+                spindle_load: "1",
+                spindle_current: "46"
             },
-            {
-                v:getData.backw,//遥测数据的值
-                t:1528358866224,//时间戳
-                k:{o:"temp_back_bearing",l:"temp_back_bearing"}//key 以及可以的label名
-            },
-            {
-                v:getRandom(0,100),//遥测数据的值
-                t:1528358866224,//时间戳
-                k:{o:"spindle_load",l:"spindle_load"}//key 以及可以的label名
-            },
-            {
-                v:getRandom(0,100),//遥测数据的值
-                t:1528358866224,//时间戳
-                k:{o:"spindle_current",l:"spindle_current"}//key 以及可以的label名
-            },
-            {
-                v:40,//遥测数据的值
-                t:1528358866224,//时间戳
-                k:{o:"temp_thres_front_bearing",l:"temp_thres_front_bearing"}//key 以及可以的label名
-            },
-            {
-                v:40,//遥测数据的值
-                t:1528358866224,//时间戳
-                k:{o:"temp_thres_back_bearing",l:"temp_thres_back_bearing"}//key 以及可以的label名
-            }];
+            data:{
+                alarm1:false,
+                alarm2:false
+            }
+        },
+        mounted: function () {
+            self.onInit();
+        }
+    });
 
-
-        onDataUpdated(data);
-    },2000);
-
-    onInit=function(){
-
-    };
-
-  var  onDataUpdated=function(data){
-      da={};
-      $.each(data,function(i,obj){
-          eval("da."+obj.k.o+"='"+obj.v+"'");
-      });
-      $("#temp_front_bearing").html(da.temp_front_bearing);
-      $("#temp_back_bearing").html(da.temp_back_bearing);
-      $("#spindle_current").html(da.spindle_current);
-      $("#spindle_load").html(da.spindle_load);
-      if(da.temp_front_bearing>=da.temp_thres_front_bearing){
-          $("#font-div").removeClass("statusok").addClass("alarm");
-          $("#front-w").css("font-size","34px");
-          $("#front-w").css("padding-top","0px");
-          $("#front-img").html('<img src="svg/spindleData/temp/a.svg">');
-      }
-      else{
-          $("#font-div").removeClass("alarm").addClass("statusok");
-          $("#front-w").css("font-size","16px");
-          $("#front-w").css("padding-top","19px");
-          $("#front-img").html('<img src="svg/spindleData/temp/n.svg">');
-      }
-      if(da.temp_back_bearing>=da.temp_thres_back_bearing){
-          $("#back-div").removeClass("statusok").addClass("alarm");
-          $("#back-w").css("font-size","34px");
-          $("#back-w").css("padding-top","0px");
-          $("#back-img").html('<img src="svg/spindleData/temp/a.svg">');
-      }
-      else{
-          $("#back-div").removeClass("alarm").addClass("statusok");
-          $("#back-w").css("font-size","16px");
-          $("#back-w").css("padding-top","19px");
-          $("#back-img").html('<img src="svg/spindleData/temp/n.svg">');
-      }
-    };
-    onResize=function(){
-
-    };
-    onDestroy=function(){
-
-    };
-    onPendding=function(){
-
-    };
-    function getRandom(min, max){
-        var r = Math.random() * (max - min);
-        var re = Math.round(r + min);
-        re = Math.max(Math.min(re, max), min)
-
-        return re;
-    }
-    onDataUpdated(data);
 </script>

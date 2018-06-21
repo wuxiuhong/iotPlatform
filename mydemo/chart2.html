@@ -54,7 +54,7 @@
 </head>
 <body>
 
-<div id="main" style="width: 100%;height:400px;"></div>
+<div id="mainChart2" style="width: 100%;height:400px;"></div>
 
 </body>
 </html>
@@ -62,343 +62,354 @@
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script>
 
-    var da = {};
-    var firstDate = "";//第一次数据的时间
-    var oldData = [];//存放已经存在的数据
-    var curmin = 0;
-    var myChart = echarts.init(document.getElementById('main'));
+    var self = {
+        ctx: {
+            $: $,
+            echarts: echarts,
+            eventMessage:{
+                $emit:function () {
 
-    var onInit = function () {
-        // 指定图表的配置项和数据
-        option = {
-            title : {
-                text : '刀具衰退趋势图',
-                left : '‘0%',
-                top : '0%',
-                textStyle : {
-                    //文字颜色
-                    color : 'rgba(255,255,255,0.5)',
-                    //字体风格,'normal','italic','oblique'
-                    fontStyle : 'normal',
-                    //字体粗细 'normal','bold','bolder','lighter',100 | 200 | 300 | 400...
+                },
+                $on:function () {
 
-                    //字体系列
-                    fontFamily : 'sans-serif',
-                    //字体大小
-                    fontSize : 14
+                }
+            }
+        }
+    };
+
+    self.data = {
+        da: {},
+        option: {},
+        a: 1,
+        myChart:{},
+        n: 1,
+        curmin: 0,
+        oldData : [],
+        firstDate:""
+    };
+
+
+    self.onInit = function () {
+        self.data.option = {
+            title: {
+                text: '刀具衰退趋势图',
+                left: '‘0%',
+                top: '0%',
+                textStyle: {
+                    color: 'rgba(255,255,255,0.5)',
+                    fontStyle: 'normal',
+                    fontFamily: 'sans-serif',
+
+                    fontSize: 14
                 }
             },
-            tooltip : {
-                trigger : 'axis',
-                formatter : function (params) {
+            tooltip: {
+                trigger: 'axis',
+                formatter: function (params) {
                     params = params[0];
 
                     return "磨损量  <span style='color:#01c6fd' >" + params.value[1] + "mm</span>";
                 },
-                axisPointer : {
-                    type : 'cross',
-                    animation : false,
-                    label : {
-                        backgroundColor : '#505765'
+                axisPointer: {
+                    type: 'cross',
+                    animation: false,
+                    label: {
+                        backgroundColor: '#505765'
                     }
                 },
-                textStyle : {
-                    color : 'rgba(255,255,255,0.5)'
+                textStyle: {
+                    color: 'rgba(255,255,255,0.5)'
                 }
             },
 
-            xAxis : {
-                type : 'value',
-                boundaryGap : false,
-                name : '(mins)',
-                nameGap : 20,
-                splitNumber : 16,
-                // data: [0,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75],
-                axisLine : {//坐标轴线条相关设置(颜色等)
-                    lineStyle : {
-                        color : 'rgba(255,255,255,0.5)'
+            xAxis: {
+                type: 'value',
+                boundaryGap: false,
+                name: '(mins)',
+                nameGap: 20,
+                splitNumber: 16,
+                axisLine: {
+                    lineStyle: {
+                        color: 'rgba(255,255,255,0.5)'
                     }
                 },
-                axisLabel : {
-                    //X轴刻度配置
-                    interval : 5 //0：表示全部显示不间隔；auto:表示自动根据刻度个数和宽度自动设置间隔个数
+                axisLabel: {
+                    interval: 5
                 },
-                splitLine : {
-                    show : false
+                splitLine: {
+                    show: false
                 }
             },
-            yAxis : {
-                type : 'value',
-                name : '磨损量（mm）',
-                nameTextStyle : {     //名称的样式
-                    color : '#399fae',
-                    fontSize : '16px'
+            yAxis: {
+                type: 'value',
+                name: '磨损量（mm）',
+                nameTextStyle: {
+                    color: '#399fae',
+                    fontSize: '16px'
                 },
-                nameGap : 30,  //名称与Y轴的距离
-                axisTick : { //坐标轴刻度相关设置
-                    length : '0' //我设置成0了
+                nameGap: 30,
+                axisTick: {
+                    length: '0'
                 },
-                axisLine : {//坐标轴线条相关设置(颜色等)
-                    lineStyle : {
-                        color : 'rgba(255,255,255,0.5)'
+                axisLine: {
+                    lineStyle: {
+                        color: 'rgba(255,255,255,0.5)'
 
                     }
                 },
             },
-            grid : { //直角坐标系内绘图网格
-                left : 36, //由于1000显示被挡住了,所以我让他左移36px;这个功能类似于paddingleft
-                top : 90
+            grid: {
+                left: 36,
+                top: 90
             },
-            visualMap : {
-                top : 10,
-                right : 10,
-                pieces : [{
-                    gt : 0,
-                    lte : 0.2,
-                    color : '#E04F23'
+            visualMap: {
+                top: 10,
+                right: 10,
+                pieces: [{
+                    gt: 0,
+                    lte: 0.2,
+                    color: '#E04F23'
                 }, {
-                    gt : 0.2,
-                    lte : 0.4,
-                    color : '#EAB62A'
+                    gt: 0.2,
+                    lte: 0.4,
+                    color: '#EAB62A'
                 }, {
-                    gt : 0.4,
-                    lte : 1,
-                    color : '#01c5fd'
+                    gt: 0.4,
+                    lte: 1,
+                    color: '#01c5fd'
                 }],
-                outOfRange : {
-                    color : '#999'
+                outOfRange: {
+                    color: '#999'
                 },
-                show : false
+                show: false
             },
-            color : ['#E04F23', '#EAB62A', '#01c5fd'],
-            series : [
+            color: ['#E04F23', '#EAB62A', '#01c5fd'],
+            series: [
                 {
-                    //    data: [0, 2,  4, 6, 8, 20,30,50,60,70],
-                    //   data:[   [0, 0.98], [5,0.88], [6, 0.84], [10, 0.82], [15, 0.79], [20, 0.70], [25, 0.68]],
-                    data : [],
-                    type : 'line',
-                    showSymbol : false,
-                    symbolSize : 1,
-                    smooth : true,
-                    itemStyle : {
-                        normal : {
-                            borderWidth : 3,
-                            borderColor : 'white',
-                            color : 'blue'
+                    data: [],
+                    type: 'line',
+                    showSymbol: false,
+                    symbolSize: 1,
+                    smooth: true,
+                    itemStyle: {
+                        normal: {
+                            borderWidth: 3,
+                            borderColor: 'white',
+                            color: 'blue'
                         }
                     },
-                    markLine : {
-                        data : [{name : '最小值', xAxis : 0}],
-                        lineStyle : {
-                            type : 'solid',
-                            color : '#000'
+                    markLine: {
+                        data: [{name: '最小值', xAxis: 0}],
+                        lineStyle: {
+                            type: 'solid',
+                            color: '#000'
                         },
-                        symbol : '',
-                        label : {
-                            show : false
+                        symbol: '',
+                        label: {
+                            show: false
                         }
                     }
                 },
                 {
-                    //    data: [0, 2,  4, 6, 8, 20,30,50,60,70],
-                    //data:[  [25, 0.68],[30, 0.5], [35, 0.45], [40, 0.35],[45,0.30],[50,0.25],[55,0.23],[60,0.18],[65,0.15],[70,0.1]],
-                    data : [],
-                    type : 'line',
-                    symbol : 'none',
-                    smooth : true,
-                    itemStyle : {  //折线拐点的样式
-                        normal : {
-                            color : '#20aefc',  //折线拐点的颜色
-                            show : false
+                    data: [],
+                    type: 'line',
+                    symbol: 'none',
+                    smooth: true,
+                    itemStyle: {
+                        normal: {
+                            color: '#20aefc',
+                            show: false
                         }
                     },
-                    lineStyle : {
-                        normal : {
-                            width : 4,
-                            type : 'dashed'
+                    lineStyle: {
+                        normal: {
+                            width: 4,
+                            type: 'dashed'
                         }
                     }
                 },
                 {
-                    name : '低故障率',
-                    type : 'line',
-                    animation : false,
-                    areaStyle : {
-                        normal : {}
+                    name: '低故障率',
+                    type: 'line',
+                    animation: false,
+                    areaStyle: {
+                        normal: {}
                     },
-                    lineStyle : {
-                        normal : {
-                            width : 3
+                    lineStyle: {
+                        normal: {
+                            width: 3
                         }
                     },
-                    markArea : {
-                        data : [[{
-                            yAxis : '0'
+                    markArea: {
+                        data: [[{
+                            yAxis: '0'
                         }, {
-                            yAxis : '0.2'
+                            yAxis: '0.2'
                         }]]
                     },
 
                 }, {
-                    name : '中等故障率',
-                    type : 'line',
-                    animation : false,
-                    areaStyle : {
-                        normal : {}
+                    name: '中等故障率',
+                    type: 'line',
+                    animation: false,
+                    areaStyle: {
+                        normal: {}
                     },
-                    lineStyle : {
-                        normal : {
-                            width : 1
+                    lineStyle: {
+                        normal: {
+                            width: 1
                         }
                     },
-                    markArea : {
-                        data : [[{
-                            yAxis : '0.2'
+                    markArea: {
+                        data: [[{
+                            yAxis: '0.2'
                         }, {
-                            yAxis : '0.4'
+                            yAxis: '0.4'
                         }]]
                     }
                 }, {
-                    name : '高故障率',
-                    type : 'line',
-                    animation : false,
-                    areaStyle : {
-                        normal : {}
+                    name: '高故障率',
+                    type: 'line',
+                    animation: false,
+                    areaStyle: {
+                        normal: {}
                     },
-                    lineStyle : {
-                        normal : {
-                            width : 1
+                    lineStyle: {
+                        normal: {
+                            width: 1
                         }
                     },
-                    markArea : {
-                        data : [[{
-                            yAxis : '0.4'
+                    markArea: {
+                        data: [[{
+                            yAxis: '0.4'
                         }, {
-                            yAxis : '1'
+                            yAxis: '1'
                         }]]
                     }
                 }]
         };
+        self.data.myChart = self.ctx.echarts.init(document.getElementById('mainChart2'));
+
+        setInterval(function () {
+            var datanow = self.getData();
+            var datapre = "[" + (datanow - 0.02) + "," + (datanow - 0.04) + "," + (datanow - 0.06) + "]";
+            var data = [
+                {
+                    v: '2018-06-10 12:19:20',
+                    t: 1528358866224,
+                    k: {o: "tool_start_time", l: "tool_start_time"}
+                },
+                {
+                    v: self.getDatestr(),
+                    t: 1528358866224,
+                    k: {o: "tool_end_time", l: "tool_end_time"}
+                },
+                {
+                    v: datanow,
+                    t: 1528358866224,
+                    k: {o: "tool_wear", l: "tool_wear"}
+                },
+                {
+                    v: datapre,
+                    t: 1528358866224,
+                    k: {o: "tool_wear_prid", l: "tool_wear_prid"}
+                },
+                {
+                    v: 0,
+                    t: 1528358866224,
+                    k: {o: "tool_alarm", l: "tool_alarm"}
+                },
+                {
+                    v: 1,
+                    t: 1528358866224,
+                    k: {o: "tool_warn", l: "tool_warn"}
+                },
+                {
+                    v: 0.4,
+                    t: 1528358866224,
+                    k: {o: "tool_warn_thres", l: "tool_warn_thres"}
+                },
+                {
+                    v: 0.2,
+                    t: 1528358866224,
+                    k: {o: "tool_alarm_thres", l: "tool_alarm_thres"}
+                }
+            ];
+            if (self.data.a < 0) {
+                self.data.a = 1;
+                self.data.oldData = [];
+                self.data.myChart.resize();
+            } else {
+                self.onDataUpdated(data);
+            }
+        }, 2000);
     };
 
-    var onDataUpdated = function (data) {
+    self.onDataUpdated = function (data) {
         var minutes = 0;
-        $.each(data, function (i, obj) {
-            da[obj.k.o] = obj.v;
+        self.ctx.$.each(data, function (i, obj) {
+            self.data.da[obj.k.o] = obj.v;
         });
 
-        if (oldData.length == 0) {
-            oldData.push([0, da.tool_wear]);
-            firstDate = da.tool_end_time;
+        if (self.data.oldData.length == 0) {
+            self.data.oldData.push([0, self.data.da.tool_wear]);
+            self.data.firstDate = self.data.da.tool_end_time;
         }
         else {
-            var minutes = getMinsDiff(da.tool_end_time, firstDate);
-            oldData.push([minutes, da.tool_wear]);
+            var minutes = self.getMinsDiff(self.data.da.tool_end_time, self.data.firstDate);
+            self.data.oldData.push([minutes, self.data.da.tool_wear]);
         }
-        curmin = minutes;
-        var tool_wear_prid = eval("(" + da.tool_wear_prid + ")");
+        self.data.curmin = minutes;
+        var tool_wear_prid = eval("(" + self.data.da.tool_wear_prid + ")");
         var arr = [];
-        arr.push([curmin, da.tool_wear]);
-        arr.push([curmin + 1, tool_wear_prid[0]]);
-        arr.push([curmin + 2, tool_wear_prid[1]]);
-        arr.push([curmin + 3, tool_wear_prid[2]]);
+        arr.push([self.data.curmin, self.data.da.tool_wear]);
+        arr.push([self.data.curmin + 1, tool_wear_prid[0]]);
+        arr.push([self.data.curmin + 2, tool_wear_prid[1]]);
+        arr.push([self.data.curmin + 3, tool_wear_prid[2]]);
 
-        option.series[0].data = oldData;  //设置当前折线
-        option.series[1].data = arr;  //设置未来3分钟折线
+        self.data.option.series[0].data = self.data.oldData;
+        self.data.option.series[1].data = arr;
 
-        option.visualMap.pieces[0].lte = da.tool_alarm_thres;
-        option.visualMap.pieces[1].gt = da.tool_alarm_thres;
-        option.visualMap.pieces[1].lte = da.tool_warn_thres;
-        option.visualMap.pieces[2].gt = da.tool_warn_thres;
+        self.data.option.visualMap.pieces[0].lte = self.data.da.tool_alarm_thres;
+        self.data.option.visualMap.pieces[1].gt = self.data.da.tool_alarm_thres;
+        self.data.option.visualMap.pieces[1].lte = self.data.da.tool_warn_thres;
+        self.data.option.visualMap.pieces[2].gt = self.data.da.tool_warn_thres;
 
-        option.series[2].markArea.data[0][1].yAxis = da.tool_alarm_thres;
-        option.series[3].markArea.data[0][0].yAxis = da.tool_alarm_thres;
-        option.series[3].markArea.data[0][1].yAxis = da.tool_warn_thres;
-        option.series[4].markArea.data[0][0].yAxis = da.tool_warn_thres;
+        self.data.option.series[2].markArea.data[0][1].yAxis = self.data.da.tool_alarm_thres;
+        self.data.option.series[3].markArea.data[0][0].yAxis = self.data.da.tool_alarm_thres;
+        self.data.option.series[3].markArea.data[0][1].yAxis = self.data.da.tool_warn_thres;
+        self.data.option.series[4].markArea.data[0][0].yAxis = self.data.da.tool_warn_thres;
 
 
-        option.series[0].markLine.data[0].xAxis = minutes; //设置当前线条
-        myChart.setOption(option, true);
+        self.data.option.series[0].markLine.data[0].xAxis = minutes;
+        self.data.myChart.setOption(self.data.option, true);
     };
 
-    onResize = function () {
+    self.onResize = function () {
+        self.data.myChart.resize();
+    };
+
+    self.onDestroy = function () {
 
     };
-    onDestroy = function () {
 
-    };
-    onPendding = function () {
-
-    };
-    var getMinsDiff = function (date1, date2) {
-        var date = new Date(date1).getTime() - new Date(date2).getTime();   //时间差的毫秒数
-        var diffmins = date / (60 * 1000);   //获取分钟差
+    self.getMinsDiff = function (date1, date2) {
+        var date = new Date(date1).getTime() - new Date(date2).getTime();
+        var diffmins = date / (60 * 1000);
         return diffmins;
     };
-    var n = 1;
-    var getDatestr = function () {
+
+    self.getDatestr = function () {
         var date = new Date("2018-06-10 12:20:20");
-        date.setMinutes(date.getMinutes() + n++);
+        date.setMinutes(date.getMinutes() + self.data.n++);
         return date;
     };
-    var a = 1;
-    var getData = function () {
-        a = a - 0.02;
-        return a;
-    }
-    onInit();
-    setInterval(function () {
-        var datanow=getData();
-        var datapre="["+(datanow-0.02)+","+(datanow-0.04)+","+(datanow-0.06)+"]";
-        console.log(datapre);
-        var data = [
-            {
-                v : '2018-06-10 12:19:20',//遥测数据的值
-                t : 1528358866224,//时间戳
-                k : {o : "tool_start_time", l : "tool_start_time"}//刀具磨损开始时间
-            },
-            {
-                v : getDatestr(),//遥测数据的值
-                t : 1528358866224,//时间戳
-                k : {o : "tool_end_time", l : "tool_end_time"}//刀具磨损结束时间
-            },
-            {
-                v : datanow,//遥测数据的值
-                t : 1528358866224,//时间戳
-                k : {o : "tool_wear", l : "tool_wear"}//刀具磨损量
-            },
-            {
-                v : datapre,//遥测数据的值
-                t : 1528358866224,//时间戳
-                k : {o : "tool_wear_prid", l : "tool_wear_prid"}//刀具磨损量预测
-            },
-            {
-                v : 0,//遥测数据的值
-                t : 1528358866224,//时间戳
-                k : {o : "tool_alarm", l : "tool_alarm"}//刀具磨损报警
-            },
-            {
-                v : 1,//遥测数据的值
-                t : 1528358866224,//时间戳
-                k : {o : "tool_warn", l : "tool_warn"}//刀具磨损预警
-            },
-            {
-                v : 0.4,//遥测数据的值
-                t : 1528358866224,//时间戳
-                k : {o : "tool_warn_thres", l : "tool_warn_thres"}//刀具磨损预警阀值
-            },
-            {
-                v : 0.2,//遥测数据的值
-                t : 1528358866224,//时间戳
-                k : {o : "tool_alarm_thres", l : "tool_alarm_thres"}//刀具磨损预警阀值
-            }
-        ];
-        if (a < 0) {
-            a = 1;
-            oldData = [];
-            myChart.resize();
-        } else {
-            onDataUpdated(data);
-        }
-    }, 2000);
+
+    self.getData = function () {
+        self.data.a = self.data.a - 0.02;
+        return self.data.a;
+    };
+
+    self.onInit();
+
 </script>

@@ -1,6 +1,5 @@
 import { renderFormat, addStyleFile, getHtml } from '../util/renderFormat';
-import echarts from 'echarts';
-import $ from 'jquery';
+import TemplateService from '../util/template.service';
 
 /**
  * 处理组件，生成子组件
@@ -8,32 +7,34 @@ import $ from 'jquery';
  * @param {number} index
  * @return {any}
  */
-function renderFn(data: any, index: number) {
+function renderFn(data: any, index: number, self: any) {
     // 初始化格式
     data = renderFormat(data, index);
+    const {initData, onResize, onDataUpdated, onInit, onDestroy, onRender} = TemplateService(data.template.template, self);
     data.comp = {
         template: data.template.template.templateHtml,
         props: ['content'],
         data() {
             return {
-                ...data.template.template.defaultData
+                ...initData,
+                ...data.template.template.defaultData,
             };
         },
         mounted() {
             // 定义重置组件监听通知函数
             this.$on('onResize', (msg: any) => {
-                if (typeof this.onResize === 'function') this.onResize();
+                if (typeof onResize === 'function') onResize();
             });
             // 定义重置组件监听通知函数
             this.$on('onDataUpdated', (msg: any) => {
-                if (typeof this.onResize === 'function') this.onDataUpdated(msg);
+                if (typeof onDataUpdated === 'function') onDataUpdated(msg);
             });
             // 处理初始化格式处理
-            new Function('maxIot', 'echarts', '$', data.template.template.controllerScript.mounted)(this, echarts, $);
+            onInit();
         },
-        methods: new Function('maxIot', 'echarts', '$', data.template.template.controllerScript.methods)(this, echarts, $),
+        methods: onRender(),
         beforeDestroy() {
-            new Function(data.template.template.controllerScript.onDestroy)();
+            onDestroy();
         }
     };
     return data;
@@ -48,14 +49,14 @@ function renderFn(data: any, index: number) {
 function renderTemplateFn(data: any) {
     // 初始化格式
     addStyleFile(data.template.templateCss, 'child');
-    const {onResize, onDataUpdated, onInit, onDestroy, onRender} = data.getTemplate;
+    const {initData, onResize, onDataUpdated, onInit, onDestroy, onRender} = data.getTemplate;
     const result = {
         template: getHtml(data.template.templateHtml),
         props: ['content'],
         data() {
             return {
                 ...data.template.defaultData,
-                ...data.template.getTemplate
+                ...initData
             };
         },
         mounted() {

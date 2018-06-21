@@ -38,6 +38,7 @@
             echarts: echarts
         }
     };
+
     self.data = {
         da: {},
         option: {},
@@ -122,7 +123,7 @@
     };
 
     self.onResize = function () {
-        self.onInit();
+        self.ctx.echarts.resize();
     };
 
     self.onDestroy = function () {

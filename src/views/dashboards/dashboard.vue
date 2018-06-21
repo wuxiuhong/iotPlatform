@@ -98,7 +98,7 @@
                 this.dashboard = ret.data;
                 // 处理组件格式
                 this.dashboard.components = this.dashboard.components.map((item: any, index: number) => {
-                    return renderFn(item, index);
+                    return renderFn(item, index, this);
                 });
                 // 处理需要订阅的数据
                 subscribeEdgeClient.bind(this)(this.dashboard);

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import { LoginUsers, Users } from './data/user';
-import { dashboard } from './data/dashboard';
+import { dashboard } from './data/dashboard_new';
 
 let _Users = Users;
 
