@@ -2,29 +2,26 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e11aeeba-479e-4d58-bd6e-940417227e5f" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/src/common/eventBus.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/mock/data/dashboard_fmcs1.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/mock/data/dashboard_fmcs2.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/dao.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mydemo/images/dao.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/config/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/dashboard.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/dashboard.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/template.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/template.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/common/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/common/render.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/render.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/layout/CopyRight.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/layout/CopyRight.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mock/data/dashboard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/mock/data/dashboard.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mock/mock.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/mock/mock.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/util/renderFormat.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/util/renderFormat.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/util/template.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/util/template.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/util/websocket.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/util/websocket.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/Home.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Home.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/dashboards/dashboard.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/dashboards/dashboard.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/template/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/template/index.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/mock/template.json" beforeDir="false" afterPath="$PROJECT_DIR$/static/mock/template.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mydemo/chart1.html" beforeDir="false" afterPath="$PROJECT_DIR$/mydemo/chart1.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mydemo/chart2.html" beforeDir="false" afterPath="$PROJECT_DIR$/mydemo/chart2.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mydemo/chart3.html" beforeDir="false" afterPath="$PROJECT_DIR$/mydemo/chart3.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mydemo/comp1.html" beforeDir="false" afterPath="$PROJECT_DIR$/mydemo/comp1.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mydemo/comp2.html" beforeDir="false" afterPath="$PROJECT_DIR$/mydemo/comp2.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mydemo/comp3.html" beforeDir="false" afterPath="$PROJECT_DIR$/mydemo/comp3.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mydemo/comp4.html" beforeDir="false" afterPath="$PROJECT_DIR$/mydemo/comp4.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mydemo/comp5.html" beforeDir="false" afterPath="$PROJECT_DIR$/mydemo/comp5.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mydemo/comp6.html" beforeDir="false" afterPath="$PROJECT_DIR$/mydemo/comp6.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mydemo/comp7.html" beforeDir="false" afterPath="$PROJECT_DIR$/mydemo/comp7.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mydemo/json/chart1.json" beforeDir="false" afterPath="$PROJECT_DIR$/mydemo/json/chart1.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mydemo/json/chart2.json" beforeDir="false" afterPath="$PROJECT_DIR$/mydemo/json/chart2.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mydemo/json/chart3.json" beforeDir="false" afterPath="$PROJECT_DIR$/mydemo/json/chart3.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mydemo/json/comp1.json" beforeDir="false" afterPath="$PROJECT_DIR$/mydemo/json/comp1.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mydemo/json/comp2.json" beforeDir="false" afterPath="$PROJECT_DIR$/mydemo/json/comp2.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mydemo/json/comp4.json" beforeDir="false" afterPath="$PROJECT_DIR$/mydemo/json/comp4.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mydemo/json/comp5.json" beforeDir="false" afterPath="$PROJECT_DIR$/mydemo/json/comp5.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mydemo/json/comp6.json" beforeDir="false" afterPath="$PROJECT_DIR$/mydemo/json/comp6.json" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -41,15 +38,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="user.ts" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/api/user.ts">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="432">
-              <caret line="18" column="2" selection-start-line="18" selection-start-column="2" selection-end-line="18" selection-end-column="2" />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="users.json" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/static/mock/users.json">
           <provider selected="true" editor-type-id="text-editor">
@@ -72,7 +60,7 @@
         <entry file="file://$PROJECT_DIR$/build/build.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="267">
-              <caret line="22" column="21" lean-forward="true" selection-start-line="22" selection-start-column="21" selection-end-line="22" selection-end-column="21" />
+              <caret line="22" column="21" selection-start-line="22" selection-start-column="21" selection-end-line="22" selection-end-column="21" />
             </state>
           </provider>
         </entry>
@@ -80,17 +68,26 @@
       <file leaf-file-name="tools.d.ts" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/typings/tools.d.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret column="37" selection-start-column="37" selection-end-column="37" />
+            <state relative-caret-position="24">
+              <caret line="1" selection-start-line="1" selection-end-line="1" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="vue-shim.d.ts" pinned="false" current-in-tab="true">
+      <file leaf-file-name="vue-shim.d.ts" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/typings/vue-shim.d.ts">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="96">
-              <caret line="4" lean-forward="true" selection-start-line="4" selection-end-line="4" />
+              <caret line="4" selection-start-line="4" selection-end-line="4" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="comp.md" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/document_standard/web/maxIot/comp.md">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="24">
+              <caret line="1" selection-start-line="1" selection-end-line="1" />
             </state>
           </provider>
         </entry>
@@ -151,8 +148,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/components/render_dev.js" />
-        <option value="$PROJECT_DIR$/src/util/install_component.js" />
         <option value="$PROJECT_DIR$/src/components/model_editor.vue" />
         <option value="$PROJECT_DIR$/src/components/index.js" />
         <option value="$PROJECT_DIR$/src/core/soul_helper.js" />
@@ -193,7 +188,6 @@
         <option value="$PROJECT_DIR$/config/index.js" />
         <option value="$PROJECT_DIR$/mock.js" />
         <option value="$PROJECT_DIR$/mydemo/comp5.html" />
-        <option value="$PROJECT_DIR$/mydemo/chart1.html" />
         <option value="$PROJECT_DIR$/static/mock/template.json" />
         <option value="$PROJECT_DIR$/src/mock/mock.js" />
         <option value="$PROJECT_DIR$/src/common/render.ts" />
@@ -202,6 +196,9 @@
         <option value="$PROJECT_DIR$/src/main.ts" />
         <option value="$PROJECT_DIR$/src/typings/tools.d.ts" />
         <option value="$PROJECT_DIR$/src/typings/vue-shim.d.ts" />
+        <option value="$PROJECT_DIR$/document_standard/web/maxIot/comp.md" />
+        <option value="$PROJECT_DIR$/mydemo/chart1.html" />
+        <option value="$PROJECT_DIR$/mydemo/comp3.html" />
       </list>
     </option>
   </component>
@@ -233,10 +230,10 @@
     </packageJsonPaths>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="1124" />
-    <option name="y" value="188" />
-    <option name="width" value="1758" />
-    <option name="height" value="1548" />
+    <option name="x" value="-418" />
+    <option name="y" value="42" />
+    <option name="width" value="2332" />
+    <option name="height" value="1472" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
@@ -254,32 +251,7 @@
             <path>
               <item name="iotPlatform" type="b2602c69:ProjectViewProjectNode" />
               <item name="iotPlatform" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="iotPlatform" type="b2602c69:ProjectViewProjectNode" />
-              <item name="iotPlatform" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="common" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="iotPlatform" type="b2602c69:ProjectViewProjectNode" />
-              <item name="iotPlatform" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="typings" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="iotPlatform" type="b2602c69:ProjectViewProjectNode" />
-              <item name="iotPlatform" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="views" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="iotPlatform" type="b2602c69:ProjectViewProjectNode" />
-              <item name="iotPlatform" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="views" type="462c0819:PsiDirectoryNode" />
-              <item name="dashboards" type="462c0819:PsiDirectoryNode" />
+              <item name="mydemo" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -426,7 +398,7 @@
       <workItem from="1529543095422" duration="7132000" />
       <workItem from="1529579372915" duration="621000" />
       <workItem from="1529629199342" duration="88000" />
-      <workItem from="1529919977058" duration="186000" />
+      <workItem from="1529919977058" duration="2812000" />
     </task>
     <task id="LOCAL-00001" summary="添加dashboard">
       <created>1527837240104</created>
@@ -575,11 +547,25 @@
       <option name="project" value="LOCAL" />
       <updated>1529579702714</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="更新最新报表">
+      <created>1529920238116</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1529920238116</updated>
+    </task>
+    <task id="LOCAL-00023" summary="添加文档说明">
+      <created>1529920300266</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1529920300266</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="115946000" />
+    <option name="totallyTimeSpent" value="118572000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -601,7 +587,7 @@
       <window_info anchor="bottom" id="Event Log" order="8" sideWeight="0.5018587" side_tool="true" weight="0.4302949" />
       <window_info anchor="bottom" id="Version Control" order="10" weight="0.32707775" />
       <window_info id="npm" order="2" sideWeight="0.5294118" side_tool="true" weight="0.22081785" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49814126" visible="true" weight="0.4302949" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49814126" weight="0.4302949" />
       <window_info id="Structure" order="1" sideWeight="0.52235293" side_tool="true" weight="0.22081785" />
       <window_info anchor="bottom" id="Terminal" order="9" weight="0.3297587" />
       <window_info id="Favorites" order="3" sideWeight="0.502" side_tool="true" weight="0.24981412" />
@@ -671,7 +657,8 @@
     <MESSAGE value="应用规范模板" />
     <MESSAGE value="恢复mock" />
     <MESSAGE value="更新最新报表" />
-    <option name="LAST_COMMIT_MESSAGE" value="更新最新报表" />
+    <MESSAGE value="添加文档说明" />
+    <option name="LAST_COMMIT_MESSAGE" value="添加文档说明" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -685,27 +672,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/.babelrc">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="192">
-          <caret line="8" column="4" selection-start-line="5" selection-start-column="1" selection-end-line="8" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/build/vue-loader.conf.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="6" column="21" selection-start-line="6" selection-start-column="21" selection-end-line="6" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/package-lock.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="124">
-          <caret line="34" column="29" lean-forward="true" selection-start-line="34" selection-start-column="29" selection-end-line="34" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/views/Login.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="407">
@@ -906,31 +872,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mydemo/js/echarts.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="6" column="2" lean-forward="true" selection-start-line="6" selection-start-column="2" selection-end-line="6" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/static/mock/template.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="984">
           <caret line="41" column="1" selection-start-line="41" selection-start-column="1" selection-end-line="41" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mydemo/comp5.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="24">
-          <caret line="137" column="6" lean-forward="true" selection-start-line="137" selection-start-column="6" selection-end-line="137" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mydemo/chart1.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="194">
-          <caret line="40" selection-start-line="40" selection-end-line="40" />
         </state>
       </provider>
     </entry>
@@ -1000,21 +945,63 @@
     <entry file="file://$PROJECT_DIR$/build/build.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="267">
-          <caret line="22" column="21" lean-forward="true" selection-start-line="22" selection-start-column="21" selection-end-line="22" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/typings/tools.d.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="37" selection-start-column="37" selection-end-column="37" />
+          <caret line="22" column="21" selection-start-line="22" selection-start-column="21" selection-end-line="22" selection-end-column="21" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/typings/vue-shim.d.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="96">
-          <caret line="4" lean-forward="true" selection-start-line="4" selection-end-line="4" />
+          <caret line="4" selection-start-line="4" selection-end-line="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/typings/tools.d.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="24">
+          <caret line="1" selection-start-line="1" selection-end-line="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mydemo/chart1.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="70">
+          <caret line="34" selection-start-line="34" selection-end-line="52" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mydemo/comp1.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="406">
+          <caret line="172" selection-start-line="172" selection-end-line="177" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mydemo/comp5.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1466">
+          <caret line="137" column="6" selection-start-line="137" selection-start-column="6" selection-end-line="137" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mydemo/comp3.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-362">
+          <caret line="214" column="49" selection-start-line="214" selection-start-column="49" selection-end-line="214" selection-end-column="49" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mydemo/js/echarts.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="384">
+          <caret line="16" column="1" lean-forward="true" selection-start-line="16" selection-start-column="1" selection-end-line="16" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/document_standard/web/maxIot/comp.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="24">
+          <caret line="1" selection-start-line="1" selection-end-line="1" />
         </state>
       </provider>
     </entry>
