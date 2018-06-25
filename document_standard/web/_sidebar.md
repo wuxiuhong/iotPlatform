@@ -1,0 +1,10 @@
+* 入门
+    * [快速开始](web/quickstart.md)
+* 前端代码规范
+    * [html规范](web/quickstart.md)
+    * css样式规范
+        * [css命名规范](web/quickstart.md)
+        * [z-index规范](web/quickstart.md)
+* maxIot项目规范
+     * [目录结构](web/quickstart.md)
+     * [报表组件规范](web/maxIot/comp.md)
