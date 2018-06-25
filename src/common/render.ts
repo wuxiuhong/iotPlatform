@@ -10,7 +10,7 @@ import TemplateService from '../util/template.service';
 function renderFn(data: any, index: number, self: any) {
     // 初始化格式
     data = renderFormat(data, index);
-    const {initData, onResize, onDataUpdated, onInit, onDestroy, onRender} = TemplateService(data.template.template, self);
+    const {initData, bindData, onResize, onDataUpdated, onInit, onDestroy, onRender} = TemplateService(data.template.template, self);
     data.comp = {
         template: data.template.template.templateHtml,
         props: ['content'],
@@ -21,6 +21,9 @@ function renderFn(data: any, index: number, self: any) {
             };
         },
         mounted() {
+            // 重新绑定节点
+            bindData(this);
+            self.data = Object.assign({...self.data}, this);
             // 定义重置组件监听通知函数
             this.$on('onResize', (msg: any) => {
                 if (typeof onResize === 'function') onResize();
@@ -51,7 +54,7 @@ function renderTemplateFn(data: any) {
     addStyleFile(data.template.templateCss, 'child');
     const {initData, onResize, onDataUpdated, onInit, onDestroy, onRender} = data.getTemplate;
     const result = {
-        template: getHtml(data.template.templateHtml),
+        template: getHtml(data.template.templateHtml, 'maxIot_cd_comp'),
         props: ['content'],
         data() {
             return {

@@ -138,24 +138,27 @@ function WebsocketService() {
 
     /**
      * 处理keys
-     * @param subscriber
+     * @param subscriber 订阅的数据
      * @return {any}
      */
     function formatKeys(data: any, subscriber: any) {
         const command = subscriber.subscriptionCommand || subscriber.historyCommand;
-        const commandItem = command.find((item: any) => item.clientid === data.edgeClientId);
+        // 找到deviceId和edgeClientId处理返回给组件的数据
+        const commandItem = command.find((item: any) =>
+            (item.clientid === data.edgeClientId) && (item.deviceid === data.deviceId));
         const result = [];
-        // todo 待处理找到deviceId处理返回给组件的数据
         data.telemetry.forEach((item: any) => {
             const keyInfo = commandItem.key.find((keyItem: any) => keyItem.key === item.key);
-            return result.push({
-                t: item.ts,
-                v: item.value,
-                k: {
-                    o: item.key,
-                    l: keyInfo.label
-                }
-            });
+            if (keyInfo) {
+                return result.push({
+                    t: item.ts,
+                    v: item.value,
+                    k: {
+                        o: item.key,
+                        l: keyInfo.label
+                    }
+                });
+            }
         });
         return result;
     }

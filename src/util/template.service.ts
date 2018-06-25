@@ -1,11 +1,12 @@
 import echarts from 'echarts';
 import $ from 'jquery';
+import { eventBus } from '../common';
 
 /**
- * 处理模板的js的serveice
- * @param data
- * @param _self
- * @return {{onInit: () => void; onDestroy: () => void}}
+ * 处理模板的js的Service
+ * @param data 模板数据
+ * @param _self 当前vue
+ * @return {any}
  * @constructor
  */
 function TemplateService(data: any, _self: any = null) {
@@ -14,13 +15,14 @@ function TemplateService(data: any, _self: any = null) {
         inited: false,
         echarts: echarts,
         $: $,
-        data: [],
-        hiddenData: [],
-        controlApi: {}
+        eventMessage: eventBus
     };
+    // 公共方法是
     const commonFunction = ['onInit', 'onDataUpdated', 'onResize', 'onDestroy'];
 
-    let TemplateTypeInstance: any;
+    let TemplateTypeInstance: any; // 模板实例化数据流
+    // 模板js数据函数
+    let TemplateType: any;
     try {
         TemplateTypeInstance = createTemplateFunction(data, 'getTemplate');
         // 初始公共方法
@@ -123,16 +125,17 @@ function TemplateService(data: any, _self: any = null) {
      * @return {any}
      */
     function createTemplateFunction(templateInfo, name) {
-        let TemplateFunctionBody = 'return function ' + name + ' (ctx) {\n' +
+        let TemplateFunctionBody = 'return function ' + name + ' (ctx, data) {\n' +
             '    const self = this;\n' +
+            '    self.data = {};\n' +
             '    self.ctx = ctx;\n\n';
         TemplateFunctionBody += templateInfo.controllerScript;
+        TemplateFunctionBody += '\n\n self.data = { ...self.data, ...data};\n\n';
         TemplateFunctionBody += '\n};\n';
         try {
             const TemplateTypeFunction = new Function(TemplateFunctionBody);
-            const TemplateType = TemplateTypeFunction.apply(_self);
-            TemplateTypeInstance = new TemplateType(templateContext);
-            console.log(TemplateTypeInstance);
+            TemplateType = TemplateTypeFunction.apply(_self);
+            TemplateTypeInstance = new TemplateType(templateContext, templateInfo.defaultData);
             return TemplateTypeInstance;
         } catch (e) {
             console.log('抛出异常');
@@ -140,14 +143,26 @@ function TemplateService(data: any, _self: any = null) {
         }
     }
 
+    /**
+     * 重新绑定上下文数据
+     * @param element
+     */
+    function bindData(scope: any) {
+        if (TemplateType) {
+            templateContext.$element = scope.$el;
+            TemplateTypeInstance = new TemplateType(templateContext, TemplateTypeInstance.data);
+        }
+    }
+
     return {
         initData: TemplateTypeInstance.data,
+        bindData: bindData,
         onInit: onInit,
         onDestroy: onDestroy,
         onResize: onResize,
         onRender: onRender,
         onDataUpdated: onDataUpdated
-    };
+    } as any;
 }
 
 export default TemplateService;

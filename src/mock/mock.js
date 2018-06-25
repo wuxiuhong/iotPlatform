@@ -1,7 +1,9 @@
 import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import { LoginUsers, Users } from './data/user';
-import { dashboard } from './data/dashboard_new';
+import { dashboard } from './data/dashboard';
+import { dashboard_fmcs1 } from './data/dashboard_fmcs1';
+import { dashboard_fmcs2 } from './data/dashboard_fmcs2';
 
 let _Users = Users;
 
@@ -14,12 +16,12 @@ export default {
 
         // mock success request
         mock.onGet('/success').reply(200, {
-            msg: 'success'
+            msg : 'success'
         });
 
         // mock error request
         mock.onGet('/error').reply(500, {
-            msg: 'failure'
+            msg : 'failure'
         });
 
         //登录
@@ -37,9 +39,9 @@ export default {
                     });
 
                     if (hasUser) {
-                        resolve([200, {code: 200, msg: '请求成功', user}]);
+                        resolve([200, {code : 200, msg : '请求成功', user}]);
                     } else {
-                        resolve([200, {code: 500, msg: '账号或密码错误'}]);
+                        resolve([200, {code : 500, msg : '账号或密码错误'}]);
                     }
                 }, 1000);
             });
@@ -55,7 +57,7 @@ export default {
             return new Promise((resolve, reject) => {
                 setTimeout(() => {
                     resolve([200, {
-                        users: mockUsers
+                        users : mockUsers
                     }]);
                 }, 1000);
             });
@@ -73,8 +75,8 @@ export default {
             return new Promise((resolve, reject) => {
                 setTimeout(() => {
                     resolve([200, {
-                        total: total,
-                        users: mockUsers
+                        total : total,
+                        users : mockUsers
                     }]);
                 }, 1000);
             });
@@ -87,8 +89,8 @@ export default {
             return new Promise((resolve, reject) => {
                 setTimeout(() => {
                     resolve([200, {
-                        code: 200,
-                        msg: '删除成功'
+                        code : 200,
+                        msg : '删除成功'
                     }]);
                 }, 500);
             });
@@ -102,8 +104,8 @@ export default {
             return new Promise((resolve, reject) => {
                 setTimeout(() => {
                     resolve([200, {
-                        code: 200,
-                        msg: '删除成功'
+                        code : 200,
+                        msg : '删除成功'
                     }]);
                 }, 500);
             });
@@ -125,8 +127,8 @@ export default {
             return new Promise((resolve, reject) => {
                 setTimeout(() => {
                     resolve([200, {
-                        code: 200,
-                        msg: '编辑成功'
+                        code : 200,
+                        msg : '编辑成功'
                     }]);
                 }, 500);
             });
@@ -136,31 +138,45 @@ export default {
         mock.onGet('/user/add').reply(config => {
             let {name, addr, age, birth, sex} = config.params;
             _Users.push({
-                name: name,
-                addr: addr,
-                age: age,
-                birth: birth,
-                sex: sex
+                name : name,
+                addr : addr,
+                age : age,
+                birth : birth,
+                sex : sex
             });
             return new Promise((resolve, reject) => {
                 setTimeout(() => {
                     resolve([200, {
-                        code: 200,
-                        msg: '新增成功'
+                        code : 200,
+                        msg : '新增成功'
                     }]);
                 }, 500);
             });
         });
 
-        //获取用户列表
-        mock.onGet('/dashboard').reply(config => {
-            return new Promise((resolve, reject) => {
-                setTimeout(() => {
-                    resolve([200, dashboard]);
-                }, 1000);
-            });
+        // Expected order of requests:
+        const responses = [
+            ['GET', '/dashboard', 200, dashboard],
+            ['GET', '/dashboard/cd', 200, dashboard],
+            ['GET', '/dashboard/fmcs1', 200, dashboard_fmcs1],
+            ['GET', '/dashboard/fmcs2', 200, dashboard_fmcs2]
+        ];
+        // Match ALL requests
+        mock.onAny().reply(config => {
+            const requireInfo = responses.find((item) => item[1] === config.url && (config.method.toUpperCase() === item[0]));
+            if (requireInfo) {
+                const [method, url, code, response] = requireInfo;
+                if (config.url === url && (config.method.toUpperCase() === method)) {
+                    return new Promise((resolve, reject) => {
+                        setTimeout(() => {
+                            resolve([code, response]);
+                        }, 1000);
+                    });
+                }
+            }
+            // Unexpected request, error out
+            // return [500, {}]
         });
-
 
     }
 };

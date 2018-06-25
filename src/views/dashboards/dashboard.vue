@@ -1,5 +1,12 @@
 <template>
     <div @click="contextMenu.show = false">
+        <el-col :span="24" class="breadcrumb-container">
+            <strong class="title">{{$route.name}}</strong>
+            <el-breadcrumb separator="/" class="breadcrumb-inner">
+                <el-breadcrumb-item></el-breadcrumb-item>
+                <el-breadcrumb-item>{{ dashboard.title }}</el-breadcrumb-item>
+            </el-breadcrumb>
+        </el-col>
         <!--视图 start-->
         <section class="dashboard-wrapper">
             <div class="component-wrapper" v-for="(item,index) in dashboard.components" :scope="item.ref"
@@ -93,8 +100,13 @@
             window.addEventListener('resize', this.resize, {passive: false});
             this.$store.state.isShowLoading = true;
 
+            // 获取路由参数数据
+            const path = (this.$route.params as any).id || 'cd';
+            const routerData = ['cd', 'fmcs1', 'fmcs2'];
+            if (!routerData.includes(path)) this.$router.push('/404');
             // 初始化报表数据
-            getDashboard({}).then((ret: any) => {
+            getDashboard(path).then((ret: any) => {
+                console.log(ret);
                 this.dashboard = ret.data;
                 // 处理组件格式
                 this.dashboard.components = this.dashboard.components.map((item: any, index: number) => {
@@ -133,37 +145,6 @@
         showEdit() {
             this.contextMenu.show = false;
             this.showModal = true;
-            this.dashboard.components[this.editInfo.index].props[0].type = 'test';
-            // 更新数据
-            // if (this.editInfo.index === 0) {
-            //     this.$refs[this.dashboard.components[this.editInfo.index].ref][0].$emit('onDataUpdated', [
-            //         {
-            //             v: 1, // 遥测数据的值
-            //             t: 1528358866224, // 时间戳
-            //             k: {o: "OPmtate", l: "OPmtate"} // key 以及可以的label名
-            //         },
-            //         {
-            //             v: 2, // 遥测数据的值
-            //             t: 1528358866224, // 时间戳
-            //             k: {o: "workcount", l: "workcount"} // key 以及可以的label名
-            //         },
-            //         {
-            //             v: 6, // 遥测数据的值
-            //             t: 1528358866224, // 时间戳
-            //             k: {o: "poweronTime", l: "poweronTime"} // key 以及可以的label名
-            //         },
-            //         {
-            //             v: 6, // 遥测数据的值
-            //             t: 1528358866224, // 时间戳
-            //             k: {o: "cycletime", l: "cycletime"} // key 以及可以的label名
-            //         },
-            //         {
-            //             v: 5, // 遥测数据的值
-            //             t: 1528358866224, // 时间戳
-            //             k: {o: "operatingTime", l: "operatingTime"} // key 以及可以的label名
-            //         }]);
-            // }
-
         }
 
         /**
@@ -222,10 +203,24 @@
 </script>
 
 <style lang="scss" scoped>
+    .breadcrumb-container {
+        height: 52px;
+        line-height: 52px;
+        padding: 0 30px;
+        display: contents;
+        .title {
+            /*width: 200px;*/
+            float: left;
+            color: #475669;
+        }
+        .breadcrumb-inner {
+            line-height: 52px;
+        }
+    }
+
     .dashboard-wrapper {
         position: relative;
         width: 100%;
-        min-height: 890px;
         z-index: 0
     }
 
@@ -236,6 +231,10 @@
         left: 0;
         top: 0;
         z-index: 0;
+        div {
+            width: 100%;
+            height: 100%;
+        }
     }
 
     .context-wrapper li {

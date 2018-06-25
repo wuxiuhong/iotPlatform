@@ -1,5 +1,5 @@
 <template>
-    <div id="app">
+    <div id="maxIot_app">
         <transition name="fade"
                     mode="out-in">
             <router-view></router-view>

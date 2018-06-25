@@ -10,12 +10,11 @@
 
 <script lang="ts">
     import Vue from 'vue';
-    import {Component} from 'vue-property-decorator';
-    import {TemplateApi} from '../../api';
+    import { Component } from 'vue-property-decorator';
+    import { TemplateApi } from '../../api';
     import TemplateService from '../../util/template.service';
-    import {renderTemplateFn} from '../../common';
+    import { renderTemplateFn, eventBus } from '../../common';
     import _ from 'lodash';
-
 
     @Component
     export default class Template extends Vue {
@@ -39,6 +38,9 @@
         mounted() {
             window.addEventListener('resize', this.resize, {passive: false});
 
+            eventBus.$on('testMessage', function (msg: any) {
+                console.log(msg, 'test');
+            });
             // 初始化报表数据
             TemplateApi.getTemplate({}).then((ret: any) => {
                 this.templateInfo = ret.data.data;

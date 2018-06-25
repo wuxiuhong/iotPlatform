@@ -34,6 +34,16 @@ const routes = [
         iconCls: 'fa fa-dashboard',
         leaf: true, // 只有一个节点
         children: [
+            {path: '/dashboards/:id', component: Dashborad, name: '报表详情'}
+        ]
+    },
+    {
+        path: '/',
+        component: Home,
+        name: '',
+        iconCls: 'fa fa-dashboard',
+        leaf: true, // 只有一个节点
+        children: [
             {path: '/template', component: Template, name: '模板'},
         ]
     },

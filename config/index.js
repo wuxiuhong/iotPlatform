@@ -15,13 +15,13 @@ module.exports = {
     },
     dev : {
         env : require('./dev.env'),
-        port : 8080,
+        port : 8088,
         autoOpenBrowser : true,
         assetsSubDirectory : 'static',
         assetsPublicPath : '/',
         proxyTable : {
             '/api': {
-                target: 'http://localhost:3000',
+                target: 'http://localhost:9000',
                 changeOrigin: true, // true时可用来解决跨域问题
                 pathRewrite: {
                     '^/api': '/'

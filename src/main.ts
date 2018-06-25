@@ -12,6 +12,7 @@ import './styles/index.scss';
 
 Mock.bootstrap();
 import 'font-awesome/css/font-awesome.min.css';
+
 Vue.use(ElementUI);
 Vue.use(VueCodeMirror);
 Vue.use(VueRouter);
@@ -22,12 +23,12 @@ const router = new VueRouter({routes} as object);
 router.beforeEach((to: any, from: any, next: any) => {
     if (to.path === '/login') sessionStorage.removeItem('user');
     const user = JSON.parse(sessionStorage.getItem('user'));
-    (!user && to.path !== '/login') ? next({path: '/login'}) : next();
+    (!user && (to.path !== '/login' && to.path.indexOf('dashboards') < 0)) ? next({path: '/login'}) : next();
 });
 
 new Vue({
     router,
     store,
     render: h => h(App)
-}).$mount('#app');
+}).$mount('#maxIot_app');
 
