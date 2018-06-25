@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -131,8 +131,8 @@
 <body>
 <div class="main" id="maxiot_cd_comp3_main">
     <div id="spindle_status" v-bind:class="{alarm:da.alarm,tpdiv:!da.alarm}">
-            <div v-if="da.alarm"><img src="svg/meter/a.svg"></div>
-            <div v-else><img src="svg/meter/n.svg"></div>
+        <div v-if="da.alarm"><img src="svg/meter/a.svg"></div>
+        <div v-else><img src="svg/meter/n.svg"></div>
         <div>{{da.statustxt}}</div>
     </div>
     <div class="leftdiv">
@@ -170,15 +170,14 @@
 <script src="js/jquery-3.3.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script>
-
     var self = {
-        ctx: {
-            $: $,
-            eventMessage: {
-                $emit: function () {
+        ctx : {
+            $ : $,
+            eventMessage : {
+                $emit : function () {
 
                 },
-                $on: function () {
+                $on : function () {
 
                 }
             }
@@ -186,27 +185,27 @@
     };
 
     self.data = {
-        da: {},
-        data: [],
-        spindle_alarm: 0
+        da : {},
+        data : [],
+        spindle_alarm : 0
     };
 
     self.onInit = function () {
         setInterval(function () {
             var data = [
                 {
-                    v: self.getstatus(),
-                    t: 1528358866224,
-                    k: {o: "spindle_alarm", l: "spindle_alarm"}
+                    v : self.getstatus(),
+                    t : 1528358866224,
+                    k : {o : "spindle_alarm", l : "spindle_alarm"}
                 },
                 {
-                    v: 5000,
-                    t: 1528358866224,
-                    k: {o: "RPM_set", l: "RPM_set"}
+                    v : 5000,
+                    t : 1528358866224,
+                    k : {o : "RPM_set", l : "RPM_set"}
                 }, {
-                    v: 6600,
-                    t: 1528358866224,
-                    k: {o: "RPM_actual", l: "RPM_actual"}
+                    v : 6600,
+                    t : 1528358866224,
+                    k : {o : "RPM_actual", l : "RPM_actual"}
                 }];
             self.onDataUpdated(data);
         }, 10000);
@@ -216,11 +215,11 @@
             eval("self.data.da." + obj.k.o + "='" + obj.v + "'");
         });
         if (self.data.da.spindle_alarm === 1) {
-            self.data.da.alarm=true;
+            self.data.da.alarm = true;
             self.data.da.statustxt = '主轴故障报警';
         } else {
-            self.data.da.alarm=false;
-            self.data.da.statustxt = '主轴状态正常"';
+            self.data.da.alarm = false;
+            self.data.da.statustxt = '主轴状态正常';
         }
     };
     self.onResize = function () {
@@ -245,17 +244,18 @@
 
     // 测试环境构造
     var app = new Vue({
-        el: '#maxiot_cd_comp3_main',
-        data: {
-            da: {
-                RPM_set: "1",
-                RPM_actual: "2",
-                spindle_alarm: "1",
-                statustxt: "主轴状态正常",
-                alarm:true
+        el : '#maxiot_cd_comp3_main',
+        data : {
+            da : {
+                RPM_set : "1",
+                RPM_actual : "2",
+                spindle_alarm : 1,
+                statustxt : "主轴故障报警",
+                alarm : true
             }
         },
-        mounted: function () {
+        mounted : function () {
+            self.data = Object.assign({}, {...self.data}, this.$data);
             self.onInit();
         }
     });

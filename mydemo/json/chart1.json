@@ -2,21 +2,5 @@
   {
         "label": "tool_wear_ratio",
         "valueFunc": "return {\n    tool_wear_ratio:\"\"}\n//磨损量百分比"
-    },
-    {
-        "label": "tool_warn_thres",
-        "valueFunc": "return {\n    tool_warn_thres:\"\"}\n//刀具磨损预警阀值"
-    } ,
-    {
-        "label": "tool_alarm_thres",
-        "valueFunc": "return {\n    tool_alarm_thres:\"\"}\n//刀具磨损报警阀值"
-    }  ,
-    {
-        "label": "tool_warn",
-        "valueFunc": "return {\n    tool_warn:\"0\"}\n//刀具磨损预警"
-    } ,
-    {
-        "label": "tool_alarm ",
-        "valueFunc": "return {\n    tool_alarm :\"0\"}\n//刀具磨损报警"
     }
-  ]
+]

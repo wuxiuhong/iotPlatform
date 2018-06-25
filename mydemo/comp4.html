@@ -1,107 +1,102 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
     <style>
-        body {
-            background-color: #292c4a;
+        body{
+            background-color:#292c4a;
         }
-
-        .main {
-            width: 100%;
-            height: 80px;
-            background-color: #292c4a;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-            font-size: 12px;
+        .main{
+            width:100%;
+            height:80px;
+            background-color:#292c4a;
+            border-bottom:1px solid rgba(255,255,255,0.3);
+            font-size:12px;
         }
+.row-item{
+    height:45px;
 
-        .row-item {
-            height: 45px;
+    float:left;
+    width:25%;
+color:rgba(255,255,255,0.5);
+}
 
-            float: left;
-            width: 25%;
-            color: rgba(255, 255, 255, 0.5);
-        }
-
-        .row-item div img {
+        .row-item div img{
             vertical-align: middle;
         }
-
-        .col1 {
-            width: 20px;
+        .col1{
+            width:20px;
             text-align: left;
-            padding-left: 0px;
-            float: left;
+            padding-left:0px;
+            float:left;
 
-            padding-top: 13px;
+            padding-top:13px;
         }
-
-        .col2 {
+        .col2{
             text-align: right;
-            padding-left: 13px;
-            font-size: 34px;
-            width: 40px;
-            float: left;
+            padding-left:13px;
+            font-size:34px;
+            width:40px;
+            float:left;
 
             height: 40px;
         }
-
-        .col3 {
-            width: 40px;
+        .col3{
+            width:40px;
             text-align: left;
-            padding-left: 3px;
-            float: left;
+            padding-left:3px;
+            float:left;
 
-            padding-top: 19px;
-            font-size: 16px;
+            padding-top:19px;
+            font-size:16px;
         }
-
-        .statusok {
-            color: #01c6fd;
+        .statusok{
+            color:#01c6fd;
         }
-
-        .alarm {
-            color: #EAb62A;
-        }
-
-        .colorwhite {
-            color: rgba(255, 255, 255, 0.5);
+.alarm{
+    color:#EAb62A;
+}
+        .colorwhite{
+            color:rgba(255,255,255,0.5);
         }
     </style>
 </head>
 <body>
 <div id="maxiot_cd_comp4_app" class="main">
 
-    <div class="row-item statusok ">
-        <div class="colorwhite">电流</div>
-        <div class="col1"><img src="svg/spindleData/elect/n.svg"/></div>
-        <div class="col2" id="spindle_current">{{da.spindle_current}}</div>
-        <div class="col3">A</div>
-    </div>
+<div class="row-item statusok ">
+    <div class="colorwhite">电流</div>
+    <div class="col1"><img src="svg/spindleData/elect/n.svg"/></div><div class="col2" id="spindle_current">{{da.spindle_current}}</div><div class="col3">A</div>
+</div>
     <div class="row-item">
         <div>前轴承温度</div>
-        <div id="font-div" v-bind:class="data.alarm1 ? 'alarm':'statusok'">
-            <div id="front-img" class="col1"><img src="svg/spindleData/temp/n.svg"/></div>
-            <div class="col2" id="temp_front_bearing">{{da.temp_front_bearing}}</div>
-            <div class="col3" id="front-w">℃</div>
+        <div id="font-div" v-bind:class="da.spindle_front_bearing_temp>40 ? 'alarm':'statusok'">
+        <div id="front-img" class="col1" >
+            <img v-if="data.alarm1" src="svg/spindleData/temp/a.svg"/>
+            <img v-else src="svg/spindleData/temp/n.svg"/>
+        </div>
+            <div class="col2" id="temp_front_bearing">{{da.spindle_front_bearing_temp}}</div>
+            <div v-if="data.alarm1" style="font-size:34px;padding-top:0;" class="col3" >℃</div>
+            <div v-else class="col3">℃</div>
         </div>
     </div>
     <div class="row-item">
         <div>后轴承温度</div>
-        <div id="back-div" v-bind:class="data.alarm2 ? 'alarm':'statusok'">
-            <div id="back-img" class="col1"><img src="svg/spindleData/temp/n.svg"/></div>
-            <div class="col2" id="temp_back_bearing">{{da.temp_back_bearing}}</div>
-            <div class="col3" id="back-w">℃</div>
+        <div id="back-div"  v-bind:class="da.spindle_back_bearing_temp>40 ? 'alarm':'statusok'">
+        <div  id="back-img" class="col1" >
+            <img v-if="data.alarm2" src="svg/spindleData/temp/a.svg"/>
+            <img v-else src="svg/spindleData/temp/n.svg"/>
+        </div>
+            <div class="col2" id="temp_back_bearing">{{da.spindle_back_bearing_temp}}</div>
+            <div v-if="data.alarm2" style="font-size:34px;padding-top:0;" class="col3" >℃</div>
+            <div v-else class="col3">℃</div>
         </div>
     </div>
-    <div class="row-item statusok">
+    <div class="row-item statusok" >
         <div class="colorwhite">负载</div>
-        <div class="col1"><img src="svg/spindleData/load/n.svg"/></div>
-        <div class="col2" id="spindle_load">{{da.spindle_load}}</div>
-        <div class="col3">%</div>
+        <div class="col1"><img src="svg/spindleData/load/n.svg"/></div><div class="col2" id="spindle_load">{{da.spindle_load}}</div><div class="col3">%</div>
     </div>
-
 </div>
 </body>
 </html>
@@ -110,147 +105,111 @@
 <script>
     var self = {
         ctx: {
-            $: $,
-            eventMessage: {
-                $emit: function () {
-
-                },
-                $on: function () {
-
-                }
-            }
+            $: $
         }
     };
 
     self.data = {
-        da: {},
-        data: [],
         frontw: 35,
         backw: 35,
-        alarm1:false,
-        alarm2:false
+        da:{spindle_front_bearing_temp:'43',
+            spindle_back_bearing_temp:'43',
+            spindle_load:'20',
+            spindle_current:'2'
+        },
+        data:{alarm1:true,alarm2:false}
     };
 
-    self.getTemp = function () {
+    self.getTemp=function(){
         self.data.frontw++;
         self.data.backw++;
-        if (self.data.frontw == 46) {
-            self.data.frontw = 35;
-            self.data.backw = 35;
+        if(self.data.frontw==46){
+            self.data.frontw=35;
+            self.data.backw=35;
         }
         return {
-            frontw: self.data.frontw,
-            backw: self.data.backw
+            frontw:self.data.frontw,
+            backw:self.data.backw
         }
     };
-
-
-    self.onInit = function () {
-        setInterval(function () {
-            var getData = self.getTemp();
-            var data = [
+    self.onInit=function(){
+        setInterval(function(){
+            var getData=self.getTemp();
+            var data=[
                 {
-                    v: getData.frontw,
-                    t: 1528358866224,
-                    k: {o: "temp_front_bearing", l: "temp_front_bearing"}
+                    v:getData.frontw,
+                    t:1528358866224,
+                    k:{o:"spindle_front_bearing_temp",l:"spindle_front_bearing_temp"}
                 },
                 {
-                    v: getData.backw,
-                    t: 1528358866224,
-                    k: {o: "temp_back_bearing", l: "temp_back_bearing"}
+                    v:getData.backw,
+                    t:1528358866224,
+                    k:{o:"spindle_back_bearing_temp",l:"spindle_back_bearing_temp"}
                 },
                 {
-                    v: self.getRandom(0, 100),
-                    t: 1528358866224,
-                    k: {o: "spindle_load", l: "spindle_load"}
+                    v:self.getRandom(0,100),
+                    t:1528358866224,
+                    k:{o:"spindle_load",l:"spindle_load"}
                 },
                 {
-                    v: self.getRandom(0, 100),
-                    t: 1528358866224,
-                    k: {o: "spindle_current", l: "spindle_current"}
-                },
-                {
-                    v: 40,
-                    t: 1528358866224,
-                    k: {o: "temp_thres_front_bearing", l: "temp_thres_front_bearing"}
-                },
-                {
-                    v: 40,
-                    t: 1528358866224,
-                    k: {o: "temp_thres_back_bearing", l: "temp_thres_back_bearing"}
+                    v:self.getRandom(20,30),
+                    t:1528358866224,
+                    k:{o:"spindle_current",l:"spindle_current"}
                 }];
-
-
             self.onDataUpdated(data);
-        }, 2000);
+        },2000);
     };
 
-    self.onDataUpdated = function (data) {
-
-        self.ctx.$.each(data, function (i, obj) {
-            eval("self.data.da." + obj.k.o + "='" + obj.v + "'");
-        });
-
-        if (self.data.da.temp_front_bearing >= self.data.da.temp_thres_front_bearing) {
-            self.data.alarm1=true;
-            self.ctx.$("#front-w").css("font-size", "34px");
-            self.ctx.$("#front-w").css("padding-top", "0px");
-            self.ctx.$("#front-img").html('<img src="svg/spindleData/temp/a.svg">');
-        } else {
-            self.data.alarm1 = false;
-            self.ctx.$("#front-w").css("font-size", "16px");
-            self.ctx.$("#front-w").css("padding-top", "19px");
-            self.ctx.$("#front-img").html('<img src="svg/spindleData/temp/n.svg">');
-        }
-
-        if (self.data.da.temp_back_bearing >= self.data.da.temp_thres_back_bearing) {
-            self.data.alarm2=true;
-            self.ctx.$("#back-w").css("font-size", "34px");
-            self.ctx.$("#back-w").css("padding-top", "0px");
-            self.ctx.$("#back-img").html('<img src="svg/spindleData/temp/a.svg">');
-        } else {
-            self.data.alarm2=false;
-            self.ctx.$("#back-w").css("font-size", "16px");
-            self.ctx.$("#back-w").css("padding-top", "19px");
-            self.ctx.$("#back-img").html('<img src="svg/spindleData/temp/n.svg">');
-        }
+    self.onDataUpdated=function(data){
+      self.ctx.$.each(data,function(i,obj){
+          eval("self.data.da."+obj.k.o+"='"+obj.v+"'");
+      });
+      if(self.data.da.spindle_front_bearing_temp>=40){
+          self.data.data.alarm1=true;
+      }
+      else{
+          self.data.data.alarm1=false;
+      }
+      if(self.data.da.spindle_back_bearing_temp>=40){
+          self.data.data.alarm2=false;
+      }
+      else{
+          self.data.data.alarm2=false;
+      }
     };
-    self.onResize = function () {
+    self.onResize=function(){
 
     };
-    self.onDestroy = function () {
+    self.onDestroy=function(){
 
     };
-    self.onPendding = function () {
+    self.onPendding=function(){
 
     };
+    self.getRandom=function(min, max){
+        var r = Math.random() * (max - min);
+        var re = Math.round(r + min);
+        re = Math.max(Math.min(re, max), min);
+        return re;
+    };
 
-    self.getRandom = function (min, max) {
-        var r = Math.random() * (max - min);
-        var re = Math.round(r + min);
-        re = Math.max(Math.min(re, max), min);
-        return re;
-    }
-
-
-    // 测试环境构造
     var app = new Vue({
         el: '#maxiot_cd_comp4_app',
         data: {
             da: {
-                temp_front_bearing: "1",
-                temp_back_bearing: "2",
+                spindle_front_bearing_temp: "41",
+                spindle_back_bearing_temp: "42",
                 spindle_load: "1",
                 spindle_current: "46"
             },
             data:{
-                alarm1:false,
-                alarm2:false
+                alarm1:true,
+                alarm2:true
             }
         },
         mounted: function () {
+            self.data = Object.assign({}, {...self.data}, this.$data);
             self.onInit();
         }
     });
-
 </script>

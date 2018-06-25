@@ -1,59 +1,53 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 
     <style>
-        .main {
-            width: 100%;
+        .main{
+            width:100%;
             height: 100px;
-            background-color: #262d45;
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 14px;
+            background-color:#262d45;
+            color:rgba(255,255,255,0.7);
+            font-size:14px;
             overflow: auto;
         }
-
-        .leftdiv {
-            float: left;
-            width: 190px;
-            height: 100%;
-            line-height: 100px;
+        .leftdiv{
+            float:left;
+            width:190px;
+            height:100%;
+            line-height:100px ;
         }
-
-        .leftdiv img {
+        .leftdiv img{
             vertical-align: middle;
         }
-
-        .rightdiv {
-            float: left;
-            width: calc(100% - 190px);
-            height: calc(100% - 15px);
-            padding-top: 15px;
+        .rightdiv{
+            float:left;
+            width:calc(100% - 190px);
+            height:calc(100% - 15px);
+            padding-top:15px;
         }
 
-        .bottom-row {
-            height: 35px;
+        .bottom-row{
+            height:35px;
             line-height: 35px;
-            float: left;
-            width: 100%;
+            float:left;
+            width:100%;
         }
-
-        .bottom-row div {
-            float: left;
-            width: 16%;
-            color: #ededef;
+        .bottom-row div{
+            float:left;
+            width:16%;
+            color:#ededef;
             overflow: hidden;
-            text-overflow: ellipsis;
+            text-overflow:ellipsis;
             white-space: nowrap;
         }
-
-        .bottom-row div span:first-child {
-            padding-right: 10px;
-            color: rgba(255, 255, 255, 0.5);
+        .bottom-row div span:first-child{
+            padding-right:10px;
+            color:rgba(255,255,255,0.5);
         }
-
-        .bottom-row div img {
+        .bottom-row div img{
             vertical-align: middle;
         }
     </style>
@@ -146,6 +140,7 @@
         self.ctx.$.each(data, function (i, obj) {
             eval("self.data.da." + obj.k.o + "='" + obj.v + "'");
         });
+        console.log(self.data.da);
     };
 
     self.onResize = function () {
@@ -171,7 +166,7 @@
             }
         },
         mounted: function () {
-            console.log(self)
+            self.data = Object.assign({}, {...self.data}, this.$data);
             self.onInit();
         }
     })

@@ -54,7 +54,7 @@
 </head>
 <body>
 
-<div id="riskChart" style="width: 100%;height:400px;"></div>
+<div id="maxiot_cd_chart3_main" style="width: 100%;height:400px;"></div>
 </body>
 </html>
 
@@ -62,152 +62,22 @@
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script>
     var self = {
-        ctx : {
-            $ : $,
-            echarts : echarts,
-            eventMessage : {
-                $emit : function () {
-
-                },
-                $on : function () {
-
-                }
-            }
+        ctx: {
+            $: $,
+            echarts: echarts,
+            $element: document
         }
     };
 
     self.data = {
-        da : {},
-        option : {},
-        myChart : {},
-        data : [
-            {
-                "value" : 0,
-                "date" : "2012-05-01"
-            },
-            {
-                "value" : 0.1,
-                "date" : "2012-05-02"
-            },
-            {
-                "value" : 0.15,
-                "date" : "2012-05-03"
-            },
-            {
-                "value" : 0.17,
-                "date" : "2012-05-04"
-            },
-            {
-                "value" : 0.18,
-                "date" : "2012-05-05"
-            },
-            {
-                "value" : 0.19,
-                "date" : "2012-05-06"
-            },
-            {
-                "value" : 0.25,
-                "date" : "2012-05-07"
-            },
-            {
-                "value" : 0.26,
-                "date" : "2012-05-08"
-            },
-            {
-                "value" : 0.29,
-                "date" : "2012-05-09"
-            },
-            {
-                "value" : 0.30,
-                "date" : "2012-05-10"
-            },
-            {
-                "value" : 0.34,
-                "date" : "2012-05-11"
-            },
-            {
-                "value" : 0.35,
-                "date" : "2012-05-12"
-            },
-            {
-                "value" : 0.40,
-                "date" : "2012-05-13"
-            },
-            {
-                "value" : 0.44,
-                "date" : "2012-05-14"
-            },
-            {
-                "value" : 0.46,
-                "date" : "2012-05-15"
-            },
-            {
-                "value" : 0.50,
-                "date" : "2012-05-16"
-            },
-            {
-                "value" : 0.55,
-                "date" : "2012-05-17"
-            },
-            {
-                "value" : 0.56,
-                "date" : "2012-05-18"
-            },
-            {
-                "value" : 0.60,
-                "date" : "2012-05-19"
-            },
-            {
-                "value" : 0.65,
-                "date" : "2012-05-20"
-            },
-            {
-                "value" : 0.68,
-                "date" : "2012-05-21"
-            },
-            {
-                "value" : 0.70,
-                "date" : "2012-05-22"
-            },
-            {
-                "value" : 0.75,
-                "date" : "2012-05-23"
-            },
-            {
-                "value" : 0.77,
-                "date" : "2012-05-24"
-            },
-            {
-                "value" : 0.78,
-                "date" : "2012-05-25"
-            },
-            {
-                "value" : 0.80,
-                "date" : "2012-05-26"
-            },
-            {
-                "value" : 0.85,
-                "date" : "2012-05-27"
-            },
-            {
-                "value" : 0.88,
-                "date" : "2012-05-28"
-            },
-            {
-                "value" : 0.90,
-                "date" : "2012-05-29"
-            },
-            {
-                "value" : 0.95,
-                "date" : "2012-05-30"
-
-            }
-        ]
+        option: {},
+        myChart:{}
     };
 
     self.onInit = function () {
+        self.data.myChart = self.ctx.echarts.init(self.ctx.$element.querySelector('#maxiot_cd_chart3_main'));
         self.data.option = {
-            title : {
+            title : [{
                 text : '健康风险变化曲线',
                 left : '‘0%',
                 top : '0%',
@@ -218,6 +88,17 @@
                     fontSize : 14
                 }
             },
+                {
+                    text : '风险值(0低-1高)',
+                    left : '‘0%',
+                    top : '10%',
+                    textStyle : {
+                        color : 'rgba(255,255,255,0.5)',
+                        fontStyle : 'normal',
+                        fontFamily : 'sans-serif',
+                        fontSize : 12
+                    }
+                }],
             tooltip : {
                 trigger : 'axis',
                 formatter : function (params) {
@@ -238,7 +119,7 @@
 
             xAxis : {
                 type : 'category',
-                boundaryGap : true,
+                boundaryGap : false,
                 name : '日期(天)',
                 nameLocation : 'end',
                 nameGap : 10,
@@ -251,7 +132,6 @@
                     formatter : function (value, idx) {
                         var date = new Date(value);
                         return [date.getMonth() + 1, date.getDate()].join('/');
-
                     },
                     interval : 1
                 },
@@ -261,7 +141,7 @@
             },
             yAxis : {
                 type : 'value',
-                name : '风险值',
+                name : '',
                 nameTextStyle : {
                     color : 'rgba(255,255,255,0.5)',
                     fontSize : '14'
@@ -290,10 +170,10 @@
                     color : '#01c5fd'
                 }, {
                     gt : 0.2,
-                    lte : 0.4,
+                    lte : 0.8,
                     color : '#EAB62A'
                 }, {
-                    gt : 0.4,
+                    gt : 0.8,
                     lte : 1,
                     color : '#E04F23'
                 }],
@@ -305,18 +185,13 @@
             color : ['#01c5fd', '#EAB62A', 'rgba(224,79,35,0.1)'],
             series : [{
                 type : 'line',
-                showSymbol : false,
-                symbolSize : 0,
-                itemStyle : {
-                    normal : {
-                        color : '#20aefc',
-                        show : false
-                    }
-                },
+                showSymbol : true,
+                symbolSize : 0.01,
+                smooth : true,
                 itemStyle : {
                     normal : {
                         borderWidth : 3,
-                        borderColor : 'yellow',
+                        borderColor : 'white',
                         color : 'blue'
                     }
                 }
@@ -357,7 +232,7 @@
                         data : [[{
                             yAxis : '0.2'
                         }, {
-                            yAxis : '0.4'
+                            yAxis : '0.8'
                         }]]
                     }
                 }, {
@@ -374,47 +249,43 @@
                     },
                     markArea : {
                         data : [[{
-                            yAxis : '0.4'
+                            yAxis : '0.8'
                         }, {
                             yAxis : '1'
                         }]]
                     }
                 }]
         };
-        self.data.myChart = self.ctx.echarts.init(document.getElementById('riskChart'));
-        self.onDataUpdated(self.data.data);
-    };
-
-    self.sendMessage = function (msg) {
-        if (msg.issendtell === 1) {
-            msg.mstype = '33';
-            msg.data = "我已经初始化完成！";
-        } else if (msg.issendtell === 2) {
-            msg.mstype = '11';
-            msg.data = "我已经销毁！";
-        }
+        var data=[
+            {
+                v:'[{"value":0,"date":"2012-05-01"},{"value":0.1,"date":"2012-05-02"},{"value":0.15,"date":"2012-05-03"},{"value":0.17,"date":"2012-05-04"},{"value":0.18,"date":"2012-05-05"},{"value":0.19,"date":"2012-05-06"},{"value":0.25,"date":"2012-05-07"},{"value":0.26,"date":"2012-05-08"},{"value":0.29,"date":"2012-05-09"},{"value":0.30,"date":"2012-05-10"},{"value":0.34,"date":"2012-05-11"},{"value":0.35,"date":"2012-05-12"},{"value":0.40,"date":"2012-05-13"},{"value":0.44,"date":"2012-05-14"},{"value":0.46,"date":"2012-05-15"},{"value":0.50,"date":"2012-05-16"},{"value":0.55,"date":"2012-05-17"},{"value":0.56,"date":"2012-05-18"},{"value":0.60,"date":"2012-05-19"},{"value":0.65,"date":"2012-05-20"},{"value":0.68,"date":"2012-05-21"},{"value":0.70,"date":"2012-05-22"},{"value":0.75,"date":"2012-05-23"},{"value":0.77,"date":"2012-05-24"},{"value":0.78,"date":"2012-05-25"},{"value":0.80,"date":"2012-05-26"},{"value":0.85,"date":"2012-05-27"},{"value":0.88,"date":"2012-05-28"},{"value":0.90,"date":"2012-05-29"},{"value":0.95,"date":"2012-05-30"}]',
+                t:1528358866224,
+                k:{o:"spindle_health",l:"spindle_health"}
+            }];
+        self.onDataUpdated(data);
     };
 
     self.onDataUpdated = function (data) {
-        self.data.option.xAxis.data = data.map(function (item) {
+        var da={};
+        self.ctx.$.each(data, function (i, obj) {
+           da[obj.k.o] = obj.v;
+        });
+        da.spindle_health=eval(da.spindle_health);
+        self.data.option.xAxis.data = da.spindle_health.map(function (item) {
             return item.date;
         });
-        self.data.option.series[0].data = data.map(function (item) {
+        self.data.option.series[0].data = da.spindle_health.map(function (item) {
             return item.value;
         });
         self.data.myChart.setOption(self.data.option, true);
     };
 
-    self.onResize = function () {
-        self.data.myChart.resize();
+   self.onResize = function () {
+       self.data.myChart.resize();
     };
-
     self.onDestroy = function () {
-
     };
-
     self.onPendding = function () {
-
     };
 
     self.onInit();

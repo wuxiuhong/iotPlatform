@@ -1,7 +1,7 @@
 ﻿[
     {
-        "label": "OPmtate",
-        "valueFunc": "return {\n    OPmtate:\"运行\"}\n//机床状态"
+        "label": "OPstate",
+        "valueFunc": "return {\n    OPstate:\"\"}\n//机床状态"
     },
     {
         "label": "workcount",

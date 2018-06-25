@@ -131,10 +131,10 @@
     </style>
 </head>
 <body>
-<div id="app" class="main">
-    <div id="tool_status" class="tpdiv">
-      <div id="knife_status_img"><img src="svg/meter/n.svg"></div>
-      <div id="knife_status_txt">刀具状态正常</div>
+<div id="maxiot_cd_comp2_app" class="main">
+    <div id="tool_status" v-bind:class="da.tool_break_alarm==0? 'tpdiv':'alarm'">
+        <div id="knife_status_img"><img v-if="da.tool_break_alarm == 0" src="svg/meter/n.svg"><img v-else src="svg/meter/a.svg"></div>
+        <div id="knife_status_txt">{{da.tool_break_alarm==0?"刀具状态正常":"刀具断刀提示"}}</div>
     </div>
     <div class="leftdiv">
         <div class="leftdiv-col1">
@@ -149,9 +149,9 @@
                 <div><span>预备刀号</span><span id="pretoolnum">T09</span>  </div>
             </div>
             <div class="bottom-row" >
-                <div><span>X 轴负载</span><span id="x_load">40%</span>  </div>
-                <div><span>Y 轴负载</span><span id="y_load">40%</span>  </div>
-                <div><span>Z 轴负载</span><span id="z_load">40%</span>  </div>
+                <div><span>X 轴负载</span><span id="x_load">{{da.x_load}}%</span>  </div>
+                <div><span>Y 轴负载</span><span id="y_load">{{da.y_load}}%</span>  </div>
+                <div><span>Z 轴负载</span><span id="z_load">{{da.z_load}}%</span>  </div>
 
 
             </div>
@@ -169,148 +169,110 @@
 
 </html>
 <script src="js/jquery-3.3.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 
 <script>
-    var data=[
-        {
-            v:'T21',//遥测数据的值
-            t:1528358866224,//时间戳
-            k:{o:"currenttoolnum",l:"currenttoolnum"}//主轴刀号
-        },
-        {
-            v:21,//遥测数据的值
-            t:1528358866224,//时间戳
-            k:{o:"pretoolnum",l:"pretoolnum"}//预备刀号
-        },
-        {
-            v:'40%',//遥测数据的值
-            t:1528358866224,//时间戳
-            k:{o:"x_load",l:"x_load"}//x负载
-        },
-        {
-            v:'45%',//遥测数据的值
-            t:1528358866224,//时间戳
-            k:{o:"y_load",l:"y_load"}//y负载
-        },
-        {
-            v:'30%',//遥测数据的值
-            t:1528358866224,//时间戳
-            k:{o:"z_load",l:"z_load"}//z负载
-        },
-        {
-            v:0,//遥测数据的值
-            t:1528358866224,//时间戳
-            k:{o:"tool_break_alarm",l:"tool_break_alarm"}//z负载
-        }];
-
-    var da={};
-
-
-    onInit=function(){
-
+    var self = {
+        ctx: {
+            $: $
+        }
     };
 
- var   onDataUpdated=function(data){
-        $.each(data,function(i,obj){
+    self.data = {
+        da: {},
+        i: 1,
+        a:58
+    };
+    self.onInit=function(){
+        self.data.a=58;
+        setInterval(function () {
+            var getdata=self.getstatus();
+            var data=[
+                {
+                    v:'40%',
+                    t:1528358866224,
+                    k:{o:"x_load",l:"x_load"}
+                },
+                {
+                    v:'45%',
+                    t:1528358866224,
+                    k:{o:"y_load",l:"y_load"}
+                },
+                {
+                    v:'30%',
+                    t:1528358866224,
+                    k:{o:"z_load",l:"z_load"}
+                },
+                {
+                    v:getdata.tool_break_alarm,
+                    t:1528358866224,
+                    k:{o:"tool_break_alarm",l:"tool_break_alarm"}
+                }];
+            self.onDataUpdated(data);
+        },2000);
+    };
 
-            eval("da."+obj.k.o+"='"+obj.v+"'");
+    self.onDataUpdated=function(data){
+        self.ctx.$.each(data,function(i,obj){
+            eval("self.data.da."+obj.k.o+"='"+obj.v+"'");
         });
-        $("#currenttoolnum").html(da.currenttoolnum);
-        $("#pretoolnum").html(da.pretoolnum);
-        $("#x_load").html(da.x_load);
-        $("#y_load").html(da.y_load);
-        $("#z_load").html(da.z_load);
-        if(da.tool_break_alarm==1){
-            $("#tool_status").removeClass("tpdiv").removeClass("tpwarn").addClass("alarm");
-            $("#knife_status_txt").html("刀具断刀提示");
-            $("#knife_status_img").html('<img src="svg/meter/a.svg">');
-        }
-        else if(da.tool_break_warn==1){
-            $("#tool_status").removeClass("tpdiv").removeClass("alarm").addClass("tpwarn");
-            $("#knife_status_txt").html("刀具断刀提示");
-            $("#knife_status_img").html('<img src="svg/meter/a.svg">');
+
+        if(self.data.da.tool_break_alarm==1){
+
+            self.data.da.statustxt = '刀具断刀提示';
         }
         else{
-            $("#tool_status").removeClass("alarm").removeClass("tpwarn").addClass("tpdiv");
-            $("#knife_status_txt").html("刀具状态正常");
-            $("#knife_status_img").html('<img src="svg/meter/n.svg">');
+
+            self.data.da.statustxt = '刀具状态正常';
         }
     };
 
-    onResize=function(){
+    self.onResize=function(){
 
     };
 
-    onDestroy=function(){
+    self.onDestroy=function(){
 
     };
 
-    onPendding=function(){
+    self.onPendding=function(){
 
     };
-    onDataUpdated(data);
 
-//add by gwh
-
-    var a=58;
-    var getstatus=function(){
+    self.getstatus=function(){
         var tool_warn=0,tool_alarm=0,tool_rul=100;
-        if(a<0){
-            a=58;
+        if(self.data.a<0){
+            self.data.a=58;
         }
-        if(a<40){
+        if(self.data.a<40){
             tool_warn=1;
         }
-        if(a<20){
+        if(self.data.a<20){
             tool_alarm=1;
         }
-        tool_rul=a;
-        a = a -2;
+        tool_rul=self.data.a;
+        self.data.a = self.data.a -2;
         return {
             tool_rul: tool_rul,
             tool_break_warn:tool_warn,
             tool_break_alarm:tool_alarm
         }
     };
-    setInterval(function () {
-        var getdata=getstatus();
-        var data=[
-            {
-                v:'T21',//遥测数据的值
-                t:1528358866224,//时间戳
-                k:{o:"currenttoolnum",l:"currenttoolnum"}//主轴刀号
-            },
-            {
-                v:21,//遥测数据的值
-                t:1528358866224,//时间戳
-                k:{o:"pretoolnum",l:"pretoolnum"}//预备刀号
-            },
-            {
-                v:'40%',//遥测数据的值
-                t:1528358866224,//时间戳
-                k:{o:"x_load",l:"x_load"}//x负载
-            },
-            {
-                v:'45%',//遥测数据的值
-                t:1528358866224,//时间戳
-                k:{o:"y_load",l:"y_load"}//y负载
-            },
-            {
-                v:'30%',//遥测数据的值
-                t:1528358866224,//时间戳
-                k:{o:"z_load",l:"z_load"}//z负载
-            },
-            {
-                v:getdata.tool_break_alarm,//遥测数据的值
-                t:1528358866224,//时间戳
-                k:{o:"tool_break_alarm",l:"tool_break_alarm"}//z负载
-            },
-            {
-                v:getdata.tool_break_warn,//遥测数据的值
-                t:1528358866224,//时间戳
-                k:{o:"tool_break_warn",l:"tool_break_warn"}//z负载
-            }];
-        onDataUpdated(data);
-    },2000);
 
+    // 测试环境构造
+    var app = new Vue({
+        el: '#maxiot_cd_comp2_app',
+        data: {
+            da: {
+                x_load: "31",
+                y_load: "42",
+                z_load: "53",
+                tool_break_alarm:0
+            }
+        },
+        mounted: function () {
+            self.data = Object.assign({}, {...self.data}, this.$data);
+            self.onInit();
+        }
+    })
 </script>

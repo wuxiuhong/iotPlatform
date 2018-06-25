@@ -1,21 +1,6 @@
-﻿[{
-		"label": "spindle_start_time",
-		"valueFunc": "return {\n    spindle_start_time:\"\"}\n//主轴模型开始时间"
-	},
-	{
-		"label": "spindle_end_time",
-		"valueFunc": "return {\n    spindle_end_time:\"\"}\n//主轴模型结束时间"
-	},
+﻿[
 	{
 		"label": "spindle_health",
-		"valueFunc": "return {\n    spindle_health:\"\"}\n//健康风险值"
-	},
-	{
-		"label": "spindle_thres",
-		"valueFunc": "return {\n    spindle_thres:\"\"}\n//健康阀值"
-	},
-	{
-		"label": "spindle_alarm",
-		"valueFunc": "return {\n    spindle_alarm :\"0\"}\n//主轴健康报警"
+		"valueFunc": "return {\n    spindle_health:\"\"}\n"
 	}
 ]

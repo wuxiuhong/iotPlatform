@@ -1,11 +1,4 @@
-﻿[{
-		"label": "tool_start_time",
-		"valueFunc": "return {\n    tool_start_time:\"\"}\n//刀具磨损开始时间"
-	},
-	{
-		"label": "tool_end_time",
-		"valueFunc": "return {\n    tool_end_time:\"\"}\n//刀具磨损结束时间"
-	},
+﻿[
 	{
 		"label": "tool_wear",
 		"valueFunc": "return {\n    tool_wear:\"\"}\n//刀具磨损量"
@@ -13,21 +6,5 @@
 	{
 		"label": "tool_wear_prid",
 		"valueFunc": "return {\n    tool_wear_prid:\"\"}\n//刀具磨损量预测"
-	},
-	{
-		"label": "tool_alarm",
-		"valueFunc": "return {\n    tool_alarm :\"0\"}\n//刀具磨损报警"
-	},
-	{
-		"label": "tool_warn",
-		"valueFunc": "return {\n    tool_warn :\"0\"}\n//刀具磨损预警"
-	},
-	{
-		"label": "tool_warn_thres",
-		"valueFunc": "return {\n    tool_warn_thres :\"0\"}\n//刀具磨损预警阀值"
-	},
-	{
-		"label": "tool_alarm_thres",
-		"valueFunc": "return {\n    tool_alarm_thres :\"0\"}\n//刀具磨损报警阀值"
 	}
 ]

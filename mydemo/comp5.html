@@ -4,237 +4,265 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <style>
-        body{
+        body {
             background-color: #292c4a;
-            color:rgb(24, 174, 156);
-            font-weight:bold;
+            color: rgba(49, 178, 231, 1);
+            font-weight: bold;
         }
-        .top-row{
+
+        .top-row {
             height: 40px;
             line-height: 40px;
         }
-        .col1{
-            width:auto;
-            font-size:14px;
-            float:left;
+
+        .col1 {
+            width: auto;
+            font-size: 14px;
+            float: left;
             letter-spacing: 2px;
         }
-        .col1 img{
+
+        .col1 img {
             vertical-align: middle;
         }
+
         .obj {
-            clear:both;
+            clear: both;
             height: 0px;
-            width:100%;
-            min-width:300px;
-            border: 1px solid rgba(24, 174, 156,0.5);
+            width: 100%;
+            min-width: 300px;
+            border: 1px solid rgba(24, 174, 156, 0.5);
 
             border-radius: 0 50% 50% 0;
         }
-        .infomore{
-            margin-top:13px;
-            width:16px;
-            height:16px;
-            line-height:16px;
-            border-radius:10px;
-            background-color: rgba(254,254,254,.5);;
-            float:right;
-            text-align:center;
-            color:rgba(0,0,0,.5);
-            font-size:12px;
-            font-weight:bold;
+
+        .infomore {
+            margin-top: 13px;
+            width: 16px;
+            height: 16px;
+            line-height: 16px;
+            border-radius: 10px;
+            background-color: rgba(254, 254, 254, .5);;
+            float: right;
+            text-align: center;
+            color: rgba(0, 0, 0, .5);
+            font-size: 12px;
+            font-weight: bold;
         }
-        .leftdiv{
-            float:left;
-            width:80px;
-            height:65px;
-            line-height:75px;
-            font-size:50px;
+
+        .leftdiv {
+            float: left;
+            width: 80px;
+            height: 65px;
+            line-height: 75px;
+            font-size: 50px;
             text-align: center;
             font-weight: normal;
 
         }
-        .rightdiv{
-            float:left;
-            width:calc(100% - 95px);
-            margin-left:10px;
+
+        .rightdiv {
+            float: left;
+            width: calc(100% - 95px);
+            margin-left: 10px;
         }
-        .txtdiv{
-            color:rgba(255,255,255,0.5);
-            font-size:14px;
+
+        .txtdiv {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 14px;
             font-weight: normal;
         }
-        .bar div{
-            width:4px;
+
+        .bar div {
+            width: 4px;
             height: 35px;
             border-radius: 10px;
-            background-color: rgba(255,255,255,0.3);
-            float:left;
-            margin-right:5px;
+            background-color: rgba(255, 255, 255, 0.3);
+            float: left;
+            margin-right: 5px;
         }
-        .bottomdiv{
-            margin-top:10px;
+
+        .bottomdiv {
+            margin-top: 10px;
         }
-        em{
-            font-size:18px;
+
+        em {
+            font-size: 18px;
         }
-.rightdiv span{
-    color:rgba(255,255,255,0.5);
-}
-        .alarm{
+
+        .rightdiv span {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .alarm {
             color: rgb(224, 79, 35);
         }
-        .warn{
+
+        .warn {
             color: #EAB62A;
         }
-        .ok{
-            color:rgba(49, 178, 231,1);
+
+        .ok {
+            color: rgba(49, 178, 231, 1);
         }
     </style>
 
 </head>
 <body>
 
-<div>
+<div id="maxiot_cd_comp5_main">
     <div class="txtdiv">FCFT评分</div>
     <div class="bottomdiv">
-        <div class="leftdiv" id="spindle_fcft_score">0</div>
+        <div class="leftdiv" id="spindle_fcft_score" v-bind:class="da.alarm?'alarm':da.warn?'warn':'ok'">
+            {{da.spindle_fcft_score}}
+        </div>
         <div class="rightdiv">
-           <div style="width:100%;"><span>0</span><span style="padding-left:calc(50% - 20px)">0.5</span><span style="padding-left:calc(50% - 50px)">1.0</span></div>
+            <div style="width:100%;"><span>0</span><span style="padding-left:calc(50% - 20px)">0.5</span><span
+                    style="padding-left:calc(50% - 50px)">1.0</span></div>
             <div class="bar"></div>
         </div>
     </div>
-
- </div>
+</div>
 </body>
 </html>
-
 <script src="js/jquery-3.3.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script>
-    var init=function(){
-        var width=$(".bar").width();
-        var bar=$(".bar");
+
+    var self = {
+        ctx : {
+            $ : $
+        }
+    };
+
+    self.data = {
+        i : 1,
+        da : {
+            spindle_fcft_score : 0.9
+        }
+    };
+
+    self.onInit = function () {
+        var width = self.ctx.$(".bar").width();
+        var bar = self.ctx.$(".bar");
         bar.empty();
-        var n=width/9;
-        for(var i=1;i<n;i++){
-            $(".bar").append("<div></div>");
+        var n = width / 9;
+        for (var i = 1; i < n; i++) {
+            self.ctx.$(".bar").append("<div></div>");
         }
-    }
-
-
-    var set=function(percent,spindle_alarm,spindle_warn){
-        var width=$(".bar").width();
-        var newwidth=percent*width;
-        var n=newwidth/9;
-        $(".bar div").css("background-color","rgba(255,255,255,0.3)");
-        for(var i=0;i<n;i++){
-            if(spindle_alarm==1){
-                $(".bar div").eq(i).css("background-color","rgb(224, 79, 35)");
-            }
-            else if(spindle_warn==1){
-                $(".bar div").eq(i).css("background-color","#EAB62A");
-            }
-            else{
-                $(".bar div").eq(i).css("background-color","rgba(49, 178, 231, 0.8)");
-            }
-        }
-        if(spindle_alarm==1){
-            $("#spindle_fcft_score").removeClass("ok").removeClass("warn").addClass("alarm");
-        }
-        else if(spindle_warn==1){
-            $("#spindle_fcft_score").removeClass("ok").removeClass("alarm").addClass("warn");
-        }
-        else{
-            $("#spindle_fcft_score").removeClass("alarm").removeClass("warn").addClass("ok");
-        }
-        $("#spindle_fcft_score").html(percent);
-    }
-
-    $(window).resize(function() {
-        init();
-        set($("#spindle_fcft_score").html());
-    });
-
-
-    var da={};
-
-
-
-    onInit=function(){
-        init();
+        setInterval(function () {
+            var da = self.getstatus();
+            var data = [
+                {
+                    v : da.spindle_fcft_score,
+                    t : 1528358866224,
+                    k : {o : "spindle_fcft_score", l : "spindle_fcft_score"}
+                }
+            ];
+            self.onDataUpdated(data);
+        }, 2000);
     };
 
-  var  onDataUpdated=function(data){
-        $.each(data,function(i,obj){
 
-            eval("da."+obj.k.o+"='"+obj.v+"'");
+    self.onDataUpdated = function (data) {
+        self.ctx.$.each(data, function (i, obj) {
+            eval("self.data.da." + obj.k.o + "='" + obj.v + "'");
         });
-        console.log(da);
-        set(da.spindle_fcft_score,da.spindle_alarm,da.spindle_warn);
+        self.data.da.spindle_fcft_score = parseFloat(self.data.da.spindle_fcft_score).toFixed(1);
+        self.set(self.data.da.spindle_fcft_score);
     };
 
-    onResize=function(){
-
+    self.onResize = function () {
+        self.onInit();
+        self.set(self.data.da.spindle_fcft_score);
     };
-    onDestroy=function(){
 
+    self.onDestroy = function () {
+        console.log("销毁")
     };
-    onPendding=function(){
 
+
+    self.set = function (percent) {
+        var width = self.ctx.$(".bar").width();
+        var newwidth = percent * width;
+        var n = newwidth / 9;
+        self.ctx.$(".bar div").css("background-color", "rgba(255,255,255,0.3)");
+        for (var i = 0; i < n; i++) {
+            if (percent < 0.2) {
+                self.ctx.$(".bar div").eq(i).css("background-color", "rgb(224, 79, 35)");
+            }
+            else if (percent < 0.8) {
+                self.ctx.$(".bar div").eq(i).css("background-color", "#EAB62A");
+            }
+            else {
+                self.ctx.$(".bar div").eq(i).css("background-color", "rgba(49, 178, 231, 0.8)");
+            }
+        }
+        if (percent < 0.2) {
+            self.data.da.alarm = true;
+            self.data.da.warn = false;
+        }
+        else if (percent < 0.8) {
+            self.data.da.alarm = false;
+            self.data.da.warn = true;
+        }
+        else {
+            self.data.da.alarm = false;
+            self.data.da.warn = false;
+        }
     };
-    onInit();
 
-//  add by gwh
-    var i=1;
-    var getstatus=function(){
-        var spindle_alarm=0,spindle_warn=0;
-        if(i<0.2){
-            i=1;
+    self.getstatus = function () {
+        var spindle_alarm = 0, spindle_warn = 0, spindle_fcft_score = 0;
+        if (self.data.i < 0) {
+            self.data.i = 1;
         }
-        if(i<0.2){
-            spindle_fcft_score=i;
-            spindle_alarm=1;
-            spindle_warn=0;
+        if (self.data.i < 0.2) {
+            spindle_fcft_score = self.data.i;
+            spindle_alarm = 1;
+            spindle_warn = 0;
         }
-        else if(i<0.8){
-            spindle_fcft_score=i;
-            spindle_alarm=0;
-            spindle_warn=1;
+        else if (self.data.i < 0.8) {
+            spindle_fcft_score = self.data.i;
+            spindle_alarm = 0;
+            spindle_warn = 1;
         }
-        else{
-            spindle_fcft_score=i;
-            spindle_alarm=0;
-            spindle_warn=0;
+        else {
+            spindle_fcft_score = self.data.i;
+            spindle_alarm = 0;
+            spindle_warn = 0;
         }
-        i=(i-0.1).toFixed(1);
+        self.data.i = (self.data.i - 0.1).toFixed(1);
 
         return {
-            spindle_fcft_score:spindle_fcft_score,
-            spindle_alarm:spindle_alarm,
-            spindle_warn:spindle_warn
+            spindle_fcft_score : spindle_fcft_score,
+            spindle_alarm : spindle_alarm,
+            spindle_warn : spindle_warn
         };
     };
-   setInterval(function(){
-       var da=getstatus();
-       var data=[
-           {
-               v:da.spindle_fcft_score,//遥测数据的值
-               t:1528358866224,//时间戳
-               k:{o:"spindle_fcft_score",l:"spindle_fcft_score"}//key 以及可以的label名
-           },
-           {
-               v:da.spindle_alarm,//遥测数据的值
-               t:1528358866224,//时间戳
-               k:{o:"spindle_alarm",l:"spindle_alarm"}//key 以及可以的label名
-           },
-           {
-               v:da.spindle_warn,//遥测数据的值
-               t:1528358866224,//时间戳
-               k:{o:"spindle_warn",l:"spindle_warn"}//key 以及可以的label名
-           }
-       ];
-       onDataUpdated(data);
-   },2000) ;
-   // ddd by gwh
+
+    self.onClick = function () {
+        console.log("click");
+    };
+
+    self.ctx.$(window).resize(function () {
+        self.onInit();
+        self.set(self.ctx.$("#spindle_fcft_score").html());
+    });
+
+    // 测试环境构造
+    var app = new Vue({
+        el : '#maxiot_cd_comp5_main',
+        data : {
+            da : {
+                spindle_fcft_score : "1",
+                alarm : false,
+                warn : false
+            }
+        },
+        mounted : function () {
+            self.data = Object.assign({}, {...self.data}, this.$data);
+            self.onInit();
+        }
+    });
 </script>

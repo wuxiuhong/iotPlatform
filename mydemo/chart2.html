@@ -54,7 +54,7 @@
 </head>
 <body>
 
-<div id="mainChart2" style="width: 100%;height:400px;"></div>
+<div id="maxiot_cd_charts_main" style="width: 100%;height:400px;"></div>
 
 </body>
 </html>
@@ -62,277 +62,293 @@
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script>
 
+
     var self = {
         ctx: {
             $: $,
             echarts: echarts,
-            eventMessage:{
-                $emit:function () {
-
-                },
-                $on:function () {
-
-                }
-            }
+            $element: document
         }
     };
 
     self.data = {
         da: {},
         option: {},
-        a: 1,
+        firstDate: "",
+        oldData:[],
+        curmin:0,
         myChart:{},
-        n: 1,
-        curmin: 0,
-        oldData : [],
-        firstDate:""
+        n:1,
+        a:0
     };
 
 
-    self.onInit = function () {
-        self.data.option = {
-            title: {
-                text: '刀具衰退趋势图',
-                left: '‘0%',
-                top: '0%',
-                textStyle: {
-                    color: 'rgba(255,255,255,0.5)',
-                    fontStyle: 'normal',
-                    fontFamily: 'sans-serif',
 
-                    fontSize: 14
+    self.onInit = function () {
+        self.data.myChart = self.ctx.echarts.init(self.ctx.$element.querySelector('#maxiot_cd_charts_main'));
+        self.data.option = {
+            title : [{
+                text : '刀具衰退趋势图',
+                left : '0%',
+                top : '0%',
+                textStyle : {
+                    color : 'rgba(255,255,255,0.5)',
+                    fontStyle : 'normal',
+                    fontFamily : 'sans-serif',
+                    fontSize : 14
                 }
-            },
-            tooltip: {
-                trigger: 'axis',
-                formatter: function (params) {
+            },{
+                text : '健康值（0故障-1正常)',
+                left : '0%',
+                top : '12%',
+                textStyle : {
+                    color : '#399fae',
+                    fontStyle : 'normal',
+                    fontFamily : 'sans-serif',
+                    fontSize : 12
+                }
+            }],
+            tooltip : {
+                trigger : 'axis',
+                formatter : function (params) {
                     params = params[0];
 
                     return "磨损量  <span style='color:#01c6fd' >" + params.value[1] + "mm</span>";
                 },
-                axisPointer: {
-                    type: 'cross',
-                    animation: false,
-                    label: {
-                        backgroundColor: '#505765'
+                axisPointer : {
+                    type : 'cross',
+                    animation : false,
+                    label : {
+                        backgroundColor : '#505765'
                     }
                 },
-                textStyle: {
-                    color: 'rgba(255,255,255,0.5)'
+                textStyle : {
+                    color : 'rgba(255,255,255,0.5)'
                 }
             },
 
-            xAxis: {
-                type: 'value',
-                boundaryGap: false,
-                name: '(mins)',
-                nameGap: 20,
-                splitNumber: 16,
-                axisLine: {
-                    lineStyle: {
-                        color: 'rgba(255,255,255,0.5)'
+            xAxis : {
+                type : 'value',
+                boundaryGap : false,
+                name : '(mins)',
+                nameGap : 20,
+                splitNumber : 16,
+                axisLine : {
+                    lineStyle : {
+                        color : 'rgba(255,255,255,0.5)'
                     }
                 },
-                axisLabel: {
-                    interval: 5
+                axisLabel : {
+
+                    interval : 5
                 },
-                splitLine: {
-                    show: false
+                splitLine : {
+                    show : false
                 }
             },
-            yAxis: {
-                type: 'value',
-                name: '磨损量（mm）',
-                nameTextStyle: {
-                    color: '#399fae',
-                    fontSize: '16px'
+            yAxis : {
+                type : 'value',
+                name : '',
+                nameLocation:'end',
+                nameTextStyle : {
+                    color : '#399fae',
+                    fontSize : '16px'
                 },
-                nameGap: 30,
-                axisTick: {
-                    length: '0'
+                nameGap : 30,
+                axisTick : {
+                    length : '0'
                 },
-                axisLine: {
-                    lineStyle: {
-                        color: 'rgba(255,255,255,0.5)'
+                axisLine : {
+                    lineStyle : {
+                        color : 'rgba(255,255,255,0.5)'
 
                     }
                 },
             },
-            grid: {
-                left: 36,
-                top: 90
+            grid : {
+                left : 36,
+                top : 90
             },
-            visualMap: {
-                top: 10,
-                right: 10,
-                pieces: [{
-                    gt: 0,
-                    lte: 0.2,
-                    color: '#E04F23'
+            visualMap : {
+                top : 10,
+                right : 10,
+                pieces : [{
+                    gt : 0,
+                    lte : 0.6,
+                    color : '#E04F23'
                 }, {
-                    gt: 0.2,
-                    lte: 0.4,
-                    color: '#EAB62A'
+                    gt : 0.6,
+                    lte : 0.8,
+                    color : '#EAB62A'
                 }, {
-                    gt: 0.4,
-                    lte: 1,
-                    color: '#01c5fd'
+                    gt : 0.8,
+                    lte : 1.2,
+                    color : '#01c5fd'
                 }],
-                outOfRange: {
-                    color: '#999'
+                outOfRange : {
+                    color : '#999'
                 },
-                show: false
+                show : false
             },
-            color: ['#E04F23', '#EAB62A', '#01c5fd'],
-            series: [
+            color : ['#E04F23', '#EAB62A', '#01c5fd'],
+            series : [
                 {
-                    data: [],
-                    type: 'line',
-                    showSymbol: false,
-                    symbolSize: 1,
-                    smooth: true,
-                    itemStyle: {
-                        normal: {
-                            borderWidth: 3,
-                            borderColor: 'white',
-                            color: 'blue'
+                    data : [],
+                    type : 'line',
+                    showSymbol : false,
+                    symbolSize : 1,
+                    smooth : true,
+                    itemStyle : {
+                        normal : {
+                            borderWidth : 3,
+                            borderColor : 'white',
+                            color : 'blue'
                         }
                     },
-                    markLine: {
-                        data: [{name: '最小值', xAxis: 0}],
-                        lineStyle: {
-                            type: 'solid',
-                            color: '#000'
+                    markLine : {
+                        data : [{name : '最小值', xAxis : 0}],
+                        lineStyle : {
+                            type : 'solid',
+                            color : '#000'
                         },
-                        symbol: '',
-                        label: {
-                            show: false
+                        symbol : '',
+                        label : {
+                            show : false
                         }
                     }
                 },
                 {
-                    data: [],
-                    type: 'line',
-                    symbol: 'none',
-                    smooth: true,
-                    itemStyle: {
-                        normal: {
-                            color: '#20aefc',
-                            show: false
+                    data : [],
+                    type : 'line',
+                    symbol : 'none',
+                    smooth : true,
+                    itemStyle : {
+                        normal : {
+                            color : '#20aefc',
+                            show : false
                         }
                     },
-                    lineStyle: {
-                        normal: {
-                            width: 4,
-                            type: 'dashed'
+                    lineStyle : {
+                        normal : {
+                            width : 4,
+                            type : 'dashed'
                         }
                     }
                 },
                 {
-                    name: '低故障率',
-                    type: 'line',
-                    animation: false,
-                    areaStyle: {
-                        normal: {}
+                    name : '低故障率',
+                    type : 'line',
+                    animation : false,
+                    areaStyle : {
+                        normal : {}
                     },
-                    lineStyle: {
-                        normal: {
-                            width: 3
+                    lineStyle : {
+                        normal : {
+                            width : 3
                         }
                     },
-                    markArea: {
-                        data: [[{
-                            yAxis: '0'
+                    markArea : {
+                        data : [[{
+                            yAxis : '0'
                         }, {
-                            yAxis: '0.2'
+                            yAxis : '0.6'
                         }]]
                     },
 
                 }, {
-                    name: '中等故障率',
-                    type: 'line',
-                    animation: false,
-                    areaStyle: {
-                        normal: {}
+                    name : '中等故障率',
+                    type : 'line',
+                    animation : false,
+                    areaStyle : {
+                        normal : {}
                     },
-                    lineStyle: {
-                        normal: {
-                            width: 1
+                    lineStyle : {
+                        normal : {
+                            width : 1
                         }
                     },
-                    markArea: {
-                        data: [[{
-                            yAxis: '0.2'
+                    markArea : {
+                        data : [[{
+                            yAxis : '0.6'
                         }, {
-                            yAxis: '0.4'
+                            yAxis : '0.8'
                         }]]
                     }
                 }, {
-                    name: '高故障率',
-                    type: 'line',
-                    animation: false,
-                    areaStyle: {
-                        normal: {}
+                    name : '高故障率',
+                    type : 'line',
+                    animation : false,
+                    areaStyle : {
+                        normal : {}
                     },
-                    lineStyle: {
-                        normal: {
-                            width: 1
+                    lineStyle : {
+                        normal : {
+                            width : 1
                         }
                     },
-                    markArea: {
-                        data: [[{
-                            yAxis: '0.4'
+                    markArea : {
+                        data : [[{
+                            yAxis : '0.8'
                         }, {
-                            yAxis: '1'
+                            yAxis : '1.2'
                         }]]
                     }
                 }]
         };
-        self.data.myChart = self.ctx.echarts.init(document.getElementById('mainChart2'));
-
+        self.data.mockdata=   [{"tool_wear": "1.0248631137316073", "tool_wear_pred": "[]", "tool_rul": "30", "tool_rul_perc": "1.0"},
+            {"tool_wear": "1.0386530152740175", "tool_wear_pred": "[]", "tool_rul": "29", "tool_rul_perc": "0.967"},
+            {"tool_wear": "1.0108516052532324", "tool_wear_pred": "[]", "tool_rul": "28", "tool_rul_perc": "0.937"},
+            {"tool_wear": "1.0230706280181004", "tool_wear_pred": "[]", "tool_rul": "27", "tool_rul_perc": "0.9"},
+            {"tool_wear": "0.995844405068224", "tool_wear_pred": "[]", "tool_rul": "26", "tool_rul_perc": "0.867"},
+            {"tool_wear": "1.020418995953353", "tool_wear_pred": "[]", "tool_rul": "25", "tool_rul_perc": "0.833"},
+            {"tool_wear": "0.9962380352171709", "tool_wear_pred": "[]", "tool_rul": "24", "tool_rul_perc": "0.766666667"},
+            {"tool_wear": "1.03548539492709", "tool_wear_pred": "[]", "tool_rul": "23", "tool_rul_perc": "0.7"},
+            {"tool_wear": "1.0459856981268421", "tool_wear_pred": "[]", "tool_rul": "22", "tool_rul_perc": "0.666666667"},
+            {"tool_wear": "1.0518477856908957", "tool_wear_pred": "[]", "tool_rul": "21", "tool_rul_perc": "0.633333333"},
+            {"tool_wear": "1.0325671991118395", "tool_wear_pred": "[]", "tool_rul": "20", "tool_rul_perc": "0.6"},
+            {"tool_wear": "1.0328611382547717", "tool_wear_pred": "[]", "tool_rul": "19", "tool_rul_perc": "0.566666667"},
+            {"tool_wear": "1.0250958081751844", "tool_wear_pred": "[]", "tool_rul": "18", "tool_rul_perc": "0.533333333"},
+            {"tool_wear": "1.012092089094648", "tool_wear_pred": "[]", "tool_rul": "17", "tool_rul_perc": "0.466666667"},
+            {"tool_wear": "1.0075849712911238", "tool_wear_pred": "[]", "tool_rul": "16", "tool_rul_perc": "0.433333333"},
+            {"tool_wear": "0.9787613830285989", "tool_wear_pred": "[]", "tool_rul": "15", "tool_rul_perc": "0.4"},
+            {"tool_wear": "0.9669877628915108", "tool_wear_pred": "[]", "tool_rul": "14", "tool_rul_perc": "0.366666667"},
+            {"tool_wear": "0.9496547369436008", "tool_wear_pred": "[]", "tool_rul": "13", "tool_rul_perc": "0.333333333"},
+            {"tool_wear": "0.9171396271845964", "tool_wear_pred": "[]", "tool_rul": "12", "tool_rul_perc": "0.3"},
+            {"tool_wear": "0.9181136276172355", "tool_wear_pred": "[]", "tool_rul": "11", "tool_rul_perc": "0.266666667"},
+            {"tool_wear": "0.9227071427128337", "tool_wear_pred": "[0.88178031 ,0.8604292 , 0.83791339 ,0.81423289, 0.78938769 ,0.76337781 ,0.73620323, 0.70786395, 0.67835999, 0.64769133]", "tool_rul": "10", "tool_rul_perc": "0.233333333"},
+            {"tool_wear": "0.8973814696355247", "tool_wear_pred": "[0.86681149, 0.84540564 ,0.82291218 ,0.79933112 ,0.77466244, 0.74890614 ,0.72206224 ,0.69413072, 0.66511159 ,0.63500486]", "tool_rul": "10", "tool_rul_perc": "0.233333333"},
+            {"tool_wear": "0.877867095032775", "tool_wear_pred": "[0.84973175, 0.82795931, 0.80514733 ,0.7812958 , 0.75640473 ,0.73047411, 0.70350395, 0.67549425, 0.646445 ,  0.61635621]", "tool_rul": "9", "tool_rul_perc": "0.2"},
+            {"tool_wear": "0.8645913790647765", "tool_wear_pred": "[0.83353167, 0.81161126 ,0.78870847, 0.76482328 ,0.7399557 , 0.71410573 ,0.68727336, 0.65945861, 0.63066146, 0.60088193]", "tool_rul": "9", "tool_rul_perc": "0.2"},
+            {"tool_wear": "0.8381275003873718", "tool_wear_pred": "[0.81326576, 0.7906175 , 0.76700257, 0.74242095 ,0.71687265 ,0.69035768 ,0.66287602 ,0.63442769 ,0.60501267 ,0.57463098]", "tool_rul": "8", "tool_rul_perc": "0.166666667"},
+            {"tool_wear": "0.8466856025472931", "tool_wear_pred": "[0.80218591, 0.78028481 ,0.75751904, 0.73388861 ,0.70939352, 0.68403376, 0.65780933 ,0.63072024 ,0.60276649 ,0.57394807]", "tool_rul": "8", "tool_rul_perc": "0.166666667"},
+            {"tool_wear": "0.8343053909262558", "tool_wear_pred": "[0.7909913 , 0.76975504 ,0.74774201, 0.72495222 ,0.70138566 ,0.67704234, 0.65192226, 0.62602542 ,0.59935181, 0.57190145]", "tool_rul": "8", "tool_rul_perc": "0.166666667"},
+            {"tool_wear": "0.8151772951052989", "tool_wear_pred": "[0.7775291 , 0.75658836, 0.73493043 ,0.7125553,  0.68946298 ,0.66565347, 0.64112677 ,0.61588288 ,0.5899218 , 0.56324352]", "tool_rul": "7", "tool_rul_perc": "0.133333333"},
+            {"tool_wear": "0.8114645483539122", "tool_wear_pred": "[0.76712005 ,0.74686634, 0.72597093, 0.70443383 ,0.68225504 ,0.65943455, 0.63597236 ,0.61186848 ,0.5871229 , 0.56173563]", "tool_rul": "7", "tool_rul_perc": "0.133333333"},
+            {"tool_wear": "0.7812755053357727", "tool_wear_pred": "[0.75111298, 0.73076552, 0.70980492, 0.68823115 ,0.66604423, 0.64324415 ,0.61983092, 0.59580453, 0.57116498, 0.54591228]", "tool_rul": "7", "tool_rul_perc": "0.133333333"},
+            {"tool_wear": "0.7583333044158993", "tool_wear_pred": "[0.73286175, 0.71216317, 0.69086466, 0.66896624, 0.64646789 ,0.62336962 ,0.59967143, 0.57537331, 0.55047527, 0.52497731]", "tool_rul": "6", "tool_rul_perc": "0.1"},
+            {"tool_wear": "0.7355387232024841", "tool_wear_pred": "[0.71291607, 0.69170882 ,0.66990613 ,0.64750799 ,0.6245144 , 0.60092536 ,0.57674088 ,0.55196094 ,0.52658556, 0.50061472]", "tool_rul": "5", "tool_rul_perc": "0.066666667"}];
         setInterval(function () {
-            var datanow = self.getData();
-            var datapre = "[" + (datanow - 0.02) + "," + (datanow - 0.04) + "," + (datanow - 0.06) + "]";
+            var datanow=self.getData();
             var data = [
                 {
-                    v: '2018-06-10 12:19:20',
-                    t: 1528358866224,
-                    k: {o: "tool_start_time", l: "tool_start_time"}
+                    v : '2018-06-10 12:19:20',
+                    t : 1528358866224,
+                    k : {o : "tool_start_time", l : "tool_start_time"}
                 },
                 {
-                    v: self.getDatestr(),
-                    t: 1528358866224,
-                    k: {o: "tool_end_time", l: "tool_end_time"}
+                    v : self.getDatestr(),
+                    t : 1528358866224,
+                    k : {o : "tool_end_time", l : "tool_end_time"}
                 },
                 {
-                    v: datanow,
-                    t: 1528358866224,
-                    k: {o: "tool_wear", l: "tool_wear"}
+                    v : datanow.tool_wear,
+                    t : 1528358866224,
+                    k : {o : "tool_wear", l : "tool_wear"}
                 },
                 {
-                    v: datapre,
-                    t: 1528358866224,
-                    k: {o: "tool_wear_prid", l: "tool_wear_prid"}
-                },
-                {
-                    v: 0,
-                    t: 1528358866224,
-                    k: {o: "tool_alarm", l: "tool_alarm"}
-                },
-                {
-                    v: 1,
-                    t: 1528358866224,
-                    k: {o: "tool_warn", l: "tool_warn"}
-                },
-                {
-                    v: 0.4,
-                    t: 1528358866224,
-                    k: {o: "tool_warn_thres", l: "tool_warn_thres"}
-                },
-                {
-                    v: 0.2,
-                    t: 1528358866224,
-                    k: {o: "tool_alarm_thres", l: "tool_alarm_thres"}
+                    v : datanow.tool_wear_pred,
+                    t : 1528358866224,
+                    k : {o : "tool_wear_prid", l : "tool_wear_prid"}
                 }
             ];
             if (self.data.a < 0) {
@@ -363,24 +379,11 @@
         var tool_wear_prid = eval("(" + self.data.da.tool_wear_prid + ")");
         var arr = [];
         arr.push([self.data.curmin, self.data.da.tool_wear]);
-        arr.push([self.data.curmin + 1, tool_wear_prid[0]]);
-        arr.push([self.data.curmin + 2, tool_wear_prid[1]]);
-        arr.push([self.data.curmin + 3, tool_wear_prid[2]]);
-
+        for(var i=0;i<tool_wear_prid.length;i++){
+            arr.push([self.data.curmin+i+1,tool_wear_prid[i]]);
+        }
         self.data.option.series[0].data = self.data.oldData;
         self.data.option.series[1].data = arr;
-
-        self.data.option.visualMap.pieces[0].lte = self.data.da.tool_alarm_thres;
-        self.data.option.visualMap.pieces[1].gt = self.data.da.tool_alarm_thres;
-        self.data.option.visualMap.pieces[1].lte = self.data.da.tool_warn_thres;
-        self.data.option.visualMap.pieces[2].gt = self.data.da.tool_warn_thres;
-
-        self.data.option.series[2].markArea.data[0][1].yAxis = self.data.da.tool_alarm_thres;
-        self.data.option.series[3].markArea.data[0][0].yAxis = self.data.da.tool_alarm_thres;
-        self.data.option.series[3].markArea.data[0][1].yAxis = self.data.da.tool_warn_thres;
-        self.data.option.series[4].markArea.data[0][0].yAxis = self.data.da.tool_warn_thres;
-
-
         self.data.option.series[0].markLine.data[0].xAxis = minutes;
         self.data.myChart.setOption(self.data.option, true);
     };
@@ -388,12 +391,13 @@
     self.onResize = function () {
         self.data.myChart.resize();
     };
-
     self.onDestroy = function () {
 
     };
+    self.onPendding = function () {
 
-    self.getMinsDiff = function (date1, date2) {
+    };
+    self. getMinsDiff = function (date1, date2) {
         var date = new Date(date1).getTime() - new Date(date2).getTime();
         var diffmins = date / (60 * 1000);
         return diffmins;
@@ -406,10 +410,17 @@
     };
 
     self.getData = function () {
-        self.data.a = self.data.a - 0.02;
-        return self.data.a;
-    };
-
+        var cd=self.data.mockdata[self.data.a];
+        self.data.a++;
+        if(self.data.a==self.data.mockdata.length)
+        {
+            self.data.a=0;
+        }
+        return{
+            tool_wear:cd.tool_wear,
+            tool_wear_pred:cd.tool_wear_pred
+        }
+    }
     self.onInit();
 
 </script>
