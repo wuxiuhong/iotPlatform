@@ -156,8 +156,8 @@
 
     .container {
         position: absolute;
-        top: 0px;
-        bottom: 0px;
+        top: 0;
+        bottom: 0;
         width: 100%;
         .header {
             height: 60px;
@@ -264,25 +264,10 @@
                 // bottom: 0px;
                 // left: 230px;
                 overflow-y: scroll;
-                .breadcrumb-container {
-                    height: 52px;
-                    line-height: 52px;
-                    padding: 0 30px;
-                    .title {
-                        /*width: 200px;*/
-                        float: left;
-                        color: #475669;
-                    }
-                    .breadcrumb-inner {
-                        line-height: 52px;
-                    }
-                }
                 .content-wrapper {
                     background-color: $color-primary;
                     box-sizing: border-box;
                     color: #ffffff;
-                    min-width: 1600px;
-                    padding: 0 30px;
                 }
             }
         }

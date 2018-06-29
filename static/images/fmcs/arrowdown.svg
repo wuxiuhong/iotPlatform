@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 49.2 (51160) - http://www.bohemiancoding.com/sketch -->
+    <title>icon/data/arrowdown</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="27.5507408%" y1="0%" x2="50%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#A9EA7B" offset="0%"></stop>
+            <stop stop-color="#71D045" offset="100%"></stop>
+        </linearGradient>
+        <path d="M6.90928222,8.34300441 C6.5149181,8.73737104 6.51441291,9.37626049 6.90011684,9.76196687 L6.43313183,9.29497889 C6.82243405,9.68428359 7.45943319,9.67846803 7.84167489,9.2962239 L11.5724154,5.56545971 C11.96103,5.17684261 11.9546571,4.54039685 11.5724154,4.15815272 L7.84167489,0.427388519 C7.45306026,0.0387714246 6.81883576,0.0429271566 6.43313183,0.428633535 L6.90011684,-0.0383544457 C6.51081462,0.350950252 6.50836013,0.979683375 6.90928222,1.38060801 L9.72379588,4.19513954 L1.00399262,4.19513954 C0.449502806,4.19513954 0,4.64654539 0,5.19201658 L0,4.53159584 C0,5.08215583 0.443078758,5.52847288 1.00399262,5.52847288 L9.72379588,5.52847288 L6.90928222,8.34300441 Z" id="path-2"></path>
+    </defs>
+    <g id="icon/data/arrowdown" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="icon/arrowdown">
+            <rect id="bound" fill="#D8D8D8" opacity="0" x="0" y="0" width="16" height="16"></rect>
+            <g id="Icons/Arrow-Right" transform="translate(8.000000, 8.000000) scale(1, -1) rotate(90.000000) translate(-8.000000, -8.000000) translate(2.000000, 3.000000)">
+                <mask id="mask-3" fill="white">
+                    <use xlink:href="#path-2"></use>
+                </mask>
+                <use id="Combined-Shape" fill="url(#linearGradient-1)" fill-rule="nonzero" transform="translate(6.000000, 4.862308) rotate(-180.000000) translate(-6.000000, -4.862308) " xlink:href="#path-2"></use>
+            </g>
+        </g>
+    </g>
+</svg>

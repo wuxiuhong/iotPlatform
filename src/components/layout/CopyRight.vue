@@ -6,6 +6,7 @@
 
 <style lang="scss" scoped>
     .footer-container {
+        display: contents;
         height: 30px;
         line-height: 30px;
         font-size: 12px;

@@ -4,6 +4,8 @@ import { LoginUsers, Users } from './data/user';
 import { dashboard } from './data/dashboard';
 import { dashboard_fmcs1 } from './data/dashboard_fmcs1';
 import { dashboard_fmcs2 } from './data/dashboard_fmcs2';
+import { dashboard_openDemo } from './data/dashboard_openDemo';
+import { template_cd } from './data/template_cd';
 
 let _Users = Users;
 
@@ -154,12 +156,38 @@ export default {
             });
         });
 
+
+        const templateType = {
+            "cd" : template_cd
+        };
+        // 获取模板组件数据
+        mock.onGet('/getTemplate').reply(config => {
+            const {id, version} = config.params;
+            let template = null;
+            const isTemplate = template_cd.some(item => {
+                if (item.id === id && item.version === version) {
+                    template = JSON.parse(JSON.stringify(item));
+                    return true;
+                }
+            });
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    if (isTemplate) {
+                        resolve([200, template]);
+                    } else {
+                        resolve([200, {code : 500, msg : '不存在当前的模板组件'}]);
+                    }
+                }, 1000);
+            });
+        });
+
         // Expected order of requests:
         const responses = [
             ['GET', '/dashboard', 200, dashboard],
             ['GET', '/dashboard/cd', 200, dashboard],
             ['GET', '/dashboard/fmcs1', 200, dashboard_fmcs1],
-            ['GET', '/dashboard/fmcs2', 200, dashboard_fmcs2]
+            ['GET', '/dashboard/fmcs2', 200, dashboard_fmcs2],
+            ['GET', '/dashboard/demo', 200, dashboard_openDemo]
         ];
         // Match ALL requests
         mock.onAny().reply(config => {
@@ -174,8 +202,6 @@ export default {
                     });
                 }
             }
-            // Unexpected request, error out
-            // return [500, {}]
         });
 
     }

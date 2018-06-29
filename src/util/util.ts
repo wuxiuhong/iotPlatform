@@ -19,12 +19,20 @@ export default {
         r = null;
         return context == null || context === "" || context === "undefined" ? "" : context;
     },
+    /**
+     * 随机创建id
+     * @param {string} params
+     * @return {string}
+     */
+    createRandomId: function (params: string) {
+        return params + (Math.random() * 10000000).toString(16).substr(0, 4) + (new Date()).getTime().toString(16).substr(10, 4) ;
+    },
     formatDate: {
         /**
          * 处理时间格式
          * @param date
          * @param pattern
-         * @return {any}
+         * @return {any}showedit
          */
         format: function (date: any, pattern: any) {
             pattern = pattern || DEFAULT_PATTERN;

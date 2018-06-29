@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 49.2 (51160) - http://www.bohemiancoding.com/sketch -->
+    <title>icon/data/arrowup</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="25.955496%" y1="-12.5896993%" x2="49.4761606%" y2="97.5470934%" id="linearGradient-1">
+            <stop stop-color="#DF6821" offset="0%"></stop>
+            <stop stop-color="#E04F23" offset="97.1820809%"></stop>
+        </linearGradient>
+        <path d="M8.77159071,11.4806959 C8.37722658,11.8750626 8.3767214,12.513952 8.76242533,12.8996584 L8.29544031,12.4326704 C8.68474254,12.8219751 9.32174167,12.8161595 9.70398338,12.4339154 L13.4347239,8.70315122 C13.8233385,8.31453412 13.8169656,7.67808836 13.4347239,7.29584423 L9.70398338,3.56508003 C9.31536875,3.17646294 8.68114424,3.18061867 8.29544031,3.56632505 L8.76242533,3.09933707 C8.3731231,3.48864176 8.37066862,4.11737489 8.77159071,4.51829953 L11.5861044,7.33283106 L2.8663011,7.33283106 C2.31181129,7.33283106 1.86230849,7.7842369 1.86230849,8.32970809 L1.86230849,7.66928736 C1.86230849,8.21984734 2.30538725,8.66616439 2.8663011,8.66616439 L11.5861044,8.66616439 L8.77159071,11.4806959 Z" id="path-2"></path>
+    </defs>
+    <g id="icon/data/arrowup" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="icon/arrow/up">
+            <rect id="bound" fill="#D8D8D8" opacity="0" x="0" y="0" width="16" height="16"></rect>
+            <mask id="mask-3" fill="white">
+                <use xlink:href="#path-2"></use>
+            </mask>
+            <use id="Combined-Shape" fill="url(#linearGradient-1)" fill-rule="nonzero" transform="translate(7.862308, 8.000000) rotate(-90.000000) translate(-7.862308, -8.000000) " xlink:href="#path-2"></use>
+        </g>
+    </g>
+</svg>

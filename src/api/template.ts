@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-const base = '/api';
+const base = '';
 
-// 获取报表数据
-export const getTemplate = params => {
-    return axios.get(`${base}/templates/1`, {params: params});
+// 获取报表组件数据
+export const getTemplate = (params: any = null) => {
+    return axios.get(`${base}/getTemplate`, {params: params});
 };

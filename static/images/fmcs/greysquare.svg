@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="14px" height="14px" viewBox="0 0 14 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 49.2 (51160) - http://www.bohemiancoding.com/sketch -->
+    <title>tag/greysquare</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <rect id="path-1" x="1" y="1" width="12" height="12"></rect>
+    </defs>
+    <g id="tag/greysquare" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g>
+            <rect id="bound" fill="#D8D8D8" opacity="0" x="0" y="0" width="14" height="14"></rect>
+            <g id="Rectangle-9">
+                <use fill-opacity="0.6" fill="#131725" fill-rule="evenodd" xlink:href="#path-1"></use>
+                <rect stroke="#959595" stroke-width="1" x="1.5" y="1.5" width="11" height="11"></rect>
+            </g>
+        </g>
+    </g>
+</svg>

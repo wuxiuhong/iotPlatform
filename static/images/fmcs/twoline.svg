@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="14px" height="14px" viewBox="0 0 14 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 49.2 (51160) - http://www.bohemiancoding.com/sketch -->
+    <title>tag/twoline</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="tag/twoline" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="tag/doubleline">
+            <rect id="bound" fill="#D8D8D8" opacity="0" x="0" y="0" width="14" height="14"></rect>
+            <polygon id="Line-2" fill="#EAB62A" fill-rule="nonzero" points="6.21724894e-16 5 0 3 14 3 14 5"></polygon>
+            <polygon id="Line-2" fill="#01C6FD" fill-rule="nonzero" points="6.21724894e-16 11 0 9 14 9 14 11"></polygon>
+        </g>
+    </g>
+</svg>

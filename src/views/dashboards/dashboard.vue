@@ -1,19 +1,14 @@
 <template>
-    <div @click="contextMenu.show = false">
-        <el-col :span="24" class="breadcrumb-container">
-            <strong class="title">{{$route.name}}</strong>
-            <el-breadcrumb separator="/" class="breadcrumb-inner">
-                <el-breadcrumb-item></el-breadcrumb-item>
-                <el-breadcrumb-item>{{ dashboard.title }}</el-breadcrumb-item>
-            </el-breadcrumb>
-        </el-col>
+    <div class="dashboard-container" :style="dashboard.styles"
+         @click="contextMenu.show = false">
+        <Breadcrumb :aliases="[dashboard.title ]"></Breadcrumb>
         <!--视图 start-->
-        <section class="dashboard-wrapper">
+        <section class="dashboard-wrapper" v-if="!isLoading">
             <div class="component-wrapper" v-for="(item,index) in dashboard.components" :scope="item.ref"
-                 :style="item.styleObject" @contextmenu.stop.prevent="rightClick(item,index,$event)">
-                <component :is="item.comp" :content="item.props" :ref="item.ref"
-                           @child-event="parentMethod" keep-alive></component>
+                 :style="item.styleObject" @contextmenu.stop.prevent="rightClick(item, index, $event)">
+                <templateChild :templateInfo="item" :ref="item.pref"></templateChild>
             </div>
+
             <CopyRight></CopyRight>
         </section>
         <!--视图 end-->
@@ -29,48 +24,53 @@
             </el-popover>
         </section>
         <!--视图中操作菜单 end-->
-
         <!--编辑配置信息 start-->
         <dashboard-edit :details-info="editInfo.data" :aliases="dashboard.edgeClientAliases" @on-refresh="onRefresh"
                         :show-modal="showModal" v-if="showModal"></dashboard-edit>
         <!--编辑配置信息 end-->
         <!--编辑操作按钮 start-->
         <!--<section class="dashboard-btn-group">-->
-        <!--&lt;!&ndash;报表Bar start&ndash;&gt;-->
-        <!--<dashboard-bar :is-edit="isEdit" :config="dashboard"></dashboard-bar>-->
-        <!--&lt;!&ndash;报表Bar end&ndash;&gt;-->
-        <!--<el-button v-if="!isEdit" type="primary" icon="el-icon-edit" circle @click="isEdit=true"></el-button>-->
-        <!--<div v-show="isEdit">-->
-        <!--<el-button type="success" icon="el-icon-check" circle @click="isEdit=false"></el-button>-->
-        <!--<el-button type="danger" icon="el-icon-close" circle @click="isEdit=false"></el-button>-->
-        <!--</div>-->
+            <!--&lt;!&ndash;报表Bar start&ndash;&gt;-->
+            <!--<dashboard-bar :is-edit="isEdit" :config="dashboard"></dashboard-bar>-->
+            <!--&lt;!&ndash;报表Bar end&ndash;&gt;-->
+            <!--<el-button v-if="!isEdit" type="primary" icon="el-icon-edit" circle @click="isEdit=true"></el-button>-->
+            <!--<div v-show="isEdit">-->
+                <!--<el-button type="success" icon="el-icon-check" circle @click="isEdit=false"></el-button>-->
+                <!--<el-button type="danger" icon="el-icon-close" circle @click="isEdit=false"></el-button>-->
+            <!--</div>-->
         <!--</section>-->
         <!--编辑操作按钮 end-->
-
     </div>
 </template>
 
 <script lang="ts">
     import Vue from 'vue';
     import { renderFn, subscribeEdgeClient } from '../../common';
-    import { Component } from 'vue-property-decorator';
-    import { getDashboard } from '../../api/dashboard';
+    import axios from 'axios';
+    import { Component, Watch } from 'vue-property-decorator';
+    import { DashboardApi, TemplateApi } from '../../api';
+    import WebsocketService from '../../util/websocket.service';
+    import { formatDashboard } from '../../util/renderFormat';
     import dashboardBar from './dashboardBar.vue';
     import dashboardEdit from './dashboardEdit.vue';
-    import WebsocketService from '../../util/websocket.service';
+    import templateChild from './templateChild.vue';
     import CopyRight from '../../components/layout/CopyRight.vue';
+    import Breadcrumb from '../../components/layout/Breadcrumb.vue';
     import _ from 'lodash';
 
     @Component({
         components: {
             dashboardBar,
             dashboardEdit,
-            CopyRight
+            templateChild,
+            CopyRight,
+            Breadcrumb
         }
     })
     export default class Dashboard extends Vue {
         showModal: boolean = false;
         isEdit: boolean = false;
+        isLoading: boolean = true;
         dashboard: any = {
             components: []
         };
@@ -83,11 +83,17 @@
             style: {}
         };
 
+        @Watch('$route')
+        onRouterChanged(value: string, oldValue: string) {
+            if (value !== oldValue) location.reload();
+        }
+
         created() {
             // 这样就能保证 resize 只归某个实例拥有
             this.resize = _.debounce(() => {
                 this.dashboard.components.forEach((item: any) => {
-                    this.$refs[item.ref][0].$emit('onResize', '');
+                    this.$refs && this.$refs[item.ref] &&
+                    this.$refs[item.ref] && this.$refs[item.ref][0].$emit('onResize', '');
                 });
             }, 1000);
         }
@@ -102,19 +108,51 @@
 
             // 获取路由参数数据
             const path = (this.$route.params as any).id || 'cd';
-            const routerData = ['cd', 'fmcs1', 'fmcs2'];
+            const routerData = ['cd', 'fmcs1', 'fmcs2', 'demo'];
             if (!routerData.includes(path)) this.$router.push('/404');
             // 初始化报表数据
-            getDashboard(path).then((ret: any) => {
-                console.log(ret);
-                this.dashboard = ret.data;
-                // 处理组件格式
-                this.dashboard.components = this.dashboard.components.map((item: any, index: number) => {
-                    return renderFn(item, index, this);
-                });
-                // 处理需要订阅的数据
-                subscribeEdgeClient.bind(this)(this.dashboard);
-                this.$store.state.isShowLoading = false;
+            DashboardApi.getDashboard(path).then((ret: any) => {
+                // 处理报表数据格式
+                this.dashboard = formatDashboard(ret.data);
+                // 处理组件数据格式
+                axios.all(this.dashboard.components.map((item: any, index: number) => {
+                    this.formatTemplate(item, index);
+                })).then(axios.spread(() => {
+                    // 请求现已完成
+                    subscribeEdgeClient.bind(this)(this.dashboard);
+                    this.isLoading = false;
+                    this.$store.state.isShowLoading = false;
+                }));
+            });
+        }
+
+        /**
+         * 处理组件
+         * @param template 当前组件信息
+         * @param index 当前组件序列
+         */
+        formatTemplate(template: any, index: number) {
+            // todo 如果报表存在组件，无需获取组件
+            if (template.template) {
+                template = renderFn(template, index, this);
+                if (template.template.components && template.template.components.length) {
+                    axios.all(template.template.components.map((child: any, cindex: number) => {
+                        this.formatTemplate(child, cindex);
+                    }));
+                }
+                return false;
+            }
+            return TemplateApi.getTemplate({
+                id: template.templateId,
+                version: template.templateVersion
+            }).then((t: any) => {
+                template.template = t.data;
+                template = renderFn(template, index, this);
+                if (template.template.components && template.template.components.length) {
+                    axios.all(template.template.components.map((child: any, cindex: number) => {
+                        this.formatTemplate(child, cindex);
+                    }));
+                }
             });
         }
 
@@ -178,13 +216,9 @@
         }
 
         /**
-         * 子组件通信到父组件
+         * 编辑配置信息刷新
          * @param msg
          */
-        parentMethod(msg: any) {
-            console.log(msg, 1);
-        }
-
         onRefresh(msg: any) {
             this.showModal = false;
             this.dashboard.components[this.editInfo.index].data = msg;
@@ -193,6 +227,7 @@
                 index: null
             };
         }
+
 
         beforeDestroy() {
             window.removeEventListener('resize', this.resize);
@@ -203,19 +238,9 @@
 </script>
 
 <style lang="scss" scoped>
-    .breadcrumb-container {
-        height: 52px;
-        line-height: 52px;
+    .dashboard-container {
         padding: 0 30px;
-        display: contents;
-        .title {
-            /*width: 200px;*/
-            float: left;
-            color: #475669;
-        }
-        .breadcrumb-inner {
-            line-height: 52px;
-        }
+        margin: auto;
     }
 
     .dashboard-wrapper {

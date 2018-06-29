@@ -42,7 +42,7 @@
                 console.log(msg, 'test');
             });
             // 初始化报表数据
-            TemplateApi.getTemplate({}).then((ret: any) => {
+            TemplateApi.getTemplate({id: 1, version: '1.0.0'}).then((ret: any) => {
                 this.templateInfo = ret.data.data;
                 // 处理组件格式
                 this.templateInfo.getTemplate = TemplateService.bind(this)(this.templateInfo.template, this);

@@ -7,23 +7,21 @@ import TemplateService from '../util/template.service';
  * @param {number} index
  * @return {any}
  */
-function renderFn(data: any, index: number, self: any) {
+function renderFn(data: any, index: any, self: any) {
     // 初始化格式
     data = renderFormat(data, index);
-    const {initData, bindData, onResize, onDataUpdated, onInit, onDestroy, onRender} = TemplateService(data.template.template, self);
+    const { initData, injectData, onResize, onDataUpdated, onInit, onDestroy, onRender } = TemplateService(data.template.template, self);
     data.comp = {
         template: data.template.template.templateHtml,
-        props: ['content'],
         data() {
             return {
                 ...initData,
-                ...data.template.template.defaultData,
+                ...data.template.template.defaultData
             };
         },
         mounted() {
-            // 重新绑定节点
-            bindData(this);
-            self.data = Object.assign({...self.data}, this);
+            // 重新绑定节点，注入数据
+            injectData(data, this);
             // 定义重置组件监听通知函数
             this.$on('onResize', (msg: any) => {
                 if (typeof onResize === 'function') onResize();
