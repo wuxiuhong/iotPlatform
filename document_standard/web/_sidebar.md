@@ -5,4 +5,6 @@
     * [css样式规范](web/quickstart.md)
 * maxIot项目规范
      * [目录结构](web/quickstart.md)
-     * [报表组件规范](web/maxIot/comp.md)
+     * [报表组件编写规范](web/maxIot/compEdit.md)
+     * [组件配置](web/maxIot/compConfig.md)
+     * [报表配置](web/maxIot/compDashboard.md)
