@@ -1,0 +1,6 @@
+﻿[
+	{
+		"label": "spindle_health",
+		"valueFunc": "return {\n    spindle_health:\"\"}\n"
+	}
+]

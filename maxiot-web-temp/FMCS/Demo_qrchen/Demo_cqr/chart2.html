@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/echarts.js"></script>
+    <style>
+        body{
+            background-color: #292c4a;
+
+            color:#0b415d;
+        }
+        .top-row{
+            height: 40px;
+            line-height: 40px;
+        }
+        .col1{
+            width:auto;
+            font-size:14px;
+            float:left;
+            letter-spacing: 2px;
+        }
+        .col1 img{
+            vertical-align: middle;
+        }
+        .obj {
+            clear:both;
+            height: 0px;
+            width:100%;
+            min-width:300px;
+            border: 1px solid rgba(24, 174, 156,0.5);
+
+            border-radius: 0 50% 50% 0;
+        }
+        .infomore{
+            margin-top:13px;
+            width:16px;
+            height:16px;
+            line-height:16px;
+            border-radius:10px;
+            background-color: rgba(254,254,254,.5);;
+            float:right;
+            text-align:center;
+            color:rgba(0,0,0,.5);
+            font-size:12px;
+            font-weight:bold;
+        }
+        .average{
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: rgba(255,255,255,0.54);
+            line-height: 14px;
+            margin-right:17px;
+            display:inline-block;
+            text-align：center;
+        }
+        .result{
+            width:258px;
+            height:40px;
+            line-height:40px;
+            background: rgba(19,23,37,0.3);
+            color:#fff;
+            margin-right:10px;
+            display:inline-block;
+            text-align:center;
+        }
+        .real{
+            font-family: NotoSans;
+            font-size: 15px;
+            color: rgba(0,212,189,1);
+            letter-spacing: -0.09px;
+            line-height: 14px;
+        }
+        .calc{
+            font-family: NotoSans;
+            font-size: 15px;
+            color: #EB73C7;
+            letter-spacing: -0.09px;
+            line-height: 14px;
+        }
+        .diff{
+            position:relative;
+            font-family: NotoSans;
+            font-size: 15px;
+            color: #E04F23;
+            letter-spacing: -0.09px;
+            line-height: 14px;
+            margin-right:0;
+        }
+    </style>
+</head>
+<body>
+
+<div id="maxiot_cd_chart2_main" style="width:100%;height:400px;"></div>
+<div id="maxiot_FMCS_table_app" style="margin-left:7%;">
+    <div class="average">6班平均值</div>
+    <div class="result"><span>实际操作成本&nbsp;</span><span class="real">{{cost_shift_real}}</span></div>
+    <div class="result"><span>智能推算成本&nbsp;</span><span class="calc">{{cost_shift_pred}}</span></div>
+    <div class="result"><span>成本差異&nbsp;</span><span class="diff">{{cost_shift_diff}}</span></div>
+</div>
+</body>
+</html>
+
+<script src="js/jquery-3.3.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script>
+
+
+    var self = {
+        ctx:{
+            $: $,
+            $element: document,
+            echarts: echarts
+        }
+    };
+
+    self.data = {
+            da:{},
+            option:{},
+            myChart:{},
+            cost_shift_real:0,
+            cost_shift_pred:0,
+            cost_shift_diff:0
+    };
+
+    self.onInit = function(){
+        self.data.myChart = self.ctx.echarts.init(self.ctx.$element.querySelector('#maxiot_cd_chart2_main'));
+        self.data.option = {
+            title:{
+                text:'空压机系统优化前后电费成本',
+                left:'7%',
+                top:'0%',
+                textStyle:{
+                        color:'#fff',
+                        fontStyle:'normal',
+                        fontFamily:'PingFangSC-Regular',
+                        fontSize:16
+                }
+            },
+            tooltip: {
+                trigger: 'axis',
+                backgroundColor:'#131725',
+                <!--阴影效果不显示-->
+                boxShadow: '0 2px 10px 0 #131725',
+                borderColor:'#131725',
+                borderRadius:2,
+                borderWidth:1,
+                textStyle:{
+                    color:'#00D4BD'
+                },
+                formatter:function(params){
+                    var diff = params[2].value;
+                    if(diff > 0) diff='+'+diff;
+                    var res = "<span style='color:rgba(255,255,255,0.54)'>日期 </span>" + params[0].name + "<br/><span style='color:rgba(255,255,255,0.54)'>实际操作 </span>￥" + params[0].value +"<br/><span style='color:rgba(255,255,255,0.54)'>智能推算 </span>￥" + params[1].value +"<br/><span style='color:rgba(255,255,255,0.54)'>成本差異 </span>" + diff +"%";
+                    return res;
+                }
+            },
+            legend: {
+                data:[
+                    {
+                        name:"实际操作成本",
+                        textStyle:{
+                            color:'#fff'
+                        }
+                    },
+                    {
+                        name:"智能推算成本",
+                        textStyle:{
+                            color:'#fff'
+                        }
+                    },
+                    {
+                        name:"成本差異",
+                        textStyle:{
+                            color:'#fff'
+                        }
+                    }
+                ]
+            },
+            xAxis: [
+                {
+                    type: 'category',
+                    name:'時間 (班)',
+                    nameTextStyle:{
+                        fontFamily: 'PingFangSC-Regular',
+                        fontSize: '12',
+                        color: 'rgba(255,255,255,0.87)',
+                        lineHeight: '14',
+                        letterSpacing:'0.07'
+                    },
+                    axisPointer:{
+                        type:"shadow"
+                    },
+                    nameLocation:'center',
+                    nameGap:'30',
+                    boundaryGap:true,
+                    data:['05/28 早班','05/28 晚班','05/29 早班','05/29 晚班','05/30 早班','05/30晚班'],
+                    axisLabel:{
+                        fontFamily: 'PingFangSC-Regular;',
+                        fontSize: '12',
+                        color: 'rgba(255,255,255,0.87)',
+                        lineHeight: '14',
+                        textAlign:'center'
+                    },
+                    axisLine:{//坐标轴线条相关设置(颜色等)
+                            lineStyle:{
+                                color:'rgba(255,255,255,0.5)'
+                            }
+                    },
+                    splitLine: {
+                           show: false
+                    }
+                }
+            ],
+            yAxis: [
+                {
+                    type: 'value',
+                    name:'成本 (CN￥)',
+                    nameTextStyle:{
+                        fontFamily: 'PingFangSC-Regular',
+                        fontSize: '12',
+                        color: 'rgba(255,255,255,0.87)',
+                        lineHeight: '15'
+                    },
+                    min: 30000,
+                    max: 70000,
+                    interval: 10000,
+                    axisLine:{//坐标轴线条相关设置(颜色等)
+                            lineStyle:{
+                                color:'rgba(255,255,255,0.5)'
+                            }
+                    },
+                    axisLabel:{
+                        fontFamily: 'NotoSans',
+                        fontSize: '12',
+                        color: 'rgba(255,255,255,0.87)',
+                        lineHeight: '12'
+                    },
+                    axisTick:{
+                        show:false
+                    }
+                },
+                {
+                    type: 'value',
+                    name:'成本差異(%)',
+                    nameTextStyle:{
+                        fontFamily: 'PingFangSC-Regular',
+                        fontSize: '12',
+                        color: 'rgba(255,255,255,0.87)',
+                        lineHeight: '15'
+                    },
+                    min: -1.0,
+                    max: 3.0,
+                    interval: 1.0,
+                    axisLine:{//坐标轴线条相关设置(颜色等)
+                            lineStyle:{
+                                color:'rgba(255,255,255,0.5)'
+
+                            }
+                    },
+                    axisLabel:{
+                        fontFamily: 'NotoSans',
+                        fontSize: '12',
+                        color: 'rgba(255,255,255,0.87)',
+                        lineHeight: '12'
+                    },
+                    axisTick:{
+                        show:false
+                    }
+                }
+            ],
+            series: [
+                {
+                    name:'实际操作成本',
+                    type:'line',
+                    symbol:'circle',
+                    data:[],
+                    itemStyle:{//折线拐点的样式
+                        normal:{
+                            color:'#00D4BD',
+                            show:false
+                        }
+                    }
+                },
+                {
+                    name:'智能推算成本',
+                    type:'line',
+                    symbol:'circle',
+                    data:[],
+                    itemStyle:{
+                        normal:{
+                            color:'#EB73C7',
+                            show:false
+                        }
+                    }
+                },
+                {
+                    name:'成本差異',
+                    type:'bar',
+                    barWidth:25,
+                    yAxisIndex: 1,
+                    data:[],
+                    itemStyle:{
+                        normal:{
+                            color:function(params){
+                                var colorList = [//设置不同柱子不同颜色，渐变颜色
+                                    new echarts.graphic.LinearGradient(0,0,0,1,[
+                                    {
+                                        offset:0.1,
+                                        color: '#E04F23'
+                                    },
+                                    {
+                                         offset:1,
+                                         color:'#E04F23'
+                                     }]),
+                                     new echarts.graphic.LinearGradient(0,0,0,1,[
+                                    {
+                                        offset:0.7,
+                                        color:'#E04F23'
+                                    },
+                                    {
+                                         offset:1,
+                                         color:'#E04F23'
+                                     }]),
+                                     new echarts.graphic.LinearGradient(0,0,0,1,[
+                                    {
+                                        offset:0.7,
+                                        color:'#E04F23'
+                                    },
+                                    {
+                                         offset:1,
+                                         color:'#E04F23'
+                                     }]),
+                                     new echarts.graphic.LinearGradient(0,0,0,1,[
+                                    {
+                                        offset:0.7,
+                                        color:'#E04F23'
+                                    },
+                                    {
+                                         offset:1,
+                                         color:'#E04F23'
+                                     }]),
+                                     new echarts.graphic.LinearGradient(0,0,0,1,[
+                                    {
+                                        offset:0.7,
+                                        color:'#E04F23'
+                                    },
+                                    {
+                                         offset:1,
+                                         color:'#E04F23'
+                                     }]),
+                                    new echarts.graphic.LinearGradient(0,0,0,1,[
+                                    {
+                                        offset:0.7,
+                                        color:'#71D045'
+                                    },
+                                    {
+                                         offset:1,
+                                         color:'#71D045'
+                                     }])
+                                    ];
+
+                                return colorList[params.dataIndex]
+                            },
+                            show:false
+                        }
+                    }
+                }
+            ]
+        };
+
+        var data = '[{"v":"[58000, 59000, 60000, 61000, 61500,60000]","t":1528358866224,"k":{"o":"cost_shift_pred","l":"cost_shift_pred"}},{"v":"[57000, 57200, 59000, 60000, 60800, 61000]","t":1528358866224,"k":{"o":"cost_shift_real","l":"cost_shift_real"}},{"v":"[0.3, 0.2, 0.1, 0.2, 0.3, -0.3]","t":1528358866224,"k":{"o":"cost_shift_diff","l":"cost_shift_diff"}}]';
+        self.onDataUpdated(data);
+    }
+
+    self.onDataUpdated = function(data){
+        data=JSON.parse(data);
+        self.ctx.$.each(data,function(i,obj){
+            eval("self.data.da." + obj.k.o + "='" + obj.v + "'");
+        });
+        console.log(self.data.da);
+        debugger;
+        self.data.da.cost_shift_pred= eval('('+self.data.da.cost_shift_pred+')');
+        self.data.da.cost_shift_real= eval('('+self.data.da.cost_shift_real+')');
+        self.data.da.cost_shift_diff= eval('('+self.data.da.cost_shift_diff+')');
+        self.data.option.series[0].data = self.data.da.cost_shift_pred;
+        self.data.option.series[1].data = self.data.da.cost_shift_real;
+        self.data.option.series[2].data = self.data.da.cost_shift_diff;
+
+        self.data.cost_shift_pred=self.avg(self.data.da.cost_shift_pred);
+        self.data.cost_shift_real=self.avg(self.data.da.cost_shift_real);
+        self.data.cost_shift_diff=self.avg(self.data.da.cost_shift_diff);
+
+
+        self.data.myChart.setOption(self.data.option,true);
+    };
+
+    self.onResize = function () {
+    };
+
+    self.onDestroy = function () {
+        console.log("销毁")
+    };
+
+    self.getData = function () {
+
+    };
+    self.avg=function(dataIntArr) {
+        var avg=0;
+        for(var i=0;i<dataIntArr.length;i++){
+
+            avg+=parseFloat(dataIntArr[i]);
+        }
+        return avg/dataIntArr.length;
+    };
+
+    // 测试环境构造
+    var app = new Vue({
+        el: '#maxiot_FMCS_table_app',
+        data: {
+            cost_shift_pred:56000,
+            cost_shift_real:57806,
+            cost_shift_diff:1806
+        },
+        mounted: function () {
+            self.data = Object.assign({}, {...self.data}, this.$data);
+            console.log(self);
+            self.onInit();
+        }
+    });
+
+
+</script>

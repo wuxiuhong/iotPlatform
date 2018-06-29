@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/echarts.js"></script>
+    <style>
+        body{
+            background-color: #292c4a;
+        }
+        .top-row{
+            height: 40px;
+            line-height: 40px;
+        }
+        .col1{
+            width:auto;
+            font-size:14px;
+            float:left;
+            letter-spacing: 2px;
+        }
+        .col1 img{
+            vertical-align: middle;
+        }
+        .obj {
+            clear:both;
+            height: 0px;
+            width:100%;
+            min-width:300px;
+            border: 1px solid rgba(24, 174, 156,0.5);
+
+            border-radius: 0 50% 50% 0;
+        }
+        .infomore{
+            margin-top:13px;
+            width:16px;
+            height:16px;
+            line-height:16px;
+            border-radius:10px;
+            background-color: rgba(254,254,254,.5);;
+            float:right;
+            text-align:center;
+            color:rgba(0,0,0,.5);
+            font-size:12px;
+            font-weight:bold;
+        }
+    </style>
+</head>
+<body>
+
+<div id="maxiot_cd_chart4_main" style="width:100%;height:400px;"></div>
+</body>
+</html>
+
+<script src="js/jquery-3.3.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script>
+
+       var self = {
+        ctx:{
+            $: $,
+            $element: document,
+            echarts: echarts
+        }
+        };
+
+        self.data = {
+            da:{},
+            option:{},
+            myChart:{}
+        };
+
+        self.onInit = function(){
+            self.data.myChart = self.ctx.echarts.init(self.ctx.$element.querySelector('#maxiot_cd_chart4_main'));
+            self.data.option = {
+               title:{
+                    text:'空压机能效分析 ',
+                    left:'7%',
+                    top:'0%',
+                    textStyle:{
+                                color:'#fff',
+                                fontStyle:'normal',
+                                fontFamily:'MicrosoftYaHei',
+                                fontSize:16,
+                                letterSpacing:0.08
+                    },
+                    subtext:'16:00-17:00',
+                    subtextStyle:{
+                                color:'rgba(255,255,255,0.54)',
+                                fontStyle:'normal',
+                                fontFamily:'PingFangSC-Regular',
+                                fontSize:12,
+                                letterSpacing:0.06,
+                                lineHeight:12,
+                                marginBottom:20
+                    }
+               },
+               grid:{
+                   top:90
+               },
+               toolbox: {
+                    feature: {
+                        dataView: {show: true, readOnly: false},
+                        magicType: {show: true, type: ['line', 'bar']},
+                        restore: {show: true},
+                        saveAsImage: {show: true}
+                    }
+               },
+               color:['#00D4BD','#EB73C7'],
+               legend: {
+                    data:['平均压力','平均耗电量'],
+                    icon:'bar',
+                    itemWidth:15,
+                    textStyle:{
+                                color:'rgba(255,255,255,0.54)',
+                                fontStyle:'normal',
+                                fontFamily:'MicrosoftYaHei',
+                                fontSize:12,
+                                letterSpacing:-0.07,
+                                lineHeight:11
+                    }
+               },
+               tooltip:{
+                    show:true,
+                    trigger:'axis'
+               },
+               xAxis: [
+                    {
+                        type: 'category',
+                        boundaryGap:true,
+                        name:'空压机编号',
+                        nameTextStyle:{
+                            fontFamily: 'NotoSans',
+                            fontSize: '12',
+                            color: 'rgba(255,255,255,0.87)',
+                            textAlign:'center'
+                        },
+                        nameLocation:'center',
+                        nameGap:'30',
+                        data:['#1','#2','#3','#4','#5','#6','#7','#8','#9','#10'],
+                         axisLabel:{
+                            fontFamily: 'NotoSans;',
+                            fontSize: '12',
+                            color: 'rgba(255,255,255,0.87)',
+                            lineHeight: '12',
+                            textAlign:'center'
+                        },
+                        axisLine:{
+                                lineStyle:{
+                                    color:'rgba(255,255,255,0.54)'
+                                }
+                        },
+                        axisTick:{
+                            alignWithLabel:false,
+                            inside:true
+                        },
+                        splitLine: {
+                            show: false
+                        }
+                    }
+               ],
+               yAxis: [
+                    {
+                        type: 'value',
+                        name:'压力 (psi)',
+                        nameTextStyle:{
+                            fontFamily: 'PingFangSC-Regular',
+                            fontSize: '12',
+                            color: '#50E3C2',
+                            lineHeight:12,
+                        },
+                        min: 0,
+                        max: 10.0,
+                        interval:1.0 ,
+                        axisLine:{
+                                lineStyle:{
+                                    color:'rgba(255,255,255,0.54)'
+                                }
+                        },
+                        axisLabel:{
+                            fontFamily: 'NotoSans',
+                            fontSize: '12',
+                            color: '#50E3C2',
+                            lineHeight: '12',
+                            textAlign:'right'
+                        },
+                        axisTick:{
+                            show:false
+                        }
+                    },
+                    {
+                        type: 'value',
+                        name:'耗电量 (KW)',
+                        nameTextStyle:{
+                            fontFamily: 'PingFangSC-Regular',
+                            fontSize: '12',
+                            color: '#EB73C7',
+                            textAlign:'right',
+                            lineHeight:12
+                        },
+                        min: 0,
+                        max: 20000,
+                        interval:2000 ,
+                        axisLine:{
+                                lineStyle:{
+                                    color:'rgba(255,255,255,0.54)'
+                                }
+                        },
+                        axisLabel:{
+                            fontFamily: 'NotoSans',
+                            fontSize: '12',
+                            color: '#EB73C7',
+                            lineHeight: '12',
+                            textAlign:'right'
+                        },
+                        axisTick:{
+                            show:false
+                        }
+                    }
+               ],
+               series: [
+                    {
+                        name:'平均压力',
+                        type:'bar',
+                        barGap:'70%',
+                        barWidth:12,
+                        data:[],
+                        itemStyle:{
+                            normal:{
+                                color:'#00D4BD',
+                                show:false
+                            }
+                        }
+                    },
+                    {
+                        name:'平均耗电量',
+                        type:'bar',
+                        barWidth:12,
+                        data:[],
+                        itemStyle:{
+                            normal:{
+                                color:'#EB73C7',
+                                show:false
+                            }
+                        }
+                    }
+               ]
+            };
+
+            var data ='[{ "v":"[5.6,7.3,7.8,9.0,8.7,8.5,8.0,8.4,9.0,8.8]", "t":1528358866224, "k":{"o":"pressure","l":"pressure"} }, { "v":"[6.3,7.9,8.7,9.2,9.1,9.5,8.7,9.4,9.5,8.95]", "t":1528358866224, "k":{"o":"cda_power_per_minute","l":"cda_power_per_minute"}}]';
+            self.onDataUpdated(data);
+
+        };
+
+        self.onDataUpdated = function(data){
+
+            data=JSON.parse(data);
+            self.ctx.$.each(data,function(i,obj){
+                eval("self.data.da." + obj.k.o + "='" + obj.v + "'");
+            });
+
+            self.data.da.pressure= eval('('+self.data.da.pressure+')');
+            self.data.da.cda_power_per_minute= eval('('+self.data.da.cda_power_per_minute+')');
+
+            self.data.option.series[0].data = self.data.da.pressure;
+            self.data.option.series[1].data = self.data.da.cda_power_per_minute;
+
+
+            self.data.myChart.setOption(self.data.option,true);
+        };
+
+        self.onResize = function () {
+        };
+
+        self.onDestroy = function () {
+            console.log("销毁")
+        };
+
+        self.getData = function () {
+
+        };
+
+
+        // 测试环境构造
+        var app = new Vue({
+            el: '#maxiot_cd_chart4_main',
+            data: {
+                da:[
+                     { "v":"[5.6,7.3,7.8,9.0,8.7,8.5,8.0,8.4,9.0,8.8]", "t":1528358866224, "k":{"o":"pressure","l":"pressure"} },
+                     { "v":"[6.3,7.9,8.7,9.2,9.1,9.5,8.7,9.4,9.5,8.95]", "t":1528358866224, "k":{"o":"cda_power_per_minute","l":"cda_power_per_minute"}}
+                   ]
+
+            },
+            mounted: function () {
+                self.data = Object.assign({}, {...self.data}, this.$data);
+                console.log(self);
+                self.onInit();
+            }
+        });
+
+
+</script>

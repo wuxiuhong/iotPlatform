@@ -1,0 +1,10 @@
+﻿[
+	{
+		"label": "tool_wear",
+		"valueFunc": "return {\n    tool_wear:\"\"}\n//刀具磨损量"
+	},
+	{
+		"label": "tool_wear_prid",
+		"valueFunc": "return {\n    tool_wear_prid:\"\"}\n//刀具磨损量预测"
+	}
+]

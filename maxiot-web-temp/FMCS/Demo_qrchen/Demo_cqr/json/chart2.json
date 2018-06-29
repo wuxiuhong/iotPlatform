@@ -1,0 +1,13 @@
+﻿[{
+		"label": "cost_shift_pred",
+		"valueFunc": "return {\n    cost_shift_pred:\"\"}\n"
+	},
+	{
+		"label": "cost_shift_real",
+		"valueFunc": "return {\n    cost_shift_real:\"\"}\n"
+	},
+	{
+		"label": "cost_shift_diff",
+		"valueFunc": "return {\n    cost_shift_diff:\"\"}\n"
+	}
+]

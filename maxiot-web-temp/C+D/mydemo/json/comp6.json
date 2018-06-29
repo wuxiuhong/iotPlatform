@@ -1,0 +1,10 @@
+﻿[
+  {
+        "label": "tool_rul",
+        "valueFunc": "return {\n    tool_rul:\"0\"}\n//刀具剩余寿命"
+    },
+  {
+        "label": "tool_rul_perc",
+        "valueFunc": "return {\n    tool_rul_perc:\"0\"}\n//刀具剩余寿命比例"
+    }
+]

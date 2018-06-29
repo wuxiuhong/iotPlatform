@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <style>
+
+        .main{
+            width:100%;
+            height:150px;
+            background-color:#262d45;
+            color:rgba(255,255,255,0.7);
+            font-size:14px;
+            overflow: auto;
+            display:flex;
+            flex-direction:row;
+            justify-content:space-between;
+            align-items:center;
+            padding:10px;
+        }
+        .content{
+            width:30%;
+            height:100%;
+            line-height:100%;
+            margin-top:20px;
+            padding:10px;
+        }
+        .top_txt{
+            width:158px;
+            height:22px;
+            font-family: PingFangSC-Regular;
+            font-size: 16px;
+            color: #FFFFFF;
+            letter-spacing: 0.08px;
+        }
+        .top_txt span:nth-child(2){
+            font-size:12px;
+            color:
+        }
+        .bottom_txt{
+            height:64px;
+            line-height:64px;
+            margin-top:26px;
+        }
+        .btm_left {
+            float:left;
+            width:62px;
+            height:62px;
+            background:#00D4BD;
+            box-shadow:0 0 8px #00D4BD;
+            border-radius:100px;
+            margin-right:24px;
+        }
+        .btm_left img{
+            vertical-align: middle;
+        }
+        .btm_right{
+            float:left;
+        }
+        .btm_right span:first-child{
+            padding:3px 7px;
+            margin-right:10px;
+            background: rgba(255,255,255,0.54);
+            border-radius: 100px;
+            font-family: PingFangSC-Regular;
+            font-size: 12px;
+            color: #262D45;
+            letter-spacing: 0.07px;
+        }
+        .btm_right span:nth-child(2){
+            font-family: NotoSans;
+            font-size: 30px;
+            color: #00D4BD;
+            letter-spacing: 0.17px;
+            line-height: 26px;
+            position:relative;
+            top:5px;
+        }
+
+    </style>
+
+</head>
+<body>
+<div  id="maxiot_cd_comp1_app" class="main">
+    <div class="content">
+        <div>
+            <div class="top_txt"><span>昨日空压机成本</span> <span>(CN¥)</span></div>
+            <div class="bottom_txt">
+                <div class="btm_left"><img src="svg/cda/a.svg" alt=""></div>
+                <div class="btm_right"><span>合計</span><span id="cost_day_real">{{da.cost_day_real}}</span></div>
+            </div>
+        </div>
+    </div>
+    <div class="content">
+        <div>
+            <div class="top_txt"><span>昨日氮气成本</span> <span>(CN¥)</span></div>
+            <div class="bottom_txt">
+                <div class="btm_left"><img src="svg/n2bottle.svg" alt=""></div>
+                <div class="btm_right"><span>合計</span><span id="cost_day_real_N2">{{da.cost_day_real_N2}}</span></div>
+            </div>
+        </div>
+    </div>
+    <div class="content">
+        <div>
+            <div class="top_txt"><span>氮气開啟次數 </span><span>(次)</span></div>
+            <div class="bottom_txt">
+                <div class="btm_left"><img src="svg/n2open.svg" alt=""></div>
+                <div class="btm_right"><span>合計</span><span id="N2_open">{{da.N2_open}}</span></div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>
+<script src="js/jquery-3.3.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script>
+
+    var self = {
+        ctx: {
+            $: $
+        }
+    };
+
+    self.data = {
+        da: {},
+    };
+
+    self.onInit = function () {
+
+            var data = [
+                {
+                    v:56890,
+                    t:1528358866224,
+                    k:{o:"cost_day_real",l:"cost_day_real"}
+                },
+                {
+                    v:3620,
+                    t:1528358866224,
+                    k:{o:"cost_day_real_N2",l:"cost_day_real_N2"}
+                },
+                {
+                    v:2,
+                    t:1528358866224,
+                    k:{o:"N2_open",l:"N2_open"}
+                }
+            ];
+            self.onDataUpdated(data);
+    };
+
+    self.toThousands = function(num){
+        return (num || 0).toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,');
+    };
+
+    self.onDataUpdated = function (data) {
+        self.ctx.$.each(data, function (i, obj) {
+            eval("self.data.da." + obj.k.o + "='" + obj.v + "'");
+        });
+        self.data.da.cost_day_real = self.toThousands(self.data.da.cost_day_real);
+        self.data.da.cost_day_real_N2 = self.toThousands(self.data.da.cost_day_real_N2);
+    };
+
+    self.onResize = function () {
+
+    };
+
+    self.onDestroy = function () {
+        console.log("销毁")
+    };
+
+    // 测试环境构造
+    var app = new Vue({
+        el: '#maxiot_cd_comp1_app',
+        data: {
+            da:{cost_day_real:"56890",cost_day_real_N2:"3620",N2_open:"2"}
+        },
+        mounted: function () {
+            self.data = Object.assign({}, {...self.data}, this.$data);
+            console.log(self);
+            self.onInit();
+        }
+    });
+</script>

@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <style>
+body{
+    margin:0;
+    padding:0;
+}
+.main{
+    width:100%;
+    height:260px;
+    background-color:#262d45;
+    color:rgba(255,255,255,0.7);
+    font-size:14px;
+    overflow: auto;
+    padding-top:20px;
+    padding-left:20px;
+}
+.caption{
+    font-family: PingFangSC-Regular;
+    font-size: 16px;
+    color: #FFFFFF;
+    letter-spacing: 0.08px;
+    text-align: left;
+    margin-bottom:16px;
+}
+.usage{
+    height:10%;
+    line-height:10%;
+    margin-bottom:4px;
+}
+.usage div{
+    display:inline-block;
+}
+.usageshadow{
+    background-image: linear-gradient(-147deg, #00D4BD 50%, rgba(2,222,212,0.70) 99%);
+    box-shadow: 0 0 6px 0 #00D4BD;
+
+}
+.usage div span:nth-child(2){
+    font-family: NotoSans;
+    font-size: 30px;
+    color: #00D4BD;
+    letter-spacing: 0.17px;
+    line-height: 30px;
+    padding-left:10px;
+}
+sub{
+    font-size:large;
+    color:#00D4BD;
+}
+.textFile{
+    position:relative;
+    top:-5px;
+    font-family:PingFangSC-Regular;
+    color:rgba(255,255,255,0.54);
+    letter-spacing:0.07px;
+    text-align:left;
+
+}
+.itemlist{
+    width:100%;
+    height:70%;
+}
+.top_row,
+.bottom_row{
+    width:90%:
+    height:50%;
+    display:flex;
+    flex-direction:row;
+    justify-content:space-between;
+    align-items:center;
+}
+.item{
+    width:160px;
+    height:90px;
+}
+.item_img{
+    width:64px;
+    height:64px;
+    float:left;
+    margin-top:13px;
+    margin-left:8px;
+    margin-right:12px;
+    border-radius:50%;
+
+}
+.item_img img{
+    vertical-align:middle;
+}
+.item_txt{
+    float:left;
+    width:48px;
+    height:40px;
+    margin-top:26px;
+    margin-right:28px;
+    margin-bottom:24px;
+    font-family: NotoSans;
+    font-size: 16px;
+    letter-spacing: 0.08px;
+    line-height: 20px;
+}
+
+    </style>
+
+</head>
+<body>
+<div  id="maxiot_cd_comp2_app" class="main">
+    <div class="caption">空压机裕度</div>
+    <div class="usage">
+        <div><span class = 'textTile'>已啟用&nbsp;</span><span id="CDA_per">{{da.CDA_per*100}}</span><sub>%</sub></div>&nbsp;&nbsp;
+        <div style = "padding-left:15px"><span class = 'textTile'>未啟用&nbsp;</span><span id="CDA_notopened">{{(1-da.CDA_per)*100}}</span><sub>%</sub></div>
+    </div>
+    <div class="itemlist">
+        <div class="top_row">
+            <div class="item">
+                <div class="item_img"><img src="svg/cda/d.svg" alt=""></div>
+                <div class="item_txt"><span>#1</span><br><span>400hp</span></div>
+            </div>
+            <div class="item">
+                <div class="item_img usageshadow"><img src="svg/cda/a.svg" alt=""></div>
+                <div class="item_txt"><span>#2</span><br><span>900hp</span></div>
+            </div>
+            <div class="item">
+                <div class="item_img usageshadow"><img src="svg/cda/a.svg" alt=""></div>
+                <div class="item_txt"><span>#3</span><br><span>1500hp</span></div>
+            </div>
+            <div class="item">
+                <div class="item_img"><img src="svg/cda/d.svg" alt=""></div>
+                <div class="item_txt"><span>#4</span><br><span>1500hp</span></div>
+            </div>
+            <div class="item">
+                <div class="item_img usageshadow"><img src="svg/cda/a.svg" alt=""></div>
+                <div class="item_txt"><span>#5</span><br><span>1500hp</span></div>
+            </div>
+        </div>
+        <div class="bottom_row">
+            <div class="item">
+                <div class="item_img"><img src="svg/cda/d.svg" alt=""></div>
+                <div class="item_txt"><span>#6</span><br><span>1500hp</span></div>
+            </div>
+            <div class="item">
+                <div class="item_img usageshadow"><img src="svg/cda/a.svg" alt=""></div>
+                <div class="item_txt"><span>#7</span><br><span>1500hp</span></div>
+            </div>
+            <div class="item">
+                <div class="item_img"><img src="svg/cda/d.svg" alt=""></div>
+                <div class="item_txt"><span>#8</span><br><span>1500hp</span></div>
+            </div>
+            <div class="item">
+                <div class="item_img"><img src="svg/cda/d.svg" alt=""></div>
+                <div class="item_txt"><span>#9</span><br><span>1500hp</span></div>
+            </div>
+            <div class="item">
+                <div class="item_img usageshadow"><img src="svg/cda/a.svg" alt=""></div>
+                <div class="item_txt"><span>#10</span><br><span>1500hp</span></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
+<script src="js/jquery-3.3.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script>
+
+    var self = {
+        ctx:{
+            $:$,
+        }
+    };
+
+    self.data = {
+        da:{}
+    };
+
+    self.onInit = function(){
+        var data = [
+             {
+                "v":0.5,
+                "t":1528358866224,
+                "k":{"o":"CDA_per","l":"CDA_per"}
+             },
+             {
+                "v":"[0,1,1,0,1,0,1,0,0,1]",
+                "t":1528358866224,
+                "k":{"o":"CDA_open","l":"CDA_open"}
+             }
+        ];
+        self.onDataUpdated(data);
+    };
+
+    self.onDataUpdated = function(data){
+        self.ctx.$.each(data,function(i,obj){
+            eval("self.data.da." + obj.k.o + "='" + obj.v + "'");
+        });
+
+        self.data.da.CDA_open = eval('('+ self.data.da.CDA_open +')');
+
+        var CDA_per = self.data.da.CDA_per * 100;
+        var CDA_notopened = (1 - self.data.da.CDA_per) * 100;
+
+        var open_arr = self.data.da.CDA_open;
+
+        for(var i=0;i<5;i++){
+            if(open_arr[i] == 0){
+                self.ctx.$(".top_row .item .item_img").eq(i).css("background-color","rgba(255,255,255,0.54)");
+                self.ctx.$(".top_row .item .item_txt").eq(i).css("color","rgba(255,255,255,0.54)");
+            }else if(open_arr[i] == 1){
+                self.ctx.$(".top_row .item .item_img").eq(i).css("background-color","#00D4BD");
+                self.ctx.$(".top_row .item .item_txt").eq(i).css("color","#00D4BD");
+            }
+        };
+        for(var i=5;i<10;i++){
+            if(open_arr[i] == 0){
+                self.ctx.$(".bottom_row .item .item_img").eq(i - 5).css("background-color","rgba(255,255,255,0.54)");
+                self.ctx.$(".bottom_row .item .item_txt").eq(i - 5).css("color","rgba(255,255,255,0.54)");
+            }else if(open_arr[i] == 1){
+                self.ctx.$(".bottom_row .item .item_img").eq(i - 5).css("background-color","#00D4BD");
+                self.ctx.$(".bottom_row .item .item_txt").eq(i - 5).css("color","#00D4BD");
+            }
+        };
+    }
+
+    self.onResize = function () {
+
+    };
+
+    self.onDestroy = function () {
+        console.log("销毁")
+    };
+
+
+    self.set = function () {
+    };
+
+    self.getstatus = function () {
+
+    };
+
+    self.onClick = function () {
+        console.log("click");
+    };
+
+    self.ctx.$(window).resize(function () {
+
+    });
+
+    // 测试环境构造
+    var app = new Vue({
+        el: '#maxiot_cd_comp2_app',
+        data: {
+            da:{
+                "CDA_per":0,
+                "CDA_notopened":0
+            }
+        },
+        mounted: function(){
+            self.data = Object.assign({}, {...self.data}, this.$data);
+            console.log(self);
+            self.onInit();
+        }
+    });
+</script>

@@ -1,0 +1,9 @@
+﻿[{
+		"label": "CDA_schedule",
+		"valueFunc": "return {\n    CDA_schedule:\"\"}\n"
+	},
+	{
+		"label": "CDA_wake_up",
+		"valueFunc": "return {\n    CDA_wake_up:\"\"}\n"
+	}
+]

@@ -1,0 +1,14 @@
+﻿[
+    {
+        "label": "cost_day_real",
+        "valueFunc": "return {\n    cost_day_real:\"\"}\n"
+    },
+    {
+        "label": "cost_day_real_N2",
+         "valueFunc": "return {\n    cost_day_real_N2:\"\"}\n"
+    },
+    {
+        "label": "N2_open",
+        "valueFunc": "return {\n    N2_open:\"\"}\n"
+    }
+]

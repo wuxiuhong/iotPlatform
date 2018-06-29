@@ -1,0 +1,13 @@
+﻿[{
+		"label": "spindle_alarm",
+		"valueFunc": "return {\n    spindle_alarm:\"0\"}\n//主轴报警"
+	},
+	{
+		"label": "RPM_set",
+		"valueFunc": "return {\n    RPM_set:\"0\"}\n//主轴设定转速"
+	},
+	{
+		"label": "RPM_actual",
+		"valueFunc": "return {\n    RPM_actual:\"0\"}\n//主轴实际转速"
+	}
+]

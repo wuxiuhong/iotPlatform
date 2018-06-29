@@ -1,0 +1,18 @@
+﻿[
+    {
+        "label": "spindle_current",
+        "valueFunc": "return {\n    spindle_current:\"0\"}\n//电流"
+    },
+    {
+        "label": "spindle_front_bearing_temp",
+        "valueFunc": "return {\n    spindle_front_bearing_temp:\"0\"}\n//前轴承温度"
+    },
+    {
+        "label": "spindle_back_bearing_temp",
+        "valueFunc": "return {\n    spindle_back_bearing_temp:\"0\"}\n//后轴承温度"
+    },
+    {
+        "label": "spindle_load",
+        "valueFunc": "return {\n    spindle_load:\"0\"}\n//负载"
+    }
+]

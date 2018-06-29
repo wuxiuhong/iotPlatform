@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body {
+            background-color: #292c4a;
+            color: #07b3a5;
+            font-weight: bold;
+        }
+
+        .top-row {
+            height: 40px;
+            line-height: 40px;
+            font-family: "Microsoft YaHei";
+        }
+
+        .col1 {
+            width: auto;
+            font-size: 14px;
+            float: left;
+            letter-spacing: 2px;
+            color: #07b3a5;
+        }
+
+        .col1 img {
+            vertical-align: middle;
+        }
+
+        .obj {
+            clear: both;
+            height: 0px;
+            width: 100%;
+            min-width: 300px;
+            border: 1px solid rgba(24, 174, 156, 0.5);
+
+            border-radius: 0 50% 50% 0;
+        }
+
+        .infomore {
+            margin-top: 13px;
+            width: 16px;
+            height: 16px;
+            line-height: 16px;
+            border-radius: 10px;
+            /* background-color: rgba(254,254,254,.5);;*/
+            background: url(svg/info/n.svg) no-repeat;
+            float: right;
+            text-align: center;
+            color: rgba(0, 0, 0, .5);
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .infomore:hover {
+            background: url(svg/info/h.svg) no-repeat;
+            conent: "";
+        }
+    </style>
+</head>
+<body>
+<div id="maxiot_cd_comp7_main" class="top-row">
+    <div class="col1" id="title">
+        <embed src="svg/bullet/green.svg"/>&nbsp;&nbsp;{{da.comp_title}}
+    </div>
+    <div class="infomore"></div>
+</div>
+</body>
+</html>
+<script src="js/jquery-3.3.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script>
+
+
+    var self = {
+        ctx : {
+            $ : $
+        }
+    };
+
+    self.data = {
+        da : {},
+        i : 1
+    };
+
+    self.onInit = function () {
+        var data = [
+            {
+                v : "刀具磨损量预测",
+                t : 1528358866224,
+                k : {o : "comp_title", l : "comp_title"}
+            }
+        ];
+        self.onDataUpdated(data);
+    };
+
+    self.onDataUpdated = function (data) {
+        //  data=JSON.parse(data);    //正式打开
+        console.log("comp7:"+data);
+        self.ctx.$.each(data, function (i, obj) {
+            eval("self.data.da." + obj.k.o + "='" + obj.v + "'");
+        });
+    };
+
+    self.onResize = function () {
+
+    };
+    self.onDestroy = function () {
+
+    };
+    self.onPendding = function () {
+
+    };
+    // 测试环境构造
+    var app = new Vue({
+        el : '#maxiot_cd_comp7_main',
+        data : {
+            da : {
+                comp_title : '刀具磨损量预测'
+            }
+        },
+        mounted : function () {
+            self.data = Object.assign({}, {...self.data}, this.$data);
+            self.onInit();
+        }
+    });
+
+
+
+</script>

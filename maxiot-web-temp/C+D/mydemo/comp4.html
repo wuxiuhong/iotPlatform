@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body{
+            background-color:#262d45;
+        }
+        .maxiot-cd-comp4-main{
+            width:100%;
+            height:80px;
+            background-color:#262d45;
+            border-bottom:1px solid rgba(255,255,255,0.3);
+            font-size:12px;
+        }
+        .row-item{
+            height:45px;
+            float:left;
+            width:110px;
+        color:rgba(255,255,255,0.5);
+        }
+
+        .row-item div img{
+            vertical-align: middle;
+        }
+        .col1{
+            width:20px;
+            text-align: left;
+            padding-left:0px;
+            float:left;
+
+            padding-top:22px;
+        }
+        .col2{
+            text-align: right;
+            padding-left:13px;
+            font-size:46px;
+            width:50px;
+            float:left;
+
+            height: 40px;
+        }
+        .col3{
+            width:20px;
+            text-align: left;
+            padding-left:5px;
+            float:left;
+
+            padding-top:25px;
+            font-size:20px;
+        }
+        .statusok{
+            color:#01c6fd;
+        }
+.alarm{
+    color:#EAb62A;
+}
+        .colorwhite{
+            color:rgba(255,255,255,0.5);
+        }
+    </style>
+</head>
+<body>
+<div id="maxiot_cd_comp4_app" class="maxiot-cd-comp4-main">
+
+<div class="row-item statusok ">
+    <div class="colorwhite">电流</div>
+    <div class="col1"><img src="svg/spindleData/elect/n.svg"/></div><div class="col2" id="spindle_current">{{da.spindle_current}}</div><div class="col3">A</div>
+</div>
+    <div class="row-item" style="margin-left:calc((100% - 440px)/3)">
+        <div>前轴承温度</div>
+        <div id="font-div" v-bind:class="da.spindle_front_bearing_temp>40 ? 'alarm':'statusok'">
+        <div id="front-img" class="col1" >
+            <img v-if="data.alarm1" src="svg/spindleData/temp/a.svg"/>
+            <img v-else src="svg/spindleData/temp/n.svg"/>
+        </div>
+            <div class="col2" id="temp_front_bearing">{{da.spindle_front_bearing_temp}}</div>
+            <div v-if="data.alarm1" class="col3" >℃</div>
+            <div v-else class="col3">℃</div>
+        </div>
+    </div>
+    <div class="row-item" style="margin-left:calc((100% - 440px)/3)">
+        <div>后轴承温度</div>
+        <div id="back-div"  v-bind:class="da.spindle_back_bearing_temp>40 ? 'alarm':'statusok'">
+        <div  id="back-img" class="col1" >
+            <img v-if="data.alarm2" src="svg/spindleData/temp/a.svg"/>
+            <img v-else src="svg/spindleData/temp/n.svg"/>
+        </div>
+            <div class="col2" id="temp_back_bearing">{{da.spindle_back_bearing_temp}}</div>
+            <div v-if="data.alarm2" class="col3" >℃</div>
+            <div v-else class="col3">℃</div>
+        </div>
+    </div>
+    <div class="row-item statusok" style="margin-left:calc((100% - 440px)/3)">
+        <div class="colorwhite">负载</div>
+        <div class="col1"><img src="svg/spindleData/load/n.svg"/></div><div class="col2" id="spindle_load">{{da.spindle_load}}</div><div class="col3">%</div>
+    </div>
+</div>
+</body>
+</html>
+<script src="js/jquery-3.3.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script>
+    var self = {
+        ctx: {
+            $: $
+        }
+    };
+
+    self.data = {
+        frontw: 35,
+        backw: 35,
+        da:{spindle_front_bearing_temp:'43',
+            spindle_back_bearing_temp:'43',
+            spindle_load:'20',
+            spindle_current:'2'
+        },
+        data:{alarm1:true,alarm2:false}
+    };
+
+    self.getTemp=function(){
+        self.data.frontw++;
+        self.data.backw++;
+        if(self.data.frontw==46){
+            self.data.frontw=35;
+            self.data.backw=35;
+        }
+        return {
+            frontw:self.data.frontw,
+            backw:self.data.backw
+        }
+    };
+    self.onInit=function(){
+//        setInterval(function(){
+//            var getData=self.getTemp();
+//            var data=[
+//                {
+//                    v:getData.frontw,
+//                    t:1528358866224,
+//                    k:{o:"spindle_front_bearing_temp",l:"spindle_front_bearing_temp"}
+//                },
+//                {
+//                    v:getData.backw,
+//                    t:1528358866224,
+//                    k:{o:"spindle_back_bearing_temp",l:"spindle_back_bearing_temp"}
+//                },
+//                {
+//                    v:self.getRandom(0,100),
+//                    t:1528358866224,
+//                    k:{o:"spindle_load",l:"spindle_load"}
+//                },
+//                {
+//                    v:self.getRandom(20,30),
+//                    t:1528358866224,
+//                    k:{o:"spindle_current",l:"spindle_current"}
+//                }];
+//            self.onDataUpdated(data);
+//        },2000);
+    };
+
+    self.onDataUpdated=function(data){
+        //  data=JSON.parse(data);    //正式打开
+        console.log("comp4:"+data);
+      self.ctx.$.each(data,function(i,obj){
+          eval("self.data.da."+obj.k.o+"='"+obj.v+"'");
+      });
+      if(self.data.da.spindle_front_bearing_temp>=40){
+          self.data.data.alarm1=true;
+      }
+      else{
+          self.data.data.alarm1=false;
+      }
+      if(self.data.da.spindle_back_bearing_temp>=40){
+          self.data.data.alarm2=false;
+      }
+      else{
+          self.data.data.alarm2=false;
+      }
+    };
+    self.onResize=function(){
+
+    };
+    self.onDestroy=function(){
+
+    };
+    self.onPendding=function(){
+
+    };
+    self.getRandom=function(min, max){
+        var r = Math.random() * (max - min);
+        var re = Math.round(r + min);
+        re = Math.max(Math.min(re, max), min);
+        return re;
+    };
+
+    var app = new Vue({
+        el: '#maxiot_cd_comp4_app',
+        data: {
+            da: {
+                spindle_front_bearing_temp: "41",
+                spindle_back_bearing_temp: "42",
+                spindle_load: "1",
+                spindle_current: "46"
+            },
+            data:{
+                alarm1:true,
+                alarm2:true
+            }
+        },
+        mounted: function () {
+            self.data = Object.assign({}, {...self.data}, this.$data);
+            self.onInit();
+        }
+    });
+</script>

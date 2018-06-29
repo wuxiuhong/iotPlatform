@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/echarts.js"></script>
+    <style>
+        body{
+            background-color: #262d45;
+        }
+    </style>
+</head>
+<body>
+
+<div id="maxiot_fmcs_chart3_main" style="width: 100%;height:1000px;"></div>
+
+</body>
+</html>
+<script src="js/jquery-3.3.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script>
+
+    var self = {
+        ctx: {
+            $: $,
+            echarts: echarts,
+            $element: document
+        }
+    };
+
+    self.data = {
+        da: {},
+        option: {},
+        myChart:{},
+        data:[],
+        data1:[],
+        data2:[],
+        types:[],
+        n:0,
+        olddata:[],
+        oldtime:0,
+        endtime:0
+    };
+
+    self.renderItem=function(params, api) {
+        var categoryIndex = api.value(0);
+        var start = api.coord([api.value(1), categoryIndex]);
+        var end = api.coord([api.value(2), categoryIndex]);
+        var height = api.size([0, 1])[1] * 0.3;
+
+        return {
+            type: 'rect',
+            shape: echarts.graphic.clipRectByRect({
+                x: start[0]+1,
+                y: start[1] -30,
+                width: end[0] - start[0]+0.3,
+                height: height
+            }, {
+                x: params.coordSys.x,
+                y: params.coordSys.y,
+                width: params.coordSys.width,
+                height: params.coordSys.height
+            }),
+            style: api.style()
+        };
+    };
+    self.renderItem1=function(params, api) {
+        var categoryIndex = api.value(0);
+        var start = api.coord([api.value(1), categoryIndex]);
+        var end = api.coord([api.value(2), categoryIndex]);
+        var height = api.size([0, 1])[1] * 0.3;
+
+        return {
+            type: 'rect',
+            shape: echarts.graphic.clipRectByRect({
+                x: start[0]+1,
+                y: start[1] -8,
+                width: end[0] - start[0]+0.3,
+                height: height
+            }, {
+                x: params.coordSys.x,
+                y: params.coordSys.y,
+                width: params.coordSys.width,
+                height: params.coordSys.height
+            }),
+            style: api.style()
+        };
+    };
+    self.renderItem2=function(params, api) {
+        var categoryIndex = api.value(0);
+        var start = api.coord([api.value(1), categoryIndex]);
+        var end = api.coord([api.value(2), categoryIndex]);
+        var height = 680;
+
+        return {
+            type: 'rect',
+            shape: echarts.graphic.clipRectByRect({
+                x: start[0]+1,
+                y: start[1] -625,
+                width:1,
+                height: 680
+            }, {
+                x: params.coordSys.x,
+                y: params.coordSys.y,
+                width: params.coordSys.width,
+                height: params.coordSys.height
+            }),
+            style: api.style()
+        };
+    };
+
+    self.findPreAction=function(starttime,endtime,n){
+        var arr=self.data.data1.filter(e=>e.value[0]==n);
+
+        for(var i=0;i<arr.length;i++){
+            if(arr[i].value[1]<=starttime&&arr[i].value[2]>=endtime)
+            {
+                return arr[i].name;
+            }
+        }
+        return "";
+    };
+
+    self.findRealAction=function(starttime,endtime,n){
+        var arr=self.data.data.filter(e=>e.value[0]==n);
+        for(var i=0;i<arr.length;i++){
+            if(arr[i].value[1]>=starttime&& arr[i].value[2]<=endtime)
+            {
+                return arr[i].name;
+            }
+        }
+        return "";
+    };
+
+    self.getDatestr=function(date){
+        var date = new Date(date);
+        Y = date.getFullYear() + '-';
+        M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+        D = date.getDate() + ' ';
+        h = date.getHours() + ':';
+        m = date.getMinutes()<10?'0'+date.getMinutes():date.getMinutes();
+
+        return Y+M+D+h+m;
+    }
+
+    self.onInit=function(){
+        self.data.myChart = self.ctx.echarts.init(self.ctx.$element.querySelector('#maxiot_fmcs_chart3_main'));
+
+        var startTime = 1529708400000; // 2018/5/9 11:16:31
+        var categories = ['#1', '#2', '#3', '#4','#5', '#6', '#7', '#8','#9', '#10'];
+        self.data.types = [{
+            name: '预计开启',
+            color: '#00b2a5',
+            icon:'image://svg/red.png'
+        },{
+            name: '实际开启',
+            color: '#c665ad',
+            icon:'image://svg/green.png'
+        },{
+                name: '机台关闭',
+                color: '#c665ad',
+            icon:'image://svg/close.png'
+            }
+        ];
+
+        self.data.data = [
+        ];
+
+        self.data.data1 = [
+            {name: '开启',value: [0, 1529708400000, 1529708400000 + 3600000, 3600000],itemStyle:{normal: {color: '#c665ad'}}},
+            {name: '关闭',value: [0,  1529708400000 + 3600000,  1529708400000 + 3600000*2, 3600000],itemStyle:{normal: {color: '#1a2031'}}},
+            {name: '开启',value: [0, 1529708400000 + 3600000*2,1529708400000 + 3600000*3, 3600000],itemStyle:{normal: {color: '#c665ad'}}},
+            {name: '关闭',value: [0, 1529708400000 + 3600000*3, 1529708400000 + 3600000*4, 3600000],itemStyle:{normal: {color: '#1a2031'}}},
+            {name: '开启',value: [0, 1529708400000 + 3600000*4,1529708400000 + 3600000*5, 3600000],itemStyle:{normal: {color: '#c665ad'}}},
+            {name: '关闭',value: [0, 1529708400000 + 3600000*5, 1529708400000 + 3600000*6, 3600000],itemStyle:{normal: {color: '#1a2031'}}},
+            {name: '开启',value: [0, 1529708400000 + 3600000*6,1529708400000 + 3600000*7, 3600000],itemStyle:{normal: {color: '#c665ad'}}},
+            {name: '关闭',value: [0, 1529708400000 + 3600000*7, 1529708400000 + 3600000*8, 3600000],itemStyle:{normal: {color: '#1a2031'}}},
+            {name: '开启',value: [0, 1529708400000 + 3600000*8,1529708400000 + 3600000*9, 3600000],itemStyle:{normal: {color: '#c665ad'}}},
+            {name: '关闭',value: [0, 1529708400000 + 3600000*9, 1529708400000 + 3600000*10, 3600000],itemStyle:{normal: {color: '#1a2031'}}},
+            {name: '开启',value: [0, 1529708400000 + 3600000*10,1529708400000 + 3600000*11, 3600000],itemStyle:{normal: {color: '#c665ad'}}},
+            {name: '关闭',value: [0, 1529708400000 + 3600000*11, 1529708400000 + 3600000*12, 3600000],itemStyle:{normal: {color: '#1a2031'}}},
+
+            {name: '开启',value: [1, 1529708400000, 1529708400000 + 3600000, 3600000],itemStyle:{normal: {color: '#c665ad'}}},
+            {name: '关闭',value: [1,  1529708400000 + 3600000,  1529708400000 + 3600000*2, 3600000],itemStyle:{normal: {color: '#1a2031'}}},
+            {name: '开启',value: [1, 1529708400000 + 3600000*2,1529708400000 + 3600000*3, 3600000],itemStyle:{normal: {color: '#c665ad'}}},
+            {name: '关闭',value: [1, 1529708400000 + 3600000*3, 1529708400000 + 3600000*4, 3600000],itemStyle:{normal: {color: '#1a2031'}}},
+            {name: '开启',value: [1, 1529708400000 + 3600000*4,1529708400000 + 3600000*5, 3600000],itemStyle:{normal: {color: '#c665ad'}}},
+            {name: '关闭',value: [1, 1529708400000 + 3600000*5, 1529708400000 + 3600000*6, 3600000],itemStyle:{normal: {color: '#1a2031'}}},
+            {name: '开启',value: [1, 1529708400000 + 3600000*6,1529708400000 + 3600000*7, 3600000],itemStyle:{normal: {color: '#c665ad'}}},
+            {name: '关闭',value: [1, 1529708400000 + 3600000*7, 1529708400000 + 3600000*8, 3600000],itemStyle:{normal: {color: '#1a2031'}}},
+            {name: '开启',value: [1, 1529708400000 + 3600000*8,1529708400000 + 3600000*9, 3600000],itemStyle:{normal: {color: '#c665ad'}}},
+            {name: '关闭',value: [1, 1529708400000 + 3600000*9, 1529708400000 + 3600000*10, 3600000],itemStyle:{normal: {color: '#1a2031'}}},
+            {name: '开启',value: [1, 1529708400000 + 3600000*10,1529708400000 + 3600000*11, 3600000],itemStyle:{normal: {color: '#c665ad'}}},
+            {name: '关闭',value: [1, 1529708400000 + 3600000*11, 1529708400000 + 3600000*12, 3600000],itemStyle:{normal: {color: '#1a2031'}}},
+
+            {name: '开启',value: [2, 1529708400000, 1529708400000 + 3600000, 3600000],itemStyle:{normal: {color: '#c665ad'}}},
+            {name: '关闭',value: [2,  1529708400000 + 3600000,  1529708400000 + 3600000*2, 3600000],itemStyle:{normal: {color: '#1a2031'}}},
+            {name: '开启',value: [2, 1529708400000 + 3600000*2,1529708400000 + 3600000*3, 3600000],itemStyle:{normal: {color: '#c665ad'}}},
+            {name: '关闭',value: [2, 1529708400000 + 3600000*3, 1529708400000 + 3600000*4, 3600000],itemStyle:{normal: {color: '#1a2031'}}},
+            {name: '开启',value: [2, 1529708400000 + 3600000*4,1529708400000 + 3600000*5, 3600000],itemStyle:{normal: {color: '#c665ad'}}},
+            {name: '关闭',value: [2, 1529708400000 + 3600000*5, 1529708400000 + 3600000*6, 3600000],itemStyle:{normal: {color: '#1a2031'}}},
+            {name: '开启',value: [2, 1529708400000 + 3600000*6,1529708400000 + 3600000*7, 3600000],itemStyle:{normal: {color: '#c665ad'}}},
+            {name: '关闭',value: [2, 1529708400000 + 3600000*7, 1529708400000 + 3600000*8, 3600000],itemStyle:{normal: {color: '#1a2031'}}},
+            {name: '开启',value: [2, 1529708400000 + 3600000*8,1529708400000 + 3600000*9, 3600000],itemStyle:{normal: {color: '#c665ad'}}},
+            {name: '关闭',value: [2, 1529708400000 + 3600000*9, 1529708400000 + 3600000*10, 3600000],itemStyle:{normal: {color: '#1a2031'}}},
+            {name: '开启',value: [2, 1529708400000 + 3600000*10,1529708400000 + 3600000*11, 3600000],itemStyle:{normal: {color: '#c665ad'}}},
+            {name: '关闭',value: [2, 1529708400000 + 3600000*11, 1529708400000 + 3600000*12, 3600000],itemStyle:{normal: {color: '#1a2031'}}},
+
+            {name: '开启',value: [3, 1529708400000, 1529708400000 + 3600000, 3600000],itemStyle:{normal: {color: '#c665ad'}}},
+            {name: '关闭',value: [3,  1529708400000 + 3600000,  1529708400000 + 3600000*2, 3600000],itemStyle:{normal: {color: '#1a2031'}}},
+            {name: '开启',value: [3, 1529708400000 + 3600000*2,1529708400000 + 3600000*3, 3600000],itemStyle:{normal: {color: '#c665ad'}}},
+            {name: '关闭',value: [3, 1529708400000 + 3600000*3, 1529708400000 + 3600000*4, 3600000],itemStyle:{normal: {color: '#1a2031'}}},
+            {name: '开启',value: [3, 1529708400000 + 3600000*4,1529708400000 + 3600000*5, 3600000],itemStyle:{normal: {color: '#c665ad'}}},
+            {name: '关闭',value: [3, 1529708400000 + 3600000*5, 1529708400000 + 3600000*6, 3600000],itemStyle:{normal: {color: '#1a2031'}}},
+            {name: '开启',value: [3, 1529708400000 + 3600000*6,1529708400000 + 3600000*7, 3600000],itemStyle:{normal: {color: '#c665ad'}}},
+            {name: '关闭',value: [3, 1529708400000 + 3600000*7, 1529708400000 + 3600000*8, 3600000],itemStyle:{normal: {color: '#1a2031'}}},
+            {name: '开启',value: [3, 1529708400000 + 3600000*8,1529708400000 + 3600000*9, 3600000],itemStyle:{normal: {color: '#c665ad'}}},
+            {name: '关闭',value: [3, 1529708400000 + 3600000*9, 1529708400000 + 3600000*10, 3600000],itemStyle:{normal: {color: '#1a2031'}}},
+            {name: '开启',value: [3, 1529708400000 + 3600000*10,1529708400000 + 3600000*11, 3600000],itemStyle:{normal: {color: '#c665ad'}}},
+            {name: '关闭',value: [3, 1529708400000 + 3600000*11, 1529708400000 + 3600000*12, 3600000],itemStyle:{normal: {color: '#1a2031'}}},
+
+            {name: '开启',value: [4, 1529708400000, 1529708400000 + 3600000, 3600000],itemStyle:{normal: {color: '#c665ad'}}},
+            {name: '关闭',value: [4,  1529708400000 + 3600000,  1529708400000 + 3600000*2, 3600000],itemStyle:{normal: {color: '#1a2031'}}},
+            {name: '开启',value: [4, 1529708400000 + 3600000*2,1529708400000 + 3600000*3, 3600000],itemStyle:{normal: {color: '#c665ad'}}},
+            {name: '关闭',value: [4, 1529708400000 + 3600000*3, 1529708400000 + 3600000*4, 3600000],itemStyle:{normal: {color: '#1a2031'}}},
+            {name: '开启',value: [4, 1529708400000 + 3600000*4,1529708400000 + 3600000*5, 3600000],itemStyle:{normal: {color: '#c665ad'}}},
+            {name: '关闭',value: [4, 1529708400000 + 3600000*5, 1529708400000 + 3600000*6, 3600000],itemStyle:{normal: {color: '#1a2031'}}},
+            {name: '开启',value: [4, 1529708400000 + 3600000*6,1529708400000 + 3600000*7, 3600000],itemStyle:{normal: {color: '#c665ad'}}},
+            {name: '关闭',value: [4, 1529708400000 + 3600000*7, 1529708400000 + 3600000*8, 3600000],itemStyle:{normal: {color: '#1a2031'}}},
+            {name: '开启',value: [4, 1529708400000 + 3600000*8,1529708400000 + 3600000*9, 3600000],itemStyle:{normal: {color: '#c665ad'}}},
+            {name: '关闭',value: [4, 1529708400000 + 3600000*9, 1529708400000 + 3600000*10, 3600000],itemStyle:{normal: {color: '#1a2031'}}},
+            {name: '开启',value: [4, 1529708400000 + 3600000*10,1529708400000 + 3600000*11, 3600000],itemStyle:{normal: {color: '#c665ad'}}},
+            {name: '关闭',value: [4, 1529708400000 + 3600000*11, 1529708400000 + 3600000*12, 3600000],itemStyle:{normal: {color: '#1a2031'}}},
+
+            {name: '开启',value: [5, 1529708400000, 1529708400000 + 3600000, 3600000],itemStyle:{normal: {color: '#c665ad'}}},
+            {name: '关闭',value: [5,  1529708400000 + 3600000,  1529708400000 + 3600000*2, 3600000],itemStyle:{normal: {color: '#1a2031'}}},
+            {name: '开启',value: [5, 1529708400000 + 3600000*2,1529708400000 + 3600000*3, 3600000],itemStyle:{normal: {color: '#c665ad'}}},
+            {name: '开启',value: [5, 1529708400000 + 3600000*3, 1529708400000 + 3600000*4, 3600000],itemStyle:{normal: {color: '#c665ad'}}},
+            {name: '开启',value: [5, 1529708400000 + 3600000*4,1529708400000 + 3600000*5, 3600000],itemStyle:{normal: {color: '#c665ad'}}},
+            {name: '开启',value: [5, 1529708400000 + 3600000*5, 1529708400000 + 3600000*6, 3600000],itemStyle:{normal: {color: '#c665ad'}}},
+            {name: '开启',value: [5, 1529708400000 + 3600000*6,1529708400000 + 3600000*7, 3600000],itemStyle:{normal: {color: '#c665ad'}}},
+            {name: '开启',value: [5, 1529708400000 + 3600000*7, 1529708400000 + 3600000*8, 3600000],itemStyle:{normal: {color: '#c665ad'}}},
+            {name: '开启',value: [5, 1529708400000 + 3600000*8,1529708400000 + 3600000*9, 3600000],itemStyle:{normal: {color: '#c665ad'}}},
+            {name: '关闭',value: [5, 1529708400000 + 3600000*9, 1529708400000 + 3600000*10, 3600000],itemStyle:{normal: {color: '#1a2031'}}},
+            {name: '开启',value: [5, 1529708400000 + 3600000*10,1529708400000 + 3600000*11, 3600000],itemStyle:{normal: {color: '#c665ad'}}},
+            {name: '关闭',value: [5, 1529708400000 + 3600000*11, 1529708400000 + 3600000*12, 3600000],itemStyle:{normal: {color: '#1a2031'}}},
+
+            {name: '开启',value: [6, 1529708400000, 1529708400000 + 3600000, 3600000],itemStyle:{normal: {color: '#c665ad'}}},
+            {name: '关闭',value: [6,  1529708400000 + 3600000,  1529708400000 + 3600000*2, 3600000],itemStyle:{normal: {color: '#1a2031'}}},
+            {name: '开启',value: [6, 1529708400000 + 3600000*2,1529708400000 + 3600000*3, 3600000],itemStyle:{normal: {color: '#c665ad'}}},
+            {name: '关闭',value: [6, 1529708400000 + 3600000*3, 1529708400000 + 3600000*4, 3600000],itemStyle:{normal: {color: '#1a2031'}}},
+            {name: '开启',value: [6, 1529708400000 + 3600000*4,1529708400000 + 3600000*5, 3600000],itemStyle:{normal: {color: '#c665ad'}}},
+            {name: '关闭',value: [6, 1529708400000 + 3600000*5, 1529708400000 + 3600000*6, 3600000],itemStyle:{normal: {color: '#1a2031'}}},
+            {name: '开启',value: [6, 1529708400000 + 3600000*6,1529708400000 + 3600000*7, 3600000],itemStyle:{normal: {color: '#c665ad'}}},
+            {name: '关闭',value: [6, 1529708400000 + 3600000*7, 1529708400000 + 3600000*8, 3600000],itemStyle:{normal: {color: '#1a2031'}}},
+            {name: '开启',value: [6, 1529708400000 + 3600000*8,1529708400000 + 3600000*9, 3600000],itemStyle:{normal: {color: '#c665ad'}}},
+            {name: '关闭',value: [6, 1529708400000 + 3600000*9, 1529708400000 + 3600000*10, 3600000],itemStyle:{normal: {color: '#1a2031'}}},
+            {name: '开启',value: [6, 1529708400000 + 3600000*10,1529708400000 + 3600000*11, 3600000],itemStyle:{normal: {color: '#c665ad'}}},
+            {name: '关闭',value: [6, 1529708400000 + 3600000*11, 1529708400000 + 3600000*12, 3600000],itemStyle:{normal: {color: '#1a2031'}}},
+
+            {name: '开启',value: [7, 1529708400000, 1529708400000 + 3600000, 3600000],itemStyle:{normal: {color: '#c665ad'}}},
+            {name: '关闭',value: [7,  1529708400000 + 3600000,  1529708400000 + 3600000*2, 3600000],itemStyle:{normal: {color: '#1a2031'}}},
+            {name: '开启',value: [7, 1529708400000 + 3600000*2,1529708400000 + 3600000*3, 3600000],itemStyle:{normal: {color: '#c665ad'}}},
+            {name: '关闭',value: [7, 1529708400000 + 3600000*3, 1529708400000 + 3600000*4, 3600000],itemStyle:{normal: {color: '#1a2031'}}},
+            {name: '开启',value: [7, 1529708400000 + 3600000*4,1529708400000 + 3600000*5, 3600000],itemStyle:{normal: {color: '#c665ad'}}},
+            {name: '关闭',value: [7, 1529708400000 + 3600000*5, 1529708400000 + 3600000*6, 3600000],itemStyle:{normal: {color: '#1a2031'}}},
+            {name: '开启',value: [7, 1529708400000 + 3600000*6,1529708400000 + 3600000*7, 3600000],itemStyle:{normal: {color: '#c665ad'}}},
+            {name: '关闭',value: [7, 1529708400000 + 3600000*7, 1529708400000 + 3600000*8, 3600000],itemStyle:{normal: {color: '#1a2031'}}},
+            {name: '开启',value: [7, 1529708400000 + 3600000*8,1529708400000 + 3600000*9, 3600000],itemStyle:{normal: {color: '#c665ad'}}},
+            {name: '关闭',value: [7, 1529708400000 + 3600000*9, 1529708400000 + 3600000*10, 3600000],itemStyle:{normal: {color: '#1a2031'}}},
+            {name: '开启',value: [7, 1529708400000 + 3600000*10,1529708400000 + 3600000*11, 3600000],itemStyle:{normal: {color: '#c665ad'}}},
+            {name: '关闭',value: [7, 1529708400000 + 3600000*11, 1529708400000 + 3600000*12, 3600000],itemStyle:{normal: {color: '#1a2031'}}},
+
+            {name: '开启',value: [8, 1529708400000, 1529708400000 + 3600000, 3600000],itemStyle:{normal: {color: '#c665ad'}}},
+            {name: '关闭',value: [8,  1529708400000 + 3600000,  1529708400000 + 3600000*2, 3600000],itemStyle:{normal: {color: '#1a2031'}}},
+            {name: '开启',value: [8, 1529708400000 + 3600000*2,1529708400000 + 3600000*3, 3600000],itemStyle:{normal: {color: '#c665ad'}}},
+            {name: '关闭',value: [8, 1529708400000 + 3600000*3, 1529708400000 + 3600000*4, 3600000],itemStyle:{normal: {color: '#1a2031'}}},
+            {name: '开启',value: [8, 1529708400000 + 3600000*4,1529708400000 + 3600000*5, 3600000],itemStyle:{normal: {color: '#c665ad'}}},
+            {name: '关闭',value: [8, 1529708400000 + 3600000*5, 1529708400000 + 3600000*6, 3600000],itemStyle:{normal: {color: '#1a2031'}}},
+            {name: '开启',value: [8, 1529708400000 + 3600000*6,1529708400000 + 3600000*7, 3600000],itemStyle:{normal: {color: '#c665ad'}}},
+            {name: '关闭',value: [8, 1529708400000 + 3600000*7, 1529708400000 + 3600000*8, 3600000],itemStyle:{normal: {color: '#1a2031'}}},
+            {name: '开启',value: [8, 1529708400000 + 3600000*8,1529708400000 + 3600000*9, 3600000],itemStyle:{normal: {color: '#c665ad'}}},
+            {name: '关闭',value: [8, 1529708400000 + 3600000*9, 1529708400000 + 3600000*10, 3600000],itemStyle:{normal: {color: '#1a2031'}}},
+            {name: '开启',value: [8, 1529708400000 + 3600000*10,1529708400000 + 3600000*11, 3600000],itemStyle:{normal: {color: '#c665ad'}}},
+            {name: '关闭',value: [8, 1529708400000 + 3600000*11, 1529708400000 + 3600000*12, 3600000],itemStyle:{normal: {color: '#1a2031'}}},
+
+            {name: '开启',value: [9, 1529708400000, 1529708400000 + 3600000, 3600000],itemStyle:{normal: {color: '#c665ad'}}},
+            {name: '关闭',value: [9,  1529708400000 + 3600000,  1529708400000 + 3600000*2, 3600000],itemStyle:{normal: {color: '#1a2031'}}},
+            {name: '开启',value: [9, 1529708400000 + 3600000*2,1529708400000 + 3600000*3, 3600000],itemStyle:{normal: {color: '#c665ad'}}},
+            {name: '关闭',value: [9, 1529708400000 + 3600000*3, 1529708400000 + 3600000*4, 3600000],itemStyle:{normal: {color: '#1a2031'}}},
+            {name: '开启',value: [9, 1529708400000 + 3600000*4,1529708400000 + 3600000*5, 3600000],itemStyle:{normal: {color: '#c665ad'}}},
+            {name: '关闭',value: [9, 1529708400000 + 3600000*5, 1529708400000 + 3600000*6, 3600000],itemStyle:{normal: {color: '#1a2031'}}},
+            {name: '开启',value: [9, 1529708400000 + 3600000*6,1529708400000 + 3600000*7, 3600000],itemStyle:{normal: {color: '#c665ad'}}},
+            {name: '关闭',value: [9, 1529708400000 + 3600000*7, 1529708400000 + 3600000*8, 3600000],itemStyle:{normal: {color: '#1a2031'}}},
+            {name: '开启',value: [9, 1529708400000 + 3600000*8,1529708400000 + 3600000*9, 3600000],itemStyle:{normal: {color: '#c665ad'}}},
+            {name: '关闭',value: [9, 1529708400000 + 3600000*9, 1529708400000 + 3600000*10, 3600000],itemStyle:{normal: {color: '#1a2031'}}},
+            {name: '开启',value: [9, 1529708400000 + 3600000*10,1529708400000 + 3600000*11, 3600000],itemStyle:{normal: {color: '#c665ad'}}},
+            {name: '关闭',value: [9, 1529708400000 + 3600000*11, 1529708400000 + 3600000*12, 3600000],itemStyle:{normal: {color: '#1a2031'}}},
+
+            {name: '开启',value: [10, 1529708400000, 1529708400000 + 3600000, 3600000],itemStyle:{normal: {color: '#c665ad'}}},
+            {name: '关闭',value: [10,  1529708400000 + 3600000,  1529708400000 + 3600000*2, 3600000],itemStyle:{normal: {color: '#1a2031'}}},
+            {name: '开启',value: [10, 1529708400000 + 3600000*2,1529708400000 + 3600000*3, 3600000],itemStyle:{normal: {color: '#c665ad'}}},
+            {name: '关闭',value: [10, 1529708400000 + 3600000*3, 1529708400000 + 3600000*4, 3600000],itemStyle:{normal: {color: '#1a2031'}}},
+            {name: '开启',value: [10, 1529708400000 + 3600000*4,1529708400000 + 3600000*5, 3600000],itemStyle:{normal: {color: '#c665ad'}}},
+            {name: '关闭',value: [10, 1529708400000 + 3600000*5, 1529708400000 + 3600000*6, 3600000],itemStyle:{normal: {color: '#1a2031'}}},
+            {name: '开启',value: [10, 1529708400000 + 3600000*6,1529708400000 + 3600000*7, 3600000],itemStyle:{normal: {color: '#c665ad'}}},
+            {name: '关闭',value: [10, 1529708400000 + 3600000*7, 1529708400000 + 3600000*8, 3600000],itemStyle:{normal: {color: '#1a2031'}}},
+            {name: '开启',value: [10, 1529708400000 + 3600000*8,1529708400000 + 3600000*9, 3600000],itemStyle:{normal: {color: '#c665ad'}}},
+            {name: '关闭',value: [10, 1529708400000 + 3600000*9, 1529708400000 + 3600000*10, 3600000],itemStyle:{normal: {color: '#1a2031'}}},
+            {name: '开启',value: [10, 1529708400000 + 3600000*10,1529708400000 + 3600000*11, 3600000],itemStyle:{normal: {color: '#c665ad'}}},
+            {name: '关闭',value: [10, 1529708400000 + 3600000*11, 1529708400000 + 3600000*12, 3600000],itemStyle:{normal: {color: '#1a2031'}}},
+        ];
+
+        self.data.data2 = [
+            {name: '开启',value: [0, 1529708400000+ 3600000*4, 1529708400000 + 3600000*4, 3600000],itemStyle:{normal: {color: '#00b2a5'}}}
+        ];
+
+        self.data.option = {
+            tooltip: {
+                formatter: function(params) {
+
+                    if(params.name=="未开始"){
+                        return "";
+                    }
+                    var datetime=self.getDatestr(params.value[2]);
+
+                    var date=datetime.substr(0,9);
+                    var time=datetime.substr(10);
+                    var seriesIndex=params.seriesIndex;
+                    var precation="",realaction="";
+                    if(seriesIndex==0){
+                        realaction=params.name;
+                        precation=self.findPreAction(params.value[1],params.value[2],params.value[0]);
+                    }
+                    else if(seriesIndex==1){
+                        precation=params.name;
+                        realaction=self.findRealAction(params.value[1],params.value[2],params.value[0]);
+                    }
+
+                    return "日期&nbsp;&nbsp;<span style='color:#04c1b0'>"+date+"</span><br/>时间&nbsp;&nbsp;<span style='color:#04c1b0'>"+time+"</span><br/>机台&nbsp;&nbsp;<span style='color:#04c1b0'>"+(params.value[0]+1)+"#</span><br/>预计动作&nbsp;&nbsp;<span style='color:#04c1b0'>"+precation+"</span><br/>实际动作&nbsp;&nbsp;<span style='color:#04c1b0'>"+realaction+"</span>";
+                },
+                textStyle:{
+                    color:'rgba(255,255,255,0.5)'
+                },
+                backgroundColor:'rgba(0,0,0,0.8)'
+
+            },
+            title: [{
+                text: '空压机起停优化排程',
+                left:'7%',
+                top:'0%',
+                textStyle:{
+                    color:'rgba(255,255,255,0.8)',
+                    fontStyle:'normal',
+                    fontFamily:'sans-serif',
+                    fontSize:14
+                },
+                subtext:'早班7:00 - 19:00'
+            },{
+                text: '#1 空压机 400hp    #2 空压机  900hp    #3-10  空压机  1500hp',
+                right:'10%',
+                top:58,
+                textStyle:{
+                    color:'rgba(255,255,255,0.5)',
+                    fontStyle:'normal',
+                    fontFamily:'sans-serif',
+                    fontSize:12
+                }
+            }],
+            legend: {
+                data: self.data.types,
+                top: 49,
+                right:'50%',
+                itemWidth: 40,
+                itemHeight: 30,
+                itemGap: 10,
+                selected: {
+                    '预计开启': true,
+                    '实际开启': true,
+                    '机台关闭': false
+                },
+                textStyle:{
+                    color:'rgba(255,255,255,0.8)'
+                }
+            },
+            grid: {
+                height: 660,
+                top:90,
+            },
+            xAxis: {
+                type: 'time',
+                min: startTime,
+                scale: false,
+                splitNumber:12,
+                axisLabel: {
+                     formatter: function(val) {
+                         var date=new Date(val);
+                         return date.getHours()+":"+(date.getMinutes()<10?'0'+date.getMinutes():date.getMinutes());
+                     },
+                     color:'rgba(255,255,255,0.5)'
+                 },
+                splitLine:{
+                    show:false
+                },
+                axisLine:{
+                   lineStyle:{
+                       color:'rgba(255,255,255,0.5)'
+                   }
+                },
+                axisTick:{
+                    inside:true
+                }
+            },
+            yAxis:[
+                {
+                    data: categories,
+                    axisLabel: {
+                        color:'rgba(255,255,255,0.5)'
+                    },
+                    axisLine:{
+                        lineStyle:{
+                            color:'rgba(255,255,255,0.5)'
+                        }
+                    },
+                    axisTick:{
+                        show:false
+                    },
+                    name:'空压机编号'
+                },
+                {
+                    data: categories,
+                    axisLabel: {
+                        color:'rgba(255,255,255,0.5)'
+                    },
+                    axisLine:{
+                        lineStyle:{
+                            color:'rgba(255,255,255,0.5)'
+                        }
+                    },
+                    axisTick:{
+                        show:false
+                    }
+                }
+            ],
+            series: [
+                {
+                    type: 'custom',
+                    name: self.data.types[1].name,
+                    color: '#00b2a5',
+                    renderItem: self.renderItem,
+                    itemStyle: {
+                        normal: {
+                            opacity: 0.8
+                        }
+                    },
+                    encode: {
+                        x: [1, 2, 3],
+                        y: 0,
+                    },
+                    z:1,
+                    data: self.data.data
+
+                }
+                ,
+                {
+                    type: 'custom',
+                    name: self.data.types[0].name,
+                    color: '#c665ad',
+                    renderItem: self.renderItem1,
+                    itemStyle: {
+                        normal: {
+                            opacity: 0.8
+                        }
+                    },
+                    encode: {
+                        x: [1, 2, 3],
+                        y: 0
+                    },
+                    z:1,
+                    data: self.data.data1
+                },
+                {
+                    type: 'custom',
+                    renderItem: self.renderItem2,
+                    itemStyle: {
+                        normal: {
+                            opacity: 0.8
+                        }
+                    },
+                    encode: {
+                        x: [1, 2, 3],
+                        y: 0
+                    },
+                    z:10,
+                    data: self.data.data2
+                },
+                {name: self.data.types[2].name, type: 'bar', data: [], color: '#1a2031'},
+                ]
+        };
+
+        self.data.endtime=1529708400000+3600000*12;
+       self.data.si= setInterval(function(){
+            var time=self.getrandtime();
+            if(new Date(time).getHours()==19&& new Date(time).getMinutes()==0){
+                return;
+            }
+            var data=[{
+                "v":'[0,1,1,0,1,1,1,1,0,1]',
+                "t":time,
+                "k":{"o":"CDA_wake_up","l":"CDA_wake_up"}
+            }];
+            self.onDataUpdated(data);
+        },2000);
+    };
+
+    self.getrandtime=function(){
+        self.data.n++;
+       return 1529708400000+600000*self.data.n;
+    };
+
+self.setData=function(newdata,time){
+    for(var i=0;i<newdata.length;i++){
+        if(newdata[i]==0)
+        {
+            self.data.data.push( {name: '关闭',value: [i, self.data.oldtime,time, 600000],itemStyle:{normal: {color: '#1a2031'}}});
+        }
+        else{
+            self.data.data.push( {name: '开启',value: [i, self.data.oldtime,time, 600000],itemStyle:{normal: {color: '#00b2a5'}}});
+        }
+        if( self.data.data.filter(e=>e.name=="未开始" && e.value[0]==i).length>0)
+        {
+            self.data.data.slice(self.data.data.filter(e=>e.name=="未开始" && e.value[0]==i));
+            self.data.data.push( {name: '未开始',value: [i, time, self.data.endtime, 3600000],itemStyle:{normal: {color: 'rgba(60,66,87,1)'}}});
+        }
+        else{
+            self.data.data.push( {name: '未开始',value: [i, time, self.data.endtime, 3600000],itemStyle:{normal: {color: 'rgba(60,66,87,1)'}}});
+        }
+    }
+    for(var i=0;i<self.data.data.length;i++)
+    {
+        if(self.data.data[i].name=="未开始"){
+            self.data.data[i].value[1]=time;
+        }
+    }
+};
+    self.onDataUpdated=function(data){
+
+        self.ctx.$.each(data, function (i, obj) {
+            self.data.da[obj.k.o] = obj.v;
+            self.data.da.t=obj.t;
+        });
+
+        self.setData(self.data.da.CDA_wake_up,self.data.da.t);
+       self.data.oldtime=self.data.da.t;
+       self.data.option.series[0].data=self.data.data;
+       self.data.option.series[2].data[0].value[1]=self.data.da.t;
+        self.data.option.series[2].data[0].value[2]=self.data.da.t;
+        self.data.myChart.setOption(self.data.option, true);
+        if(new Date(self.data.da.t).getHours()>=19){
+            clearInterval(self.data.si);
+            console.log("clear");
+            return;
+        }
+    };
+
+    self.onResize=function(){
+
+    };
+    self.onDestroy=function(){
+
+    };
+    self.onPendding=function(){
+
+    };
+
+    self.onInit();
+
+</script>

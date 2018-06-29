@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/echarts.js"></script>
+    <style>
+        body{
+            background-color: #292c4a;
+        }
+        #maxiot_cd_chart5_main{
+            width:100%;
+        }
+        .top-row{
+            height: 40px;
+            line-height: 40px;
+        }
+        .col1{
+            width:auto;
+            font-size:14px;
+            float:left;
+            letter-spacing: 2px;
+        }
+        .col1 img{
+            vertical-align: middle;
+        }
+        .obj {
+            clear:both;
+            height: 0px;
+            width:100%;
+            min-width:300px;
+            border: 1px solid rgba(24, 174, 156,0.5);
+
+            border-radius: 0 50% 50% 0;
+        }
+        .infomore{
+            margin-top:13px;
+            width:16px;
+            height:16px;
+            line-height:16px;
+            border-radius:10px;
+            background-color: rgba(254,254,254,.5);;
+            float:right;
+            text-align:center;
+            color:rgba(0,0,0,.5);
+            font-size:12px;
+            font-weight:bold;
+        }
+    </style>
+</head>
+<body>
+
+<div id="maxiot_cd_chart5_main" style="width:100%;height:400px;"></div>
+</body>
+</html>
+
+<script src="js/jquery-3.3.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script>
+
+
+    var self = {
+        ctx:{
+            $: $,
+            $element: document,
+            echarts: echarts
+        }
+    };
+
+    self.data = {
+            da:{},
+            option:{},
+            myChart:{}
+    };
+    self.init={
+        test:function () {
+            console.log(111111111111111);
+        }
+    };
+    self.onInit = function(){
+        self.init.test();
+        self.data.myChart = self.ctx.echarts.init(self.ctx.$element.querySelector('#maxiot_cd_chart5_main'));
+        self.data.option = {
+            title:{
+                text:'空压机用气量分析',
+                left:'7%',
+                top:'0%',
+                textStyle:{
+                            //文字颜色
+                            color:'#fff',
+                            //字体风格,'normal','italic','oblique'
+                            fontStyle:'normal',
+                            //字体系列
+                            fontFamily:'MicrosoftYaHei',
+                            //字体大小
+                            fontSize:16,
+                            //字符间距
+                            letterSpacing:0.08
+                },
+                subtext:'早班 7:00-19:00',
+                subtextStyle:{
+                             //文字颜色
+                            color:'rgba(255,255,255,0.54)',
+                            //字体风格,'normal','italic','oblique'
+                            fontStyle:'normal',
+                            //字体系列
+                            fontFamily:'PingFangSC-Regular',
+                            //字体大小
+                            fontSize:12,
+                            //字符间距
+                            letterSpacing:0.06,
+                            lineHeight:12,
+                            marginBottom:20
+                }
+            },
+            grid:{
+                top:100
+            },
+            tooltip:{
+                show:true,
+
+            },
+            color:['#00D4BD','#00D4BD','#C9FF91','#EB73C7','#EAB62A'],
+            legend: {
+                data:[
+                    {
+                        name:'实际值'
+                    }
+                ],
+                textStyle:{
+                        fontFamily: 'MicrosoftYaHei',
+                        fontSize:12,
+                        color: 'rgba(255,255,255,0.54)',
+                        letterSpacing:-0.07,
+                        lineHeight:11
+                },
+                right:100,
+                top:50
+            },
+            xAxis: [
+                {
+                    type: 'category',
+                    boundaryGap:false,
+                    name:'時間 (min)',
+                    nameTextStyle:{
+                        fontFamily: 'MicrosoftYaHei',
+                        fontSize: '12',
+                        color: 'rgba(255,255,255,0.87)',
+                        textAlign:'center',
+                        letterSpacing:0.07,
+                        lineHeight:16
+                    },
+                    nameLocation:'center',
+                    nameGap:'30',
+
+                    axisLabel:{
+                        fontFamily: 'PingFangSC-Regular;',
+                        fontSize: '12',
+                        color: 'rgba(255,255,255,0.87)',
+                        textAlign:'center',
+                        lineHeight: '14'
+                    },
+                    axisLine:{//坐标轴线条相关设置(颜色等)
+                            lineStyle:{
+                                color:'rgba(255,255,255,0.54)'
+                            }
+                    },
+                    axisTick:{
+                        inside:true
+                    },
+                    axisPointer:{
+                        show:false
+                    },
+                    splitLine: {
+                        show: false
+                    }
+                }
+            ],
+            yAxis: [
+                {
+                    type: 'value',
+                    name:'用气量 (m³/h)',
+                    nameTextStyle:{
+                        fontFamily: 'MicrosoftYaHei',
+                        fontSize: '12',
+                        color: 'rgba(255,255,255,0.87)',
+                        textAlign:'right',
+                        lineHeight:16
+                    },
+                    max:10000,
+                    axisLine:{//坐标轴线条相关设置(颜色等)
+                            lineStyle:{
+                                color:'rgba(255,255,255,0.54)'
+                            }
+                    },
+                    axisLabel:{
+                        show:true,
+                        fontFamily: 'PingFangSC-Regular',
+                        fontSize: '12',
+                        color: 'rgba(255,255,255,0.87)',
+                        lineHeight: '12',
+                    },
+                    axisTick:{
+                        show:false
+                    }
+                },
+                {
+                    type:'value',
+                    axisTick:{
+                        show:false
+                    },
+                    axisLine:{//坐标轴线条相关设置(颜色等)
+                            lineStyle:{
+                                color:'rgba(255,255,255,0.54)'
+                            }
+                    }
+                }
+            ],
+            series: [
+
+                {
+                    name:'实际值',
+                    type:'line',
+                    boundaryGap:false,
+                    symbol:'circle',
+                    data:[],
+                    lineStyle:{
+                        normal:{
+                            color:'#00D4BD'
+                        }
+                    },
+                    areaStyle:{
+                                normal:{
+                                    color:new self.ctx.echarts.graphic.LinearGradient(0,0,0,1,[{
+                                        offset:0,
+                                        color:'rgba(0,212,189,0.40) '
+                                    },{
+                                        offset:0.85,
+                                        color:'rgba(11,22,35,0.00) '
+                                    }],false),
+                                   shadowColor:'rgba(0,0,0,0.1)',
+                                    shadowBlur:10,
+                                }
+                    },
+                }
+            ]
+        };
+
+
+        var data = [];
+        self.onDataUpdated(data);
+        self.data.myChart.setOption(self.data.option,true);
+
+    }
+
+    self.onDataUpdated = function(data){
+        var rdata = [];
+        var basems = +new Date(2018,6,25,7,00,00);
+        for(var i=0;i<=300;i++){
+            var obj = {};
+            var now = new Date(basems += 60000);//每次给毫秒数加一分钟，也就是加60*1000ms
+            obj.date = [now.getFullYear(),now.getMonth(),now.getDate()].join('/') + " "+now.getHours() + ":"+ (now.getMinutes() < 10 ? '0'+now.getMinutes():now.getMinutes());
+            obj.value = Math.floor((Math.random()*(1701)+4800));
+            rdata.push(obj);
+        };
+
+        self.ctx.$.each(data,function(i,obj){
+            eval("self.data.da." + obj.k.o + "='" + obj.v.value+ "'");
+        });
+
+
+        self.data.da.Q_real_level = eval('('+self.data.da.Q_real_level+')');
+
+        self.data.option.xAxis.data=rdata.map(function (item) {
+            console.log(item.date);
+            return item.date;
+        });
+        self.data.option.series[0].data=rdata.map(function (item) {
+            return item.value;
+        });
+
+
+
+    };
+
+    self.onResize = function () {
+    };
+
+    self.onDestroy = function () {
+    };
+
+    self.getData = function () {
+
+    };
+
+    // 测试环境构造
+    var app = new Vue({
+        el: '#maxiot_cd_chart5_main',
+        data: {
+            da:{
+                Q_baseline:"[5200,5200,5200,5200,5200,5200,5200,5200,5200,5200,5200]",
+                Q_real_level:"[5000,5000,5800,5200,5050,6000,5200,5300,5700,6100,5300]",
+                Q_level_pred:"[5850,5850,5850,5450,5450,5450,5450,5450,5450,5450,5450]",
+                request_volume:"[6200,6200,6200,5950,5950,5950,5950,5950,7300,7300,7000]"
+            }
+        },
+        mounted: function () {
+            self.data = Object.assign({}, {...self.data}, this.$data);
+            console.log(self);
+            self.onInit();
+        }
+    });
+
+
+
+</script>

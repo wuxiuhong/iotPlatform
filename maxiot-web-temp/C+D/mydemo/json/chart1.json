@@ -1,0 +1,6 @@
+﻿[
+  {
+        "label": "tool_wear_ratio",
+        "valueFunc": "return {\n    tool_wear_ratio:\"\"}\n//磨损量百分比"
+    }
+]

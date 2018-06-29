@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="32px" height="32px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 49.2 (51160) - http://www.bohemiancoding.com/sketch -->
+    <title>icon/profile</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="icon/profile" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g>
+            <rect id="bound" fill="#D8D8D8" opacity="0" x="0" y="0" width="32" height="32"></rect>
+            <path d="M2.16216216,16 C2.16216216,8.35718919 8.35718919,2.16216216 16,2.16216216 C23.6423784,2.16216216 29.8378378,8.35718919 29.8378378,16 C29.8378378,23.6423784 23.6423784,29.8378378 16,29.8378378 C8.35718919,29.8378378 2.16216216,23.6423784 2.16216216,16 Z" id="Info" stroke="#00D4BD" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+            <g id="Group" transform="translate(8.216216, 7.351351)" stroke="#00D4BD" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                <path d="M0.17959312,10.3515942 L15.464114,10.3515942 C15.464114,14.5179942 12.0423627,17.8958769 7.82185356,17.8958769 C3.60106143,17.8958769 0.17959312,14.5179942 0.17959312,10.3515942 Z" id="Stroke-1217"></path>
+                <path d="M7.82185356,10.3234847 C5.56427322,10.3234847 3.71767666,8.50056249 3.71767666,6.27192549 L3.71767666,4.17657081 C3.71767666,1.9479338 5.56427322,0.125011559 7.82185356,0.125011559 C10.0791509,0.125011559 11.9260305,1.9479338 11.9260305,4.17657081 L11.9260305,6.27192549 C11.9260305,8.50056249 10.0791509,10.3234847 7.82185356,10.3234847 Z" id="Stroke-1218"></path>
+                <path d="M7.82185356,17.6118207 L7.82185356,15.3781542" id="Stroke-1219"></path>
+            </g>
+        </g>
+    </g>
+</svg>

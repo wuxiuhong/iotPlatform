@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 49.2 (51160) - http://www.bohemiancoding.com/sketch -->
+    <title>icon/operationStats/warning</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="icon/operationStats/warning" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <circle id="Oval" fill="#E04F23" cx="8" cy="8" r="7"></circle>
+        <g id="icon/cncstatus/running" transform="translate(7.000000, 5.000000)" fill="#262D45">
+            <rect id="Rectangle" x="0" y="3" width="2" height="4" rx="1"></rect>
+            <circle id="Oval-2" cx="1" cy="1" r="1"></circle>
+        </g>
+    </g>
+</svg>

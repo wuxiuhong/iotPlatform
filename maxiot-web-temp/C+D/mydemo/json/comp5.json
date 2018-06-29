@@ -1,0 +1,6 @@
+﻿[
+    {
+        "label": "spindle_fcft_score",
+        "valueFunc": "return {\n    spindle_fcft_score:\"0\"}\n//FIFT评分"
+    }
+]

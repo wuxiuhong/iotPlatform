@@ -1,0 +1,9 @@
+﻿[{
+		"label": "CDA_per",
+		"valueFunc": "return {\n    CDA_per:\"\"}\n"
+	},
+	{
+		"label": "CDA_open",
+		"valueFunc": "return {\n    CDA_open:\"\"}\n"
+	}
+]
