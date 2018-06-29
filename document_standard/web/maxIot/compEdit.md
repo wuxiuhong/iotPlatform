@@ -5,10 +5,10 @@
 ```js
 // 配置当前的页面显示效果初始化，若是配置于报表无需配置，解析会自动注入self对象
 var self = {
-ctx: {
-    $: $,
-    echarts: echarts,
-    $element : document
+    ctx: {
+        $: $,
+        echarts: echarts,
+        $element : document
     }
 };
 
@@ -55,7 +55,7 @@ ctx : {
 self.onInit = function () {
 // echarts使用, 当前组件$element
 self.data.myChart = self.ctx.echarts.init(self.ctx.$element.querySelector('#maxiot_cd_chart1_mainchart'));
-// juqery使用
+// jquery使用
 self.ctx.$("#maxiot_cd_comp3_lefdiv").css("width","calc(100%  -  "+w+"px)");
 }
 ```
@@ -70,7 +70,7 @@ self.ctx.$("#maxiot_cd_comp3_lefdiv").css("width","calc(100%  -  "+w+"px)");
 ```js
 // echarts使用, 找到当前组件的self.ctx.$element.querySelector
 self.data.myChart = self.ctx.echarts.init(self.ctx.$element.querySelector('#maxiot_cd_chart1_mainchart'));
-// juqery, 在当前组件节点找到id为maxiot_cd_comp3_lefdiv
+// jquery, 在当前组件节点找到id为 maxiot_cd_comp3_lefdiv
 self.ctx.$("#maxiot_cd_comp3_lefdiv", self.ctx.$element)
 }
 ```
