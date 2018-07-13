@@ -1,5 +1,5 @@
 <template>
-    <div id="maxIot_app">
+    <div id="app">
         <transition name="fade"
                     mode="out-in">
             <router-view></router-view>
@@ -33,6 +33,7 @@
         top: 0px;
         bottom: 0px;
         width: 100%;
+        background: #131725;
     }
 
     .el-submenu [class^=fa] {

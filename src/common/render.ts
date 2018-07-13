@@ -1,5 +1,7 @@
-import { renderFormat, addStyleFile, getHtml } from '../util/renderFormat';
-import TemplateService from '../util/template.service';
+import { renderFormat } from './tool/renderFormat';
+import { TemplateService, CanvasService } from './service';
+import { CanvasApi } from '../api';
+
 
 /**
  * 处理组件，生成子组件
@@ -10,13 +12,14 @@ import TemplateService from '../util/template.service';
 function renderFn(data: any, index: any, self: any) {
     // 初始化格式
     data = renderFormat(data, index);
-    const { initData, injectData, onResize, onDataUpdated, onInit, onDestroy, onRender } = TemplateService(data.template.template, self);
+    const {initData, injectData, onResize, onDataUpdated, onInit, onDestroy, onRender} = TemplateService(data.template.template, self);
     data.comp = {
         template: data.template.template.templateHtml,
         data() {
             return {
                 ...initData,
-                ...data.template.template.defaultData
+                ...data.template.template.defaultData,
+                ...data.defaultData
             };
         },
         mounted() {
@@ -30,6 +33,13 @@ function renderFn(data: any, index: any, self: any) {
             this.$on('onDataUpdated', (msg: any) => {
                 if (typeof onDataUpdated === 'function') onDataUpdated(msg);
             });
+            // 判断是否为canvas
+            if (data.type === 'canvas') {
+                CanvasApi.getCanvas({key: data.template.template.canvasData}).then((ret: any) => {
+                    ret.data.data.canvasName = data.template.template.containerNamespace + '_canvas';
+                    CanvasService(ret.data.data, 'static').render();
+                });
+            }
             // 处理初始化格式处理
             onInit();
         },
@@ -41,43 +51,4 @@ function renderFn(data: any, index: any, self: any) {
     return data;
 }
 
-/**
- * 处理组件数据
- * @param data
- * @param {number} index
- * @return {any}
- */
-function renderTemplateFn(data: any) {
-    // 初始化格式
-    addStyleFile(data.template.templateCss, 'child');
-    const {initData, onResize, onDataUpdated, onInit, onDestroy, onRender} = data.getTemplate;
-    const result = {
-        template: getHtml(data.template.templateHtml, 'maxIot_cd_comp'),
-        props: ['content'],
-        data() {
-            return {
-                ...data.template.defaultData,
-                ...initData
-            };
-        },
-        mounted() {
-            // 定义重置组件监听通知函数
-            this.$on('onResize', (msg: any) => {
-                if (typeof onResize === 'function') onResize();
-            });
-            // 定义重置组件监听通知函数
-            this.$on('onDataUpdated', (msg: any) => {
-                if (typeof onDataUpdated === 'function') onDataUpdated(msg);
-            });
-            // 处理初始化格式处理
-            onInit();
-        },
-        methods: onRender(),
-        beforeDestroy() {
-            onDestroy();
-        }
-    };
-    return result;
-}
-
-export { renderFn, renderTemplateFn };
+export { renderFn };

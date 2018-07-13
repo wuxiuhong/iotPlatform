@@ -1,10 +1,11 @@
-import { renderFn, renderTemplateFn } from './render';
+import { renderFn } from './render';
 import { subscribeEdgeClient } from './subscribe';
-import eventBus from './eventBus';
+import { TemplateService, WebsocketService, CanvasService } from './service';
 
 export {
     renderFn,
-    renderTemplateFn,
     subscribeEdgeClient,
-    eventBus
+    TemplateService,
+    WebsocketService,
+    CanvasService
 };

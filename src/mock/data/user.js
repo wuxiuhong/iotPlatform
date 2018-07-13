@@ -6,6 +6,13 @@ const LoginUsers = [
     password: '123456',
     avatar: 'http://www.qqpk.cn/Article/UploadFiles/201203/20120301134818217.jpg',
     name: 'Wendy'
+  },
+  {
+    id: 2,
+    username: 'fmcscncuser',
+    password: '123456',
+    avatar: 'http://www.qqpk.cn/Article/UploadFiles/201203/20120301134818217.jpg',
+    name: 'Wendy'
   }
 ];
 

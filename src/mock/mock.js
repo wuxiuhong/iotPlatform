@@ -6,6 +6,23 @@ import { dashboard_fmcs1 } from './data/dashboard_fmcs1';
 import { dashboard_fmcs2 } from './data/dashboard_fmcs2';
 import { dashboard_openDemo } from './data/dashboard_openDemo';
 import { template_cd } from './data/template_cd';
+import { dashboard_canvas } from './data/dashboard_canvas';
+import {
+    canvas_demo,
+    canvas_demo1,
+    canvas_demo2,
+    canvas_demo3,
+    canvas_demo4,
+    canvas_demo5,
+    canvas_demo6,
+    canvas_demo7,
+    canvas_demo11
+} from './data/canvas_demo';
+import {
+    canvas_demo8,
+    canvas_demo9,
+    canvas_demo10
+} from './data/canvas_path';
 
 let _Users = Users;
 
@@ -14,9 +31,7 @@ export default {
      * mock bootstrap
      */
     bootstrap() {
-        let mock = new MockAdapter(axios);
-
-        // mock success request
+        const mock = new MockAdapter(axios);
         mock.onGet('/success').reply(200, {
             msg : 'success'
         });
@@ -26,7 +41,7 @@ export default {
             msg : 'failure'
         });
 
-        //登录
+        // 登录
         mock.onPost('/login').reply(config => {
             let {username, password} = JSON.parse(config.data);
             return new Promise((resolve, reject) => {
@@ -39,17 +54,14 @@ export default {
                             return true;
                         }
                     });
-
-                    if (hasUser) {
-                        resolve([200, {code : 200, msg : '请求成功', user}]);
-                    } else {
-                        resolve([200, {code : 500, msg : '账号或密码错误'}]);
-                    }
+                    hasUser ? resolve([200, {code : 200, msg : '请求成功', user}])
+                        : resolve([200, {code : 500, msg : '账号或密码错误'}]);
+                    mock.restore();
                 }, 1000);
             });
         });
 
-        //获取用户列表
+        // 获取用户列表
         mock.onGet('/user/list').reply(config => {
             let {name} = config.params;
             let mockUsers = _Users.filter(user => {
@@ -65,7 +77,7 @@ export default {
             });
         });
 
-        //获取用户列表（分页）
+        // 获取用户列表（分页）
         mock.onGet('/user/listpage').reply(config => {
             let {page, name} = config.params;
             let mockUsers = _Users.filter(user => {
@@ -84,7 +96,7 @@ export default {
             });
         });
 
-        //删除用户
+        // 删除用户
         mock.onGet('/user/remove').reply(config => {
             let {id} = config.params;
             _Users = _Users.filter(u => u.id !== id);
@@ -98,7 +110,7 @@ export default {
             });
         });
 
-        //批量删除用户
+        // 批量删除用户
         mock.onGet('/user/batchremove').reply(config => {
             let {ids} = config.params;
             ids = ids.split(',');
@@ -113,7 +125,7 @@ export default {
             });
         });
 
-        //编辑用户
+        // 编辑用户
         mock.onGet('/user/edit').reply(config => {
             let {id, name, addr, age, birth, sex} = config.params;
             _Users.some(u => {
@@ -136,7 +148,7 @@ export default {
             });
         });
 
-        //新增用户
+        // 新增用户
         mock.onGet('/user/add').reply(config => {
             let {name, addr, age, birth, sex} = config.params;
             _Users.push({
@@ -153,6 +165,32 @@ export default {
                         msg : '新增成功'
                     }]);
                 }, 500);
+            });
+        });
+
+        // 获取canvas的demo数据
+        const canvasKey = {
+            "demo1" : canvas_demo1,
+            "demo2" : canvas_demo2,
+            "demo3" : canvas_demo3,
+            "demo4" : canvas_demo4,
+            "demo5" : canvas_demo5,
+            "demo6" : canvas_demo6,
+            "demo7" : canvas_demo7,
+            "demo8" : canvas_demo8,
+            "demo9" : canvas_demo9,
+            "demo10" : canvas_demo10,
+            "demo11" : canvas_demo11
+        };
+        mock.onGet('/canvas/demo').reply(config => {
+            config.key = config.key || 'demo1';
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve([200, {
+                        data : canvasKey[config.key]
+                    }]);
+                    mock.restore();
+                }, 1000);
             });
         });
 
@@ -177,17 +215,19 @@ export default {
                     } else {
                         resolve([200, {code : 500, msg : '不存在当前的模板组件'}]);
                     }
+                    mock.restore();
                 }, 1000);
             });
         });
 
         // Expected order of requests:
         const responses = [
-            ['GET', '/dashboard', 200, dashboard],
-            ['GET', '/dashboard/cd', 200, dashboard],
-            ['GET', '/dashboard/fmcs1', 200, dashboard_fmcs1],
-            ['GET', '/dashboard/fmcs2', 200, dashboard_fmcs2],
-            ['GET', '/dashboard/demo', 200, dashboard_openDemo]
+            ['GET', 'dashboard', 200, dashboard],
+            ['GET', 'dashboard/cd', 200, dashboard],
+            ['GET', 'dashboard/fmcs1', 200, dashboard_fmcs1],
+            ['GET', 'dashboard/fmcs2', 200, dashboard_fmcs2],
+            ['GET', 'dashboard/demo', 200, dashboard_openDemo],
+            ['GET', 'dashboard/canvas', 200, dashboard_canvas]
         ];
         // Match ALL requests
         mock.onAny().reply(config => {
@@ -198,11 +238,11 @@ export default {
                     return new Promise((resolve, reject) => {
                         setTimeout(() => {
                             resolve([code, response]);
+                            mock.restore();
                         }, 1000);
                     });
                 }
             }
         });
-
     }
 };

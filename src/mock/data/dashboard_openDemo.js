@@ -289,7 +289,7 @@ const dashboard_openDemo = {
             "zIndex" : 0,
             "config" : {
                 "angleofrotation" : "90",
-                "adsorptionnode" : ['1'],
+                "adsorptionnode" : "[1]",
                 "canmove" : false,
                 "canedit" : false
             },
@@ -442,7 +442,7 @@ const dashboard_openDemo = {
             "zIndex" : 1,
             "config" : {
                 "angleofrotation" : "90",
-                "adsorptionnode" : ['1'],
+                "adsorptionnode" : "[1]",
                 "canmove" : false,
                 "canedit" : false
             },

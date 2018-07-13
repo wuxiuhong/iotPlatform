@@ -6,7 +6,7 @@
         <section class="dashboard-wrapper" v-if="!isLoading">
             <div class="component-wrapper" v-for="(item,index) in dashboard.components" :scope="item.ref"
                  :style="item.styleObject" @contextmenu.stop.prevent="rightClick(item, index, $event)">
-                <templateChild :templateInfo="item" :ref="item.pref"></templateChild>
+                <WidgetItem :templateInfo="item" :ref="item.pref"></WidgetItem>
             </div>
 
             <CopyRight></CopyRight>
@@ -25,19 +25,19 @@
         </section>
         <!--视图中操作菜单 end-->
         <!--编辑配置信息 start-->
-        <dashboard-edit :details-info="editInfo.data" :aliases="dashboard.edgeClientAliases" @on-refresh="onRefresh"
-                        :show-modal="showModal" v-if="showModal"></dashboard-edit>
+        <DashboardEdit :details-info="editInfo.data" :aliases="dashboard.edgeClientAliases" @on-refresh="onRefresh"
+                       :show-modal="showModal" v-if="showModal"></DashboardEdit>
         <!--编辑配置信息 end-->
         <!--编辑操作按钮 start-->
         <!--<section class="dashboard-btn-group">-->
-            <!--&lt;!&ndash;报表Bar start&ndash;&gt;-->
-            <!--<dashboard-bar :is-edit="isEdit" :config="dashboard"></dashboard-bar>-->
-            <!--&lt;!&ndash;报表Bar end&ndash;&gt;-->
-            <!--<el-button v-if="!isEdit" type="primary" icon="el-icon-edit" circle @click="isEdit=true"></el-button>-->
-            <!--<div v-show="isEdit">-->
-                <!--<el-button type="success" icon="el-icon-check" circle @click="isEdit=false"></el-button>-->
-                <!--<el-button type="danger" icon="el-icon-close" circle @click="isEdit=false"></el-button>-->
-            <!--</div>-->
+        <!--&lt;!&ndash;报表Bar start&ndash;&gt;-->
+        <!--<DashboardBar :is-edit="isEdit" :config="dashboard"></DashboardBar>-->
+        <!--&lt;!&ndash;报表Bar end&ndash;&gt;-->
+        <!--<el-button v-if="!isEdit" type="primary" icon="el-icon-edit" circle @click="isEdit=true"></el-button>-->
+        <!--<div v-show="isEdit">-->
+        <!--<el-button type="success" icon="el-icon-check" circle @click="isEdit=false"></el-button>-->
+        <!--<el-button type="danger" icon="el-icon-close" circle @click="isEdit=false"></el-button>-->
+        <!--</div>-->
         <!--</section>-->
         <!--编辑操作按钮 end-->
     </div>
@@ -45,24 +45,23 @@
 
 <script lang="ts">
     import Vue from 'vue';
-    import { renderFn, subscribeEdgeClient } from '../../common';
     import axios from 'axios';
     import { Component, Watch } from 'vue-property-decorator';
-    import { DashboardApi, TemplateApi } from '../../api';
-    import WebsocketService from '../../util/websocket.service';
-    import { formatDashboard } from '../../util/renderFormat';
-    import dashboardBar from './dashboardBar.vue';
-    import dashboardEdit from './dashboardEdit.vue';
-    import templateChild from './templateChild.vue';
+    import { DashboardApi, TemplateApi } from '../../api/index';
+    import { renderFn, subscribeEdgeClient, WebsocketService } from '../../common/index';
+    import { formatDashboard } from '../../common/tool/renderFormat';
+    import DashboardBar from './DashboardBar.vue';
+    import DashboardEdit from './DashboardEdit.vue';
+    import WidgetItem from './WidgetItem.vue';
     import CopyRight from '../../components/layout/CopyRight.vue';
     import Breadcrumb from '../../components/layout/Breadcrumb.vue';
     import _ from 'lodash';
 
     @Component({
         components: {
-            dashboardBar,
-            dashboardEdit,
-            templateChild,
+            DashboardBar,
+            DashboardEdit,
+            WidgetItem,
             CopyRight,
             Breadcrumb
         }
@@ -83,6 +82,9 @@
             style: {}
         };
 
+        resize() {
+        }
+
         @Watch('$route')
         onRouterChanged(value: string, oldValue: string) {
             if (value !== oldValue) location.reload();
@@ -92,8 +94,9 @@
             // 这样就能保证 resize 只归某个实例拥有
             this.resize = _.debounce(() => {
                 this.dashboard.components.forEach((item: any) => {
-                    this.$refs && this.$refs[item.ref] &&
-                    this.$refs[item.ref] && this.$refs[item.ref][0].$emit('onResize', '');
+                    if (this.$refs && this.$refs[item.pref]) {
+                        this.resizeWidget(item, this.$refs[item.pref][0].$refs);
+                    }
                 });
             }, 1000);
         }
@@ -108,7 +111,7 @@
 
             // 获取路由参数数据
             const path = (this.$route.params as any).id || 'cd';
-            const routerData = ['cd', 'fmcs1', 'fmcs2', 'demo'];
+            const routerData = ['cd', 'fmcs1', 'fmcs2', 'demo', 'canvas'];
             if (!routerData.includes(path)) this.$router.push('/404');
             // 初始化报表数据
             DashboardApi.getDashboard(path).then((ret: any) => {
@@ -116,7 +119,7 @@
                 this.dashboard = formatDashboard(ret.data);
                 // 处理组件数据格式
                 axios.all(this.dashboard.components.map((item: any, index: number) => {
-                    this.formatTemplate(item, index);
+                    return this.formatTemplate(item, index);
                 })).then(axios.spread(() => {
                     // 请求现已完成
                     subscribeEdgeClient.bind(this)(this.dashboard);
@@ -137,7 +140,7 @@
                 template = renderFn(template, index, this);
                 if (template.template.components && template.template.components.length) {
                     axios.all(template.template.components.map((child: any, cindex: number) => {
-                        this.formatTemplate(child, cindex);
+                        return this.formatTemplate(child, cindex);
                     }));
                 }
                 return false;
@@ -147,11 +150,14 @@
                 version: template.templateVersion
             }).then((t: any) => {
                 template.template = t.data;
-                template = renderFn(template, index, this);
-                if (template.template.components && template.template.components.length) {
-                    axios.all(template.template.components.map((child: any, cindex: number) => {
-                        this.formatTemplate(child, cindex);
-                    }));
+                // 如果存在模板信息
+                if (t.data) {
+                    template = renderFn(template, index, this);
+                    if (template.template.components && template.template.components.length) {
+                        axios.all(template.template.components.map((child: any, cindex: number) => {
+                            return this.formatTemplate(child, cindex);
+                        }));
+                    }
                 }
             });
         }
@@ -208,11 +214,19 @@
 
         /**
          * 重置报表, 循环更新每个组件
+         * @param comp 当前组件
+         * @param  eventRef 当前ref事件
          */
-        resize() {
-            this.dashboard.components.forEach((item: any) => {
-                this.$refs[item.ref][0].$emit('onResize', '');
-            });
+        resizeWidget(comp: any, eventRef: any) {
+            eventRef[comp.ref].$emit('onResize', '');
+            if (comp.template.components) {
+                // 嵌套组件处理
+                comp.template.components.forEach((temp: any) => {
+                    if (eventRef[temp.pref]) {
+                        this.resizeWidget(temp, eventRef[temp.pref][0].$refs);
+                    }
+                });
+            }
         }
 
         /**

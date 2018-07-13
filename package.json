@@ -1,6 +1,6 @@
 {
   "name": "iotPlatform",
-  "version": "1.1.0",
+  "version": "1.0.5",
   "description": "iotPlatform project",
   "author": "wendy.wu",
   "license": "MIT",
@@ -23,7 +23,8 @@
     "vue-property-decorator": "^6.1.0",
     "vue-router": "^2.8.1",
     "vue-tsx-support": "^1.2.2",
-    "vuex": "^2.5.0"
+    "vuex": "^2.5.0",
+    "vuex-class": "^0.3.1"
   },
   "devDependencies": {
     "@types/echarts": "0.0.13",
@@ -47,6 +48,7 @@
     "eventsource-polyfill": "^0.9.6",
     "express": "^4.16.3",
     "extract-text-webpack-plugin": "^2.1.2",
+    "fabric": "^2.3.3",
     "file-loader": "^0.10.1",
     "friendly-errors-webpack-plugin": "^1.7.0",
     "function-bind": "^1.1.1",

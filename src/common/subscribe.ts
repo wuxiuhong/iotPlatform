@@ -1,4 +1,4 @@
-import WebsocketService from '../util/websocket.service';
+import { WebsocketService } from './service';
 
 /**
  * 订阅EdgeClient
@@ -12,7 +12,7 @@ function subscribeEdgeClient(data: any) {
     const subscriptionCommand = [];
     // 组件处理keys格式
     data.components.forEach((comp: any) => {
-        formatKeys(comp, subscriptionCommand, comLabels);
+        formatKeys(comp, subscriptionCommand, comLabels, data.edgeClientAliases);
     });
     if (subscriptionCommand.length) {
         WebsocketService().subscribe({
@@ -39,21 +39,26 @@ function subscribeEdgeClient(data: any) {
  * @param subscriptionCommand 请求的订阅数据
  * @param comLabels 组件的labels数据
  */
-function formatKeys(comp: any, subscriptionCommand: any, comLabels: any) {
+function formatKeys(comp: any, subscriptionCommand: any, comLabels: any, aliases: any) {
     const labels = [];
     comp.dataSources.forEach((dataSource: any) => {
         if (dataSource.type === 'edgeClient') {
+            // 获取设置edgeClient别名的对象
+            const edgeClientAliases = aliases.find((Aliases: any) => Aliases.aliasId === dataSource.aliasId);
             dataSource.dataKeys.filter((keyItem: any) => {
                 labels.push(keyItem.label);
+                // todo 处理deviceid的label对应的ID值
+                const edgeClientKeys = edgeClientAliases.edgeClients.find((edge: any) => edge.edgeClientId === keyItem.edgeClientId);
+                const deviceInfo = edgeClientKeys.deviceList.find((device: any) => device.label === keyItem.deviceLabel);
                 const command = subscriptionCommand.find((item: any) =>
-                    (item.clientid === keyItem.edgeClientId && item.deviceid === keyItem.deviceId));
+                    (item.clientid === keyItem.edgeClientId && item.deviceid === deviceInfo.id));
                 if (command) {
                     if (command.key.includes(keyItem.key)) return;
                     command.key.push(keyItem);
                 } else {
                     subscriptionCommand.push({
                         "clientid": keyItem.edgeClientId,
-                        "deviceid": keyItem.deviceId,
+                        "deviceid": deviceInfo.id,
                         "key": [keyItem]
                     });
                 }
@@ -69,7 +74,7 @@ function formatKeys(comp: any, subscriptionCommand: any, comLabels: any) {
     });
     if (comp.template.components) {
         comp.template.components.forEach((temp: any) => {
-            formatKeys(temp, subscriptionCommand, comLabels[comLabels.length - 1].comLabels);
+            formatKeys(temp, subscriptionCommand, comLabels[comLabels.length - 1].comLabels, aliases);
         });
     }
 }

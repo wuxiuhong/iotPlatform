@@ -1,8 +1,10 @@
 import axios from 'axios';
+import Mock from '../mock';
 
-const base = '';
+const base = 'dashboard';
 
 // 获取报表数据
 export const getDashboard = (path: string, params: any = null) => {
-    return axios.get(`${base}/dashboard/${path}`, {params: params});
+    Mock.bootstrap();
+    return axios.get(`${base}/${path}`, {params: params});
 };
